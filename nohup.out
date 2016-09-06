@@ -1,0 +1,142 @@
+Port 3000 is already in use
+[33m[nodemon] 1.10.0[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node bin/www`[39m
+[33m[nodemon] 1.10.0[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node bin/www`[39m
+[33m[nodemon] 1.10.0[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node bin/www`[39m
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[33m[nodemon] 1.10.0[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node bin/www`[39m
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[33m[nodemon] 1.10.0[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node bin/www`[39m
+[0mGET / [32m200 [0m15.866 ms - 21691[0m
+[0mGET /css/flat.css [32m200 [0m13.698 ms - 17317[0m
+[0mGET /css/buttons.css [32m200 [0m22.374 ms - 93968[0m
+[0mGET /css/font-awesome.css [32m200 [0m17.200 ms - 21658[0m
+[0mGET /js/bootstrap.min.js [32m200 [0m16.840 ms - 27822[0m
+[0mGET /css/bootstrap.css [32m200 [0m14.249 ms - 122848[0m
+[0mGET /js/jquery.js [32m200 [0m17.049 ms - 274080[0m
+[0mGET /images/loading.gif [32m200 [0m0.798 ms - 6191[0m
+[0mGET /images/1.jpg [32m200 [0m0.928 ms - 44085[0m
+[0mGET /images/2.jpg [32m200 [0m4.828 ms - 44172[0m
+[0mGET /images/btnplus.png [32m200 [0m3.062 ms - 599[0m
+[0mGET /images/4.jpg [32m200 [0m4.150 ms - 12259[0m
+[0mGET /images/3.jpg [32m200 [0m5.157 ms - 366101[0m
+[0mGET /test [32m200 [0m0.689 ms - -[0m
+[33m[nodemon] 1.10.0[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node bin/www`[39m
+[0mGET / [36m304 [0m36.246 ms - -[0m
+[0mGET /test [32m200 [0m5.321 ms - -[0m
+[0mGET /test [32m200 [0m4.476 ms - -[0m
+[0mGET /test [32m200 [0m0.324 ms - -[0m
+[0mGET /test [32m200 [0m0.470 ms - -[0m
+[0mGET /test [32m200 [0m0.308 ms - -[0m
+[0mGET /test [32m200 [0m2.901 ms - -[0m
+[0mGET /test [32m200 [0m0.369 ms - -[0m
+[0mGET /test [32m200 [0m0.297 ms - -[0m
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[33m[nodemon] 1.10.0[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node bin/www`[39m
+[33m[nodemon] 1.10.0[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node bin/www`[39m
+[0mGET / [32m200 [0m16.168 ms - 21691[0m
+[0mGET /css/buttons.css [36m304 [0m4.556 ms - -[0m
+[0mGET /css/flat.css [36m304 [0m6.753 ms - -[0m
+[0mGET /css/bootstrap.css [36m304 [0m9.470 ms - -[0m
+[0mGET /css/font-awesome.css [36m304 [0m9.016 ms - -[0m
+[0mGET /js/jquery.js [36m304 [0m8.793 ms - -[0m
+[0mGET /js/bootstrap.min.js [36m304 [0m5.591 ms - -[0m
+[0mGET /images/loading.gif [36m304 [0m0.499 ms - -[0m
+[0mGET /images/1.jpg [36m304 [0m0.308 ms - -[0m
+[0mGET /images/2.jpg [36m304 [0m0.632 ms - -[0m
+[0mGET /images/4.jpg [36m304 [0m0.578 ms - -[0m
+[0mGET /images/3.jpg [36m304 [0m0.432 ms - -[0m
+[0mGET /images/btnplus.png [36m304 [0m0.982 ms - -[0m
+[0mGET /test [32m200 [0m0.779 ms - -[0m
+[0mGET /test [32m200 [0m0.820 ms - -[0m
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+
+> weixin@0.0.0 start /Users/my/nodejs/weixin
+> node ./bin/www
+
+[0mGET / [36m304 [0m15.736 ms - -[0m
+[0mGET /css/bootstrap.css [36m304 [0m5.787 ms - -[0m
+[0mGET /css/buttons.css [36m304 [0m6.340 ms - -[0m
+[0mGET /css/flat.css [36m304 [0m6.248 ms - -[0m
+[0mGET /css/font-awesome.css [36m304 [0m0.779 ms - -[0m
+[0mGET /js/jquery.js [36m304 [0m0.716 ms - -[0m
+[0mGET /js/bootstrap.min.js [36m304 [0m0.382 ms - -[0m
+[0mGET /images/loading.gif [36m304 [0m0.404 ms - -[0m
+[0mGET /images/1.jpg [36m304 [0m2.419 ms - -[0m
+[0mGET /images/2.jpg [36m304 [0m2.113 ms - -[0m
+[0mGET /images/3.jpg [36m304 [0m1.861 ms - -[0m
+[0mGET /images/4.jpg [36m304 [0m2.414 ms - -[0m
+[0mGET /images/btnplus.png [36m304 [0m2.833 ms - -[0m
+[0mGET /test [32m200 [0m0.961 ms - -[0m
+[0mGET /test [32m200 [0m0.369 ms - -[0m
+[0mGET /test [32m200 [0m0.608 ms - -[0m
+[0mGET /test [32m200 [0m0.449 ms - -[0m
+[0mGET /test [32m200 [0m1.172 ms - -[0m
+[0mGET / [32m200 [0m22.141 ms - 20679[0m
+[0mGET /css/bootstrap.css [36m304 [0m6.210 ms - -[0m
+[0mGET /css/buttons.css [36m304 [0m6.191 ms - -[0m
+[0mGET /css/flat.css [36m304 [0m6.304 ms - -[0m
+[0mGET /css/font-awesome.css [36m304 [0m7.242 ms - -[0m
+[0mGET /js/jquery.js [36m304 [0m7.238 ms - -[0m
+[0mGET /js/bootstrap.min.js [36m304 [0m7.245 ms - -[0m
+[0mGET /images/loading.gif [36m304 [0m0.309 ms - -[0m
+[0mGET /images/1.jpg [36m304 [0m2.351 ms - -[0m
+[0mGET /images/2.jpg [36m304 [0m2.890 ms - -[0m
+[0mGET /images/3.jpg [36m304 [0m1.690 ms - -[0m
+[0mGET /images/4.jpg [36m304 [0m1.125 ms - -[0m
+[0mGET /images/btnplus.png [36m304 [0m0.652 ms - -[0m
+[0mGET /css/bootstrap.css [36m304 [0m1.489 ms - -[0m
+[0mGET /css/buttons.css [36m304 [0m1.394 ms - -[0m
+[0mGET /css/flat.css [36m304 [0m1.046 ms - -[0m
+[0mGET /css/font-awesome.css [36m304 [0m0.424 ms - -[0m
+[0mGET /images/13.jpg [36m304 [0m1.593 ms - -[0m
+[0mGET /images/14.jpg [36m304 [0m1.558 ms - -[0m
+[0mGET /images/17.jpg [36m304 [0m1.575 ms - -[0m
+[0mGET /images/18.jpg [36m304 [0m1.482 ms - -[0m
+[0mGET /images/16.jpg [36m304 [0m1.591 ms - -[0m
+[0mGET /images/24.jpg [36m304 [0m1.734 ms - -[0m
+[0mGET /images/26.jpg [36m304 [0m1.851 ms - -[0m
+[0mGET /images/27.jpg [36m304 [0m1.482 ms - -[0m
+[0mGET /images/25.jpg [36m304 [0m0.905 ms - -[0m
+[0mGET /images/btnminus.png [36m304 [0m0.297 ms - -[0m
+[0mGET / [36m304 [0m2.565 ms - -[0m
+[0mGET /css/bootstrap.css [36m304 [0m3.474 ms - -[0m
+[0mGET /css/buttons.css [36m304 [0m3.418 ms - -[0m
+[0mGET /css/flat.css [36m304 [0m2.969 ms - -[0m
+[0mGET /css/font-awesome.css [36m304 [0m2.800 ms - -[0m
+[0mGET /js/jquery.js [36m304 [0m2.684 ms - -[0m
+[0mGET /js/bootstrap.min.js [36m304 [0m2.563 ms - -[0m
+[0mGET /images/loading.gif [36m304 [0m0.368 ms - -[0m
+[0mGET /images/1.jpg [36m304 [0m0.552 ms - -[0m
+[0mGET /images/2.jpg [36m304 [0m0.415 ms - -[0m
+[0mGET /images/3.jpg [36m304 [0m4.789 ms - -[0m
+[0mGET /images/4.jpg [36m304 [0m4.902 ms - -[0m
+[0mGET /images/btnplus.png [36m304 [0m0.389 ms - -[0m
+[0mGET /images/btnminus.png [36m304 [0m0.322 ms - -[0m
+[0mGET /css/buttons.css [36m304 [0m1.206 ms - -[0m
+[0mGET /css/bootstrap.css [36m304 [0m0.571 ms - -[0m
+[0mGET /css/flat.css [36m304 [0m0.946 ms - -[0m
+[0mGET /css/font-awesome.css [36m304 [0m1.844 ms - -[0m
