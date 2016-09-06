@@ -7,7 +7,7 @@ var connection = mysql.createConnection({
 });
 
 //增
-exports.create = function (table, arr) {
+exports.create = function (userAddSql) {
     connection.connect(function (err) {
         if (err) {
             console.log('[query] - :' + err);
@@ -15,9 +15,9 @@ exports.create = function (table, arr) {
         }
         console.log('[connection connect]  succeed!');
     });
-    var userAddSql = 'INSERT INTO stf_mst(stf_name,stf_password,stf_code) VALUES(?,?,?)';
-    var userAddSql_Params = ['Nicky', '123456', 3];
-    connection.query(userAddSql, userAddSql_Params, function (err, result) {
+    //var userAddSql = 'INSERT INTO stf_mst(stf_name,stf_password,stf_code) VALUES(?,?,?)';
+    //var userAddSql_Params = ['Nicky', '123456', 3];
+    connection.query(userAddSql, function (err, result) {
         if (err) {
             console.log('[INSERT ERROR] - ', err.message);
             return;
@@ -38,7 +38,7 @@ exports.create = function (table, arr) {
 }
 
 //改
-exports.update = function () {
+exports.update = function (userModSql) {
 
     connection.connect(function (err) {
         if (err) {
@@ -48,9 +48,9 @@ exports.update = function () {
         console.log('[connection connect]  succeed!');
     })
 
-    var userModSql = 'UPDATE stf_mst SET stf_name = ?,stf_password = ? WHERE stf_id = ?';
-    var userModSql_Params = ['hahaha', '123123', 3];
-    connection.query(userModSql, userModSql_Params, function (err, result) {
+    //var userModSql = 'UPDATE stf_mst SET stf_name = ?,stf_password = ? WHERE stf_id = ?';
+    //var userModSql_Params = ['hahaha', '123123', 3];
+    connection.query(userModSql, function (err, result) {
         if (err) {
             console.log('[UPDATE ERROR] - ', err.message);
             return;
@@ -70,7 +70,7 @@ exports.update = function () {
 }
 
 //查
-exports.select = function () {
+exports.select = function (userGetSql) {
     connection.connect(function (err) {
         if (err) {
             console.log('[query] - :' + err);
@@ -79,7 +79,7 @@ exports.select = function () {
         console.log('[connection connect]  succeed!');
     })
 
-    var userGetSql = 'SELECT * FROM stf_mst';
+    //var userGetSql = 'SELECT * FROM stf_mst';
     connection.query(userGetSql, function (err, result) {
         if (err) {
             console.log('[SELECT ERROR] - ', err.message);
@@ -100,7 +100,7 @@ exports.select = function () {
 
 }
 //删
-exports.delete = function () {
+exports.delete = function (userDelSql) {
 
     connection.connect(function (err) {
         if (err) {
@@ -110,7 +110,7 @@ exports.delete = function () {
         console.log('[connection connect]  succeed!');
     })
 
-    var userDelSql = 'DELETE FROM userinfo';
+    //var userDelSql = 'DELETE FROM userinfo';
     connection.query(userDelSql, function (err, result) {
         if (err) {
             console.log('[DELETE ERROR] - ', err.message);
