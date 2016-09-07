@@ -12,8 +12,6 @@ api.getAccessToken(function (err, token) {
     console.log(err);
     console.log(token);
     fs.writeFile('./token', JSON.stringify(token), function (err) {
-        ;
-        console.log(token);
     });
 });
 
