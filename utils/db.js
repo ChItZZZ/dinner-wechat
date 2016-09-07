@@ -87,7 +87,7 @@ exports.select = function (userGetSql) {
         }
 
         console.log('--------------------------SELECT----------------------------');
-        console.log(result);
+        console.log();
         console.log('-----------------------------------------------------------------\n\n');
     });
 
