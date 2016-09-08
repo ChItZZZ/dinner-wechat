@@ -50,7 +50,7 @@ exports.getItems = function(callback) {
             var arr = [];
 
             for (var i = 0; i < result.length; ++i) {
-                item['id'] = result[i].gd_id;
+                item['id'] = result[i].gd_id + '';
                 item['name'] = result[i].gd_name;
                 item['cls'] = result[i].gd_catalogue_name;
                 item['price'] = result[i].gd_price;
