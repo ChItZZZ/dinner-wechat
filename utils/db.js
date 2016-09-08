@@ -25,8 +25,9 @@ exports.create = function (userAddSql) {
 
         console.log('--------------------------INSERT----------------------------');
         //console.log('INSERT ID:',result.insertId);
-        console.log('INSERT ID:', result);
+        console.log('INSERT ID:', result.insertId);
         console.log('-----------------------------------------------------------------\n\n');
+        return result.insertId;
     });
 
     connection.end(function (err) {
