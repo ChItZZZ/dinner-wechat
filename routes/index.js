@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var Order = require('../controller/order');
 var iG = require('../models/items');
 
 var db = require('../utils/db');
@@ -30,5 +31,13 @@ router.get('/test', function (req, res, next) {
 router.get('/user', function (req, res, next) {
     db.select();
     res.end();
+})
+
+router.post('/createorder', function (req,res,next) {
+    var data = req.body;
+
+    console.log(data);
+    var orderid = Order.createOrder(data);
+    console.log(orderid);
 })
 module.exports = router;
