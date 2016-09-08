@@ -1,4 +1,4 @@
-var config = require('./config/menu_config');
+var config = require('./config/app_config');
 var API = require('wechat-api');
 var fs = require('fs');
 

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>我的菜单</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <meta name="author" content=""/>
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet"/>
+    <link href="css/buttons.css" rel="stylesheet"/>
+    <link href="css/flat.css" rel="stylesheet"/>
+    <link href="css/font-awesome.css" rel="stylesheet"/>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- Le fav and touch icons -->
+    <style>
+        .item_name {
+            font-size: 13px;
+        }
+
+        .order_gray_line {
+            /*border-top: 3px solid black !important;*/
+            border-bottom: 1px solid lightgray !important;
+            margin-bottom: 5px;
+            /*padding-bottom: 40px !important*/
+        }
+
+        .ac_paid {
+            float: right;
+            margin-right: 50px;
+            font-size: 12px;
+        }
+
+        .order_state {
+            border-bottom: 1px solid lightgray;
+        }
+
+        .order_paid {
+            border-top: 1px dotted lightgray;
+        }
+
+        .menu_title {
+            color: #00a9d5;
+        }
+    </style>
+    <script>
+        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+            WeixinJSBridge.call('hideToolbar');
+        });
+    </script>
+</head>
+<div id="wrapper2" class="viewer wrapper countpage clearfix">
+    <section class="order_title">
+        <div class="container" id="">
+            <div class="col-md-12 clearfix foot_orderList">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <p class="notice">
+
+                        </p>
+                    </div>
+                    <div class="col-xs-6">
+                        <p class="notice tar">
+                            共计
+                            <span class="price" id="price_txt">
+                                315元
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="oder_content">
+        <div class="container" id="J_order_list">
+            <div class="container" id="J_order_Manager"></div>
+            <div class="row gray_line">
+                <div class="col-md-12 clearfix board_content">
+                    <p style="text-align: center;">
+                        <span>亲，还没选到心仪的菜喔，点加菜开始选菜吧！</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section class="oder_submit">
+        <div class="container">
+            <div class="btn_control fr" style="margin-top: 16px">
+                <a class="btn btn-default bottommargin" id="cancelSubmit">
+                    取消
+                </a>
+                <button formaction="/order" class="btn btn-info bottommargin" id="stickyGrowl">
+                    确认
+                </button>
+            </div>
+        </div>
+    </section>
+</div>
+<div id="submitView" class="viewer clearfix" style="display:none">
+    <section class="submit_title">
+        <div class="container" id="">
+
+            <div class="col-md-12 clearfix">
+                <div class="now_submit clearfix">
+                    <form role="form">
+
+                        <div class="line-body clearfix" id="form_more">
+                            <span class="fl lh43">
+                               配送信息
+                            </span>
+                            <ul class="nav nav-pills tabdrop fr">
+                                <li class="dropdown pull-right tabdrop">
+                                    <a class="dropdown-toggle" id="J_btn_reg">
+                                        <i class="fa fa-th-list">
+                                        </i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="form-group" id="form_info">
+                            <label for="phone">
+                                手机号码
+                            </label>
+                            <span class="twitter-typeahead">
+                                <input type="text" name="phone" class="form-control tt-query" autocomplete="off"
+                                       spellcheck="false" dir="auto">
+                            </span>
+                            <label for="name" class="mgt10">
+                                姓名
+                            </label>
+                            <span class="twitter-typeahead">
+                                <input type="text" name="name" class="form-control tt-query" autocomplete="off"
+                                       spellcheck="false" dir="auto">
+                            </span>
+                            <label for="adress" class="mgt10">
+                                地址
+                            </label>
+                            <span class="twitter-typeahead">
+                                <input type="text" name="adress" class="form-control tt-query" autocomplete="off"
+                                       spellcheck="false" dir="auto">
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <div class="btn_control fr">
+                                <a class="btn btn-default bottommargin" id="cancelSubmit">
+                                    取消
+                                </a>
+                                <button formaction="/order" class="btn btn-info bottommargin" id="stickyGrowl">
+                                    确认
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    (function buildOrder(_list) {
+        var result = "<div class=\"row\" id=\"J_order_Manager\">" +
+                "<div class=\"col-xs-12 clearfix board_content\">" +
+                "<div class=\"col-xs-4 title_contain\">" +
+                "<p class=\"menu_title \">菜篮子</p>" +
+                "</div>" +
+                "<div class=\"col-xs-2\"></div>" +
+                "<div class=\"col-xs-3 title_contain\">" +
+                "<button class=\"btn btn-info\" id=\"addOrder\">选菜</button>" +
+                "</div>" +
+                "<div class=\"col-xs-3 title_contain\">" +
+                "<button id=\"clearOder\"class=\"btn btn-default\">清空</button>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
+
+        var check = true;
+//        var result;
+        for (var i in _list) {
+            if (_list[i].counter === 0)continue;
+            check = false;
+            result += "<div class=\"row gray_line\"><div class=\"col-md-12 clearfix board_content\"><div class=\"col-xs-6\"><div class=\"col-md-6 clearfix order_item_name\"><label>" + _list[i].name + "</label></div><div class=\"col-md-6 clearfix order_price\">" + _list[i].price + "元一例</div></div><div class=\"col-xs-6\"><div class=\"btn_wrap counter\"><button class=\"list_minus counter_minus fl\" style=\"display: inline-block;\" data_id=\"" + _list[i].id + "\" ontouchstart=\"\"><strong></strong></button><i class=\"nocounter fl\" style=\"display: inline-block;\">" + _list[i].counter + "</i><button class=\"list_add counter_plus\" data_id=\"" + _list[i].id + "\" ontouchstart=\"\"><strong></strong></button> <em class=\"fixBig  fake\"></em></div></div></div></div>";
+        }
+        if (check) {
+            result += "<div class=\"row gray_line\"><div class=\"col-md-12 clearfix board_content\"><p style=\"text-align: center;\"><span>亲，还没选到心仪的菜喔，点加菜开始选菜吧！</span></p></div></div>";
+        }
+//        return result;
+        document.getElementById('J_order_Manager').innerHTML = result;
+    })()
+
+</script>
+</html>
