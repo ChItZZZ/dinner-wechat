@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var iG = require('../models/items');
-var item = require('../controller/goods')
+var itemController = require('../controller/goods')
 
 var db = require('../utils/db');
 /* GET home page. */
@@ -13,11 +12,11 @@ router.get('/order', function(req, res, next) {
     res.render('order');
 })
 
-//git test
+
 //database operation demo
 router.get('/demo', function(req, res, next) {
 
-    item.demo(function(err, result) {
+    itemController.demo(function(err, result) {
         if (err) {
             res.end();
             return;
@@ -28,10 +27,18 @@ router.get('/demo', function(req, res, next) {
 
 })
 
+//send items information to front end
 router.get('/items', function(req, res, next) {
-    //console.log(typeof iG.items);
-    res.json(iG);
-    //res.send('hello world');
+
+    itemController.getItems(function(err, result) {
+        if (err) {
+            res.end();
+            return;
+        }
+        res.json(result);
+        res.end();
+    });
+
 })
 
 router.get('/test', function(req, res, next) {
