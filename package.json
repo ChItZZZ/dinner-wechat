@@ -28,7 +28,8 @@
     "serve-favicon": "~2.3.0",
     "webpack-dev-server": "^1.15.1",
     "wechat": "^2.0.3",
-    "wechat-api": "^1.28.0"
+    "wechat-api": "^1.28.0",
+    "wechat-oauth": "^1.1.1"
   },
   "devDependencies": {
     "react-hot-loader": "^3.0.0-beta.3",
