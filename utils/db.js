@@ -1,13 +1,14 @@
 var mysql = require('mysql');
-var connection = mysql.createConnection({
-    host: '115.159.94.41',
-    user: 'remote',
-    password: 'remote',
-    database: 'modu'
-});
 
 //增
-exports.create = function (userAddSql) {
+exports.query = function (userAddSql) {
+    var connection = mysql.createConnection({
+        host: '115.159.94.41',
+        user: 'remote',
+        password: 'remote',
+        database: 'modu'
+    });
+
     connection.connect(function (err) {
         if (err) {
             console.log('[query] - :' + err);
@@ -15,9 +16,10 @@ exports.create = function (userAddSql) {
         }
         console.log('[connection connect]  succeed!');
     });
-    //var userAddSql = 'INSERT INTO stf_mst(stf_name,stf_password,stf_code) VALUES(?,?,?)';
-    //var userAddSql_Params = ['Nicky', '123456', 3];
-    connection.query(userAddSql, function (err, result) {
+    var userAddSql = 'INSERT INTO stf_mst(stf_name,stf_password,stf_code) VALUES(?,?,?)';
+    var userAddSql_Params = ['Nicky', '123456', 3];
+    //var sql = "sel" + var
+    connection.query(userAddSql, userAddSql_Params,function (err, result) {
         if (err) {
             console.log('[INSERT ERROR] - ', err.message);
             return;
@@ -39,6 +41,13 @@ exports.create = function (userAddSql) {
 
 //改
 exports.update = function (userModSql) {
+    var connection = mysql.createConnection({
+        host: '115.159.94.41',
+        user: 'remote',
+        password: 'remote',
+        database: 'modu'
+    });
+
 
     connection.connect(function (err) {
         if (err) {
@@ -70,7 +79,14 @@ exports.update = function (userModSql) {
 }
 
 //查
-exports.select = function (userGetSql) {
+exports.select = function (callback) {
+    var connection = mysql.createConnection({
+        host: '115.159.94.41',
+        user: 'remote',
+        password: 'remote',
+        database: 'modu'
+    });
+
     connection.connect(function (err) {
         if (err) {
             console.log('[query] - :' + err);
@@ -79,15 +95,17 @@ exports.select = function (userGetSql) {
         console.log('[connection connect]  succeed!');
     })
 
-    //var userGetSql = 'SELECT * FROM stf_mst';
-    connection.query(userGetSql, function (err, result) {
+    var userGetSql = 'SELECT * FROM stf_mst';
+    var rs = connection.query(userGetSql, function (err, result) {
         if (err) {
             console.log('[SELECT ERROR] - ', err.message);
+            //callback
             return;
         }
-
         console.log('--------------------------SELECT----------------------------');
-        console.log(result);
+        //return  result;
+        callback(null,result);
+        //console.log(result);
         console.log('-----------------------------------------------------------------\n\n');
     });
 
@@ -97,10 +115,16 @@ exports.select = function (userGetSql) {
         }
         console.log('[connection end] succeed!');
     })
-
+    return rs;
 }
 //删
 exports.delete = function (userDelSql) {
+    var connection = mysql.createConnection({
+        host: '115.159.94.41',
+        user: 'remote',
+        password: 'remote',
+        database: 'modu'
+    });
 
     connection.connect(function (err) {
         if (err) {

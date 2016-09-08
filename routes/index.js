@@ -27,8 +27,20 @@ router.get('/test', function (req, res, next) {
     res.end();
 })
 
+router.get('/pay', function (req, res, next) {
+    res.render('pay');
+})
+
 router.get('/user', function (req, res, next) {
-    db.select();
-    res.end();
+    db.select(function (err, rs) {
+        if (err) return;
+        console.log(rs);
+        res.send(rs);
+    });
+    //console.log(obj);
+    //res.render('test',obj);
+    //db.select()
+    //res.send(obj);
+
 })
 module.exports = router;

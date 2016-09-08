@@ -261,7 +261,7 @@ bottom: 0;background-color: #e9e9eb;box-shadow: inset -10px 0px 40px #ccccce;-we
 
 .footLeft{right: 0px;left: auto;width: auto;}
 .footFix{margin-bottom: 30px;padding: 0;}
-.footFix button{padding:8px 9px;float: right;color: #fff;border: 0px;cursor: pointer;background-color:#39b868;border-radius: 2px;margin-right: 30px;position: relative;box-shadow: 0px 0px 5px #969c9b; font-size: 13px;}
+.footFix button{padding:11px 20px;float: right;color: #fff;border: 0px;cursor: pointer;border-radius: 2px;margin-right: 30px;position: relative;box-shadow: 0px 0px 5px #969c9b; font-size: 13px;}
 .footFix button span{font-size:10px;position: absolute;right: -10px;top:-10px;background-color: #eb3634;color:#fff;font-family:Verdana;font-weight:normal;padding:2px 5px;border:1px solid #fff;border-radius:15px;}
 .footFix button:active{box-shadow:0px 0px 15px #969c9b;background-color: #279251;}
 .oder_content .row .btn_wrap{
@@ -433,9 +433,9 @@ p{
 background: #52b13c;
 }
 #addOrder, #clearOder{
-height: 26px;
+height: 34px;
 font-size: 12px;
-line-height: 26px;
+line-height: 34px;
 }
 .title_contain{
 padding:0;
@@ -623,9 +623,9 @@ margin-bottom: 5px;
 font-weight: bold;
 width:100%
 }
-.twitter-typeahead {
-width: 100%;
-}
+/*.twitter-typeahead {*/
+/*width: 100%;*/
+/*}*/
 body #submitView .uneditable-input, 
 body #submitView textarea, 
 body #submitView input[type="text"], 
