@@ -1,133 +1,57 @@
+/**
+ * execute sql, callback error or result
+ */
+
 var mysql = require('mysql');
-var connection = mysql.createConnection({
+
+//database config
+var option = {
     host: '115.159.94.41',
     user: 'remote',
     password: 'remote',
     database: 'modu'
-});
+};
 
-//增
-exports.create = function (userAddSql) {
-    connection.connect(function (err) {
+/** 
+ * param :
+ *      sql : sql sentence    "SELECT * FROM stf_mst where stf_id = ? or stf_id = ? "
+ *                             or "SELECT * FROM stf_mst where stf_id"
+ *      values : keys          [5,6]
+ *                             or []
+ *      callback : function callback(err,result)
+ * 
+*/
+
+
+exports.exec = function(sql,values,callback) {
+    var connection = mysql.createConnection(option);
+
+    connection.connect(function(err) {
         if (err) {
-            console.log('[query] - :' + err);
+            console.log('[connection connect failed] - :' + err);
+            callback(err);
             return;
         }
-        console.log('[connection connect]  succeed!');
     });
-    //var userAddSql = 'INSERT INTO stf_mst(stf_name,stf_password,stf_code) VALUES(?,?,?)';
-    //var userAddSql_Params = ['Nicky', '123456', 3];
-    connection.query(userAddSql, function (err, result) {
+    console.log('[connection connect]  succeed!');
+
+    connection.query(sql,values,function(err, result) {
+        console.log('sql: ' + sql + " values: " + values);
+
         if (err) {
-            console.log('[INSERT ERROR] - ', err.message);
+            console.log('[SQL ERROR] - ', err.message);
+            callback(err);
             return;
         }
-
-        console.log('--------------------------INSERT----------------------------');
-        //console.log('INSERT ID:',result.insertId);
-        console.log('INSERT ID:', result.insertId);
-        console.log('-----------------------------------------------------------------\n\n');
-        return result.insertId;
+        console.log('SQL RESULT:', result);
+        callback(null, result);
     });
 
-    connection.end(function (err) {
+    connection.end(function(err) {
         if (err) {
+            console.log('[connection end failed] - :' + err);
             return;
         }
         console.log('[connection end] succeed!');
     });
-}
-
-//改
-exports.update = function (userModSql) {
-
-    connection.connect(function (err) {
-        if (err) {
-            console.log('[query] - :' + err);
-            return;
-        }
-        console.log('[connection connect]  succeed!');
-    })
-
-    //var userModSql = 'UPDATE stf_mst SET stf_name = ?,stf_password = ? WHERE stf_id = ?';
-    //var userModSql_Params = ['hahaha', '123123', 3];
-    connection.query(userModSql, function (err, result) {
-        if (err) {
-            console.log('[UPDATE ERROR] - ', err.message);
-            return;
-        }
-        console.log('--------------------------UPDATE----------------------------');
-        console.log('UPDATE affectedRows', result.affectedRows);
-        console.log('-----------------------------------------------------------------\n\n');
-    });
-
-    connection.end(function (err) {
-        if (err) {
-            return;
-        }
-        console.log('[connection end] succeed!');
-    })
-
-}
-
-//查
-exports.select = function (userGetSql) {
-    connection.connect(function (err) {
-        if (err) {
-            console.log('[query] - :' + err);
-            return;
-        }
-        console.log('[connection connect]  succeed!');
-    })
-
-    //var userGetSql = 'SELECT * FROM stf_mst';
-    connection.query(userGetSql, function (err, result) {
-        if (err) {
-            console.log('[SELECT ERROR] - ', err.message);
-            return;
-        }
-
-        console.log('--------------------------SELECT----------------------------');
-        console.log();
-        console.log('-----------------------------------------------------------------\n\n');
-    });
-
-    connection.end(function (err) {
-        if (err) {
-            return;
-        }
-        console.log('[connection end] succeed!');
-    })
-
-}
-//删
-exports.delete = function (userDelSql) {
-
-    connection.connect(function (err) {
-        if (err) {
-            console.log('[query] - :' + err);
-            return;
-        }
-        console.log('[connection connect]  succeed!');
-    })
-
-    //var userDelSql = 'DELETE FROM userinfo';
-    connection.query(userDelSql, function (err, result) {
-        if (err) {
-            console.log('[DELETE ERROR] - ', err.message);
-            return;
-        }
-
-        console.log('--------------------------DELETE----------------------------');
-        console.log('DELETE affectedRows', result.affectedRows);
-        console.log('-----------------------------------------------------------------\n\n');
-    });
-
-    connection.end(function (err) {
-        if (err) {
-            return;
-        }
-        console.log('[connection end] succeed!');
-    })
-
 }
