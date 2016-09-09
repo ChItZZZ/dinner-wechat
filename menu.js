@@ -1,5 +1,6 @@
 var config = require('./config/menu_config');
 var API = require('wechat-api');
+var fs = require('fs');
 
 
 var api = new API(config.appid, config.appsecret);
@@ -10,6 +11,8 @@ var api = new API(config.appid, config.appsecret);
 api.getAccessToken(function (err, token) {
     console.log(err);
     console.log(token);
+    fs.writeFile('./token', JSON.stringify(token), function (err) {
+    });
 });
 
 var menu = JSON.stringify(require('./fixture/wx_menu.json'));
