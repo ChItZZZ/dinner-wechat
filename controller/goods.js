@@ -73,7 +73,6 @@ exports.getItems = function(callback) {
                 arr = [];
             }
         }
-        console.log(items);
         callback(null, items);
     });
 }
