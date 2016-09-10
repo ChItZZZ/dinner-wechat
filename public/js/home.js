@@ -177,19 +177,18 @@ $(function () {
     $("#submitOrder").click(function () {
         //$(".viewer:visible").removeClass("show").addClass("hide");
         //$("#submitView").removeClass("hide").addClass("show");
-        var order_str = '';
-        for (var i in iG.order) {
-            console.log(iG.order[i].name)
-            order_str += iG.order[i].id + iG.order[i].name + 'x' + iG.order[i].counter;
-        }
+        //iG.order.open_id = "123";
+        //iG.order.price = countPrice();
+        var order_str = JSON.stringify(iG.order);
+
 
         $.ajax({
             url: 'http://localhost:3000/pay',
             type: 'post',
             data: {
-                open_id: 'test_user',
+                order_str: order_str,
                 price: countPrice(),
-                order: order_str
+                open_id:123
             },
             success: function (data) {
                 alert(data);
