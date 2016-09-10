@@ -3,7 +3,7 @@
     {
         "type":"view",
         "name":"点餐",
-        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9c8cd7c4560629ec&redirect_uri=http://123.206.218.240:3000&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
+        "url": "https://open.weixin.qq.com/connect/Oauth 2.0/authorize?appid=wx9c8cd7c4560629ec&redirect_uri=http://123.206.218.240:3000/test1&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
     },
     {
         "type":"click",
