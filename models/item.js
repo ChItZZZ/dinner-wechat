@@ -59,7 +59,7 @@ exports.getItems = function(callback) {
                 arr.push(item);
                 item = {};
                 while (i < result.length - 1 && result[i].gd_catalogue_name == result[i + 1].gd_catalogue_name) {
-                    item['id'] = result[i + 1].gd_id;
+                    item['id'] = result[i + 1].gd_id + '';
                     item['name'] = result[i + 1].gd_name;
                     item['cls'] = result[i + 1].gd_catalogue_name;
                     item['price'] = result[i + 1].gd_price;
