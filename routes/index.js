@@ -43,9 +43,9 @@ router.get('test1', function (req, res, next) {
 })
 
 
-router.post('/createorder', orderController.createOrder);
+router.post('/createOrder', orderController.createOrder);
 
-router.post('/searchorder', orderController.searchOrder);
+router.post('/searchOrder', orderController.searchOrder);
 
 module.exports = router;
 

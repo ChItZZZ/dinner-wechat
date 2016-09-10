@@ -183,7 +183,7 @@ $(function () {
 
 
         $.ajax({
-            url: 'http://localhost:3000/pay',
+            url: 'http://localhost:3000/createOrder',
             type: 'post',
             data: {
                 order_str: order_str,
