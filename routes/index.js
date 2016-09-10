@@ -41,5 +41,11 @@ router.get('test1', function (req, res, next) {
 
     res.send(code);
 })
+
+
+router.post('/createorder', orderController.createOrder);
+
+router.post('/searchorder', orderController.searchOrder);
+
 module.exports = router;
 
