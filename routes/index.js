@@ -20,29 +20,6 @@ router.get('/demo', itemController.demo);
 //send items information to front end
 router.get('/items', itemController.getItems);
 
-router.post('/createorder', orderController.createOrder);
-
-router.post('/pay', function (req, res, next) {
-
-    //var open_id = req.body.open_id;
-    //var price = req.body.price;
-    //var order = req.body.order;
-
-    var order_obj = JSON.parse(req.body.order_str);
-    var price = req.body.price;
-    var open_id = req.body.open_id;
-    console.log(order_obj);
-    console.log(price + open_id)
-    res.send(order_obj);
-})
-
-router.get('test1', function (req, res, next) {
-    var code = req.query.code;
-
-    res.send(code);
-})
-
-
 router.post('/createOrder', orderController.createOrder);
 
 router.post('/searchOrder', orderController.searchOrder);
