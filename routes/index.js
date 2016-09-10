@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/order', function(req, res, next) {
     res.render('order');
-})
+});
 
 
 //database operation demo
@@ -23,9 +23,9 @@ router.get('/demo', function(req, res, next) {
         }
         res.send(result);
         res.end();
-    })
+    });
 
-})
+});
 
 //send items information to front end
 router.get('/items', function(req, res, next) {
@@ -39,16 +39,16 @@ router.get('/items', function(req, res, next) {
         res.end();
     });
 
-})
+});
 
 router.get('/test', function(req, res, next) {
     res.write('hello world');
     res.write('again');
     res.end();
-})
+});
 
 router.get('/user', function(req, res, next) {
     db.select();
     res.end();
-})
+});
 module.exports = router;
