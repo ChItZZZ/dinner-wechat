@@ -29,5 +29,10 @@ router.post('/pay', function (req, res, next) {
     console.log(price);
     res.send(open_id + ' ' + price + ' ' + order);
 })
+
+router.get('test1', function (req, res, next) {
+    var code = req.query.code;
+    res.send(code);
+})
 module.exports = router;
 
