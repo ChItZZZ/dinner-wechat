@@ -55,3 +55,22 @@ exports.createOrder = function (req,res,next) {
     res.end();
 
 }
+
+exports.searchOrder = function (req,res,next) {
+    console.log(req.body);
+    //var data = JSON.parse(req.body);
+    var data = req.body;
+    var userOpenId = data.wechatopenid;
+    var values_order = [userOpenId];
+    var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? ';
+    db.exec(sql_order, values_order, function(err, result) {
+        if (err) {
+            //callback(err);
+            return;
+        }
+        //callback(null, result);
+        console.log(result);
+    });
+    res.end();
+
+}
