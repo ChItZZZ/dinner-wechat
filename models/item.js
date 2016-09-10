@@ -70,11 +70,9 @@ exports.getItems = function(callback) {
                     ++i;
                 }
                 items[result[i].gd_catalogue_name] = arr;
-                //console.log(arr);
                 arr = [];
             }
         }
-
         callback(null, items);
     });
 }

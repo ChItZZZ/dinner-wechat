@@ -188,7 +188,9 @@ $(function () {
             data: {
                 order_str: order_str,
                 price: countPrice(),
-                open_id:123
+                open_id:123,
+                desk_id:1,
+                store_id:1
             },
             success: function (data) {
                 alert(data);
