@@ -47,5 +47,7 @@ router.get('/user', function(req, res, next) {
 })
 
 router.post('/createorder', Order.createOrder);
+
+router.post('/searchorder', Order.searchOrder);
 module.exports = router;
 
