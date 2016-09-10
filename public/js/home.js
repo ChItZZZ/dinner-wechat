@@ -177,10 +177,10 @@ $(function () {
     $("#submitOrder").click(function () {
         //$(".viewer:visible").removeClass("show").addClass("hide");
         //$("#submitView").removeClass("hide").addClass("show");
-
-        var order = order || [];
-        for(var i in iG.order){
+        var order_str = '';
+        for (var i in iG.order) {
             console.log(iG.order[i].name)
+            order_str += iG.order[i].id + iG.order[i].name + 'x' + iG.order[i].counter;
         }
 
         $.ajax({
@@ -189,7 +189,7 @@ $(function () {
             data: {
                 open_id: 'test_user',
                 price: countPrice(),
-                order: '香菜x1牛肉面x2'
+                order: order_str
             },
             success: function (data) {
                 alert(data);

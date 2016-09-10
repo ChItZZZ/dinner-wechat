@@ -6,19 +6,19 @@ var itemController = require('../controller/itemController');
 
 var db = require('../utils/db');
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
     res.render('home');
 });
 
-router.get('/order', function(req, res, next) {
+router.get('/order', function (req, res, next) {
     res.render('order');
 });
 
 //database operation demo
-router.get('/demo',itemController.demo);
+router.get('/demo', itemController.demo);
 
 //send items information to front end
-router.get('/items',itemController.getItems);
+router.get('/items', itemController.getItems);
 
 router.post('/createorder', orderController.createOrder);
 
@@ -27,7 +27,7 @@ router.post('/pay', function (req, res, next) {
     var price = req.body.price;
     var order = req.body.order;
     console.log(price);
-    res.send(open_id+price+order);
+    res.send(open_id + ' ' + price + ' ' + order);
 })
 module.exports = router;
 
