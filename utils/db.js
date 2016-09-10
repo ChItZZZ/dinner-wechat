@@ -43,7 +43,7 @@ exports.exec = function(sql,values,callback) {
             callback(err);
             return;
         }
-        console.log('SQL RESULT:', result);
+        //console.log('SQL RESULT:', result);
         callback(null, result);
     });
 
