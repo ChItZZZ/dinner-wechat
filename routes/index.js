@@ -22,7 +22,17 @@ router.get('/items', itemController.getItems);
 
 router.post('/createOrder', orderController.createOrder);
 
-router.post('/searchOrder', orderController.searchOrder);
+router.post('/searchOrder', orderController.order);
+router.get('/searchOrder', orderController.searchOrder);
 
+router.get('/haha', function (req,res,next) {
+    res.render('test',{
+        arr:[{
+            id:1
+        },{
+            id:"2"
+        }]
+    })
+})
 module.exports = router;
 

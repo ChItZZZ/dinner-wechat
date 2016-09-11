@@ -55,10 +55,54 @@ exports.createOrder = function (req, res, next) {
 }
 
 exports.searchOrder = function (req, res, next) {
-    console.log(req.body);
-    //var data = JSON.parse(req.body);
     var data = req.body;
-    var userOpenId = data.open_id;
+    var userOpenId = data.open_id || 123;
+    var values_order = [userOpenId];
+    var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? ';
+    db.exec(sql_order, values_order, function (err, result) {
+        if (err) {
+            //callback(err);
+            return;
+        }
+        //callback(null, result);
+        console.log(result);
+        var order_detail = {};
+        var order_list = [];
+        if (result.length > 0) {
+            for (var i = 0; i < result.length; ++i) {
+                var items= new Array();
+                var item_list = [];
+                var item_detail = {};
+                items=result[i].od_string.split(";");
+                for (var j = 0; j < items.length; j++) {
+                    var item = items[j].split("*");
+                    if(item[0] != null && item[0] != ''){
+                        item_detail['name'] = item[0];
+                        item_detail['counter'] = item[1];
+                        item_list.push(item_detail);
+                        item_detail = {};
+                    }
+
+                }
+                order_detail['id'] = result[i].od_id;
+                order_detail['date'] = sd.format(result[i].od_date,'YYYY/MM/DD/hh:mm');
+                order_detail['items'] = item_list;
+                order_detail['price'] = result[i].od_total_price;
+                order_detail['state'] = result[i].od_state;
+                order_list.push(order_detail);
+                order_detail = {};
+            }
+        }
+        var a = {};
+        a.arr = order_list;
+        console.log(a.arr);
+        res.render('order',a);
+
+    });
+}
+exports.order = function (req, res, next) {
+    var data = req.body;
+    var userOpenId = data.open_id || 123;
     var values_order = [userOpenId];
     var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? ';
     db.exec(sql_order, values_order, function (err, result) {
@@ -95,7 +139,9 @@ exports.searchOrder = function (req, res, next) {
                 order_detail = {};
             }
         }
-        res.json(order_list);
-        res.end();
+        var a = {};
+        a.arr = order_list;
+        //res.render('order',order_list);
+        res.json(order_list)
     });
 }

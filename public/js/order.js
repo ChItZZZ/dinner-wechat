@@ -1,6 +1,7 @@
 /**
  * Created by 重书 on 2016/9/11.
  */
+var order_arr = [];
 $(function () {
     console.log("Posting now");
     $.ajax({
@@ -8,14 +9,10 @@ $(function () {
         url: 'http://localhost:3000/searchorder',
         data: {
             open_id:123
-
         },
         success: function (data) {
             console.log(data);
-            // iG.items = data;
-            // console.log(iG.items);
-            // init();//ajax成功后执行init();
-
+            order_arr = data;
         }
     })
 })

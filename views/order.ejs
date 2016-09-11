@@ -19,24 +19,29 @@
         .item_name {
             font-size: 13px;
         }
-        .order_gray_line{
+
+        .order_gray_line {
             /*border-top: 3px solid black !important;*/
             border-bottom: 1px solid lightgray !important;
             margin-bottom: 5px;
             /*padding-bottom: 40px !important*/
         }
-        .ac_paid{
+
+        .ac_paid {
             float: right;
             margin-right: 50px;
             font-size: 12px;
         }
-        .order_state{
+
+        .order_state {
             border-bottom: 1px solid lightgray;
         }
-        .order_paid{
+
+        .order_paid {
             border-top: 1px dotted lightgray;
         }
-        .menu_title{
+
+        .menu_title {
             color: #00a9d5;
         }
     </style>
@@ -61,65 +66,40 @@
                     </div>
                 </div>
             </div>
-            <div class="row order_gray_line " >
+            <% for (var i = 0;i < (arr.length);i++){ %>
+            <div class="row order_gray_line ">
                 <div class="col-md-12 clearfix board_content order_state">
                     <div class="col-md-6">
                         订单已完成
-                        <span style="font-size: 14px;color: darkgray;">2016-5-5 10:30</span>
+                        <span style="font-size: 14px;color: darkgray;">
+                            <%= arr[i]['date'] %>
+                        </span>
                     </div>
                 </div>
+                <% for (var j = 0;j < arr[i].items.length;j++){ %>
                 <div class="col-md-12 clearfix board_content">
                     <div class="col-xs-6">
-                        <div class="col-md-6 clearfix item_name"><span>五花肉</span></div>
+                        <div class="col-md-6 clearfix item_name"><span>
+                                <%= arr[i].items[j]['name'] %>
+                            </span></div>
                     </div>
                     <div class="col-xs-6">
-                        <div class="btn_wrap counter"><i class="nocounter fl" style="display: inline-block;">1</i></div>
+                        <div class="btn_wrap counter"><i class="nocounter fl" style="display: inline-block;">
+                                <%= arr[i].items[j]['counter'] %>
+                            </i></div>
                     </div>
                 </div>
-                <div class="col-md-12 clearfix board_content">
-                    <div class="col-xs-6">
-                        <div class="col-md-6 clearfix item_name"><span>小青菜</span></div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="btn_wrap counter"><i class="nocounter fl" style="display: inline-block;">2</i></div>
-                    </div>
-                </div>
+                <% } %>
                 <div class="col-md-12 clearfix board_content order_paid">
-                    <span class="ac_paid">实付: 30</span>
+                    <span class="ac_paid">实付:
+                        <%= arr[i].price %>
+                    </span>
                 </div>
             </div>
-
-
-            <div class="row order_gray_line">
-                <div class="col-md-12 clearfix board_content order_state">
-                    <div class="col-md-6">
-                        订单已完成
-                        <span style="font-size: 14px;color: darkgray;">2016-5-5 10:30</span>
-                    </div>
-                </div>
-                <div class="col-md-12 clearfix board_content">
-                    <div class="col-xs-6">
-                        <div class="col-md-6 clearfix item_name"><span>五花肉</span></div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="btn_wrap counter"><i class="nocounter fl" style="display: inline-block;">1</i></div>
-                    </div>
-                </div>
-                <div class="col-md-12 clearfix board_content">
-                    <div class="col-xs-6">
-                        <div class="col-md-6 clearfix item_name"><span>小青菜</span></div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="btn_wrap counter"><i class="nocounter fl" style="display: inline-block;">2</i></div>
-                    </div>
-                </div>
-                <div class="col-md-12 clearfix board_content order_paid">
-                    <span class="ac_paid">实付: 30</span>
-                </div>
-            </div>
+            <% } %>
         </div>
     </section>
 </div>
-<script src="js/order.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 </body>
 </html>
