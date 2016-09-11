@@ -11,7 +11,8 @@ exports.createOrder = function (req, res, next) {
     var order_str = data.order_str;
 
     var userOpenId = data.open_id;
-    var time = sd.format(new Date(), 'YYYY/MM/DD HH:mm');
+
+    var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
     var store_id = parseInt(data.store_id || 1);
     var desk_id = parseInt(data.desk_id || 1);
     var order_obj = data.order_str;
@@ -35,7 +36,6 @@ exports.createOrder = function (req, res, next) {
         for (var i = 0; i<order_obj.length;i++) {
             var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price) ' +
                 'VALUES (?,?,?,?,?)';
-            // var food_id = order_obj[i].food_id;
             var food_name = order_obj[i].name;
             var food_quantity = order_obj[i].counter;
             var food_price = order_obj[i].price;
@@ -98,7 +98,4 @@ exports.searchOrder = function (req, res, next) {
         res.json(order_list);
         res.end();
     });
-
-
-
 }
