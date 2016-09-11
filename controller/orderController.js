@@ -11,7 +11,7 @@ exports.createOrder = function (req, res, next) {
     var order_str = data.order_str;
 
     var userOpenId = data.open_id;
-    var time = sd.format(new Date(), 'YYYY/MM/DD');
+    var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
     var store_id = parseInt(data.store_id || 1);
     var desk_id = parseInt(data.desk_id || 1);
     var order_obj = JSON.parse(data.order_str);
@@ -32,14 +32,15 @@ exports.createOrder = function (req, res, next) {
         }
         console.log(result.insertId);
         var order_id = result.insertId;
+        var count = 0;
         for (var i in order_obj) {
+            // var food_id = order_obj[i].food_id;
             var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price) ' +
                 'VALUES (?,?,?,?,?)';
-            // var food_id = order_obj[i].food_id;
             var food_name = order_obj[i].name;
             var food_quantity = order_obj[i].counter;
             var food_price = order_obj[i].price;
-            var values_food = [order_id, i + 1, food_name, food_quantity, food_price];
+            var values_food = [order_id, count + 1, food_name, food_quantity, food_price];
             db.exec(sql_food, values_food, function (err, result) {
                 if (err) {
                     //callback(err);
@@ -48,6 +49,7 @@ exports.createOrder = function (req, res, next) {
                     console.log("food inserted");
                 }
             });
+            count++;
         }
     });
     res.end();
