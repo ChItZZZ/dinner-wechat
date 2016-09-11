@@ -19,38 +19,41 @@ exports.createOrder = function (req, res, next) {
     var price = data.price;
     var string = '';
 
-    for (var i in order_obj) {
-        string += order_obj[i].name + "*" + order_obj[i].counter + ";";
+    if(order_obj.length > 0){
+        for (var i in order_obj) {
+            string += order_obj[i].name + "*" + order_obj[i].counter + ";";
+        }
+
+        var values_order = [store_id, desk_id, time, userOpenId, 0, price, string];
+
+        var sql_order = 'INSERT INTO od_hdr (od_store_id,od_desk_id,od_date,od_wechatopenid,od_state,od_total_price,od_string) ' +
+            'VALUES (?,?,?,?,?,?,?)';
+        db.exec(sql_order, values_order, function (err, result) {
+            if (err) {
+                return;
+            }
+            console.log(result.insertId);
+            var order_id = result.insertId;
+            for (var i = 0; i<order_obj.length;i++) {
+                var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price) ' +
+                    'VALUES (?,?,?,?,?)';
+                var food_name = order_obj[i].name;
+                var food_quantity = order_obj[i].counter;
+                var food_price = order_obj[i].price;
+                var values_food = [order_id, i + 1, food_name, food_quantity, food_price];
+                db.exec(sql_food, values_food, function (err, result) {
+                    if (err) {
+                        //callback(err);
+                        return;
+                    } else {
+                        console.log("food inserted");
+                    }
+                });
+            }
+        });
+        res.end();
     }
 
-    var values_order = [store_id, desk_id, time, userOpenId, 0, price, string];
-
-    var sql_order = 'INSERT INTO od_hdr (od_store_id,od_desk_id,od_date,od_wechatopenid,od_state,od_total_price,od_string) ' +
-        'VALUES (?,?,?,?,?,?,?)';
-    db.exec(sql_order, values_order, function (err, result) {
-        if (err) {
-            return;
-        }
-        console.log(result.insertId);
-        var order_id = result.insertId;
-        for (var i = 0; i<order_obj.length;i++) {
-            var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price) ' +
-                'VALUES (?,?,?,?,?)';
-            var food_name = order_obj[i].name;
-            var food_quantity = order_obj[i].counter;
-            var food_price = order_obj[i].price;
-            var values_food = [order_id, i + 1, food_name, food_quantity, food_price];
-            db.exec(sql_food, values_food, function (err, result) {
-                if (err) {
-                    //callback(err);
-                    return;
-                } else {
-                    console.log("food inserted");
-                }
-            });
-        }
-    });
-    res.end();
 
 }
 
