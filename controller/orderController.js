@@ -11,10 +11,10 @@ exports.createOrder = function (req, res, next) {
     var order_str = data.order_str;
 
     var userOpenId = data.open_id;
-    var time = sd.format(new Date(), 'YYYY/MM/DD');
+    var time = sd.format(new Date(), 'YYYY/MM/DD HH:mm');
     var store_id = parseInt(data.store_id || 1);
     var desk_id = parseInt(data.desk_id || 1);
-    var order_obj = JSON.parse(data.order_str);
+    var order_obj = data.order_str;
     var price = data.price;
     var string = '';
 
@@ -32,7 +32,7 @@ exports.createOrder = function (req, res, next) {
         }
         console.log(result.insertId);
         var order_id = result.insertId;
-        for (var i in order_obj) {
+        for (var i = 0; i<order_obj.length;i++) {
             var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price) ' +
                 'VALUES (?,?,?,?,?)';
             // var food_id = order_obj[i].food_id;
@@ -68,7 +68,37 @@ exports.searchOrder = function (req, res, next) {
         }
         //callback(null, result);
         console.log(result);
+        var order_detail = {};
+        var order_list = [];
+        if (result.length > 0) {
+            for (var i = 0; i < result.length; ++i) {
+                var items= new Array();
+                var item_list = [];
+                var item_detail = {};
+                items=result[i].od_string.split(";");
+                for (var j = 0; j < items.length; j++) {
+                    var item = items[j].split("*");
+                    if(item[0] != null && item[0] != ''){
+                        item_detail['name'] = item[0];
+                        item_detail['counter'] = item[1];
+                        item_list.push(item_detail);
+                        item_detail = {};
+                    }
+
+                }
+                order_detail['id'] = result[i].od_id;
+                order_detail['date'] = result[i].od_date;
+                order_detail['items'] = item_list;
+                order_detail['price'] = result[i].od_total_price;
+                order_detail['state'] = result[i].od_state;
+                order_list.push(order_detail);
+                order_detail = {};
+            }
+        }
+        res.json(order_list);
+        res.end();
     });
-    res.end();
+
+
 
 }
