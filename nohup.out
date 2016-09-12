@@ -140,3 +140,13 @@ Port 3000 is already in use
 [0mGET /css/bootstrap.css [36m304 [0m0.571 ms - -[0m
 [0mGET /css/flat.css [36m304 [0m0.946 ms - -[0m
 [0mGET /css/font-awesome.css [36m304 [0m1.844 ms - -[0m
+[33m[nodemon] 1.10.2[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node bin/www.js`[39m
+events.js:154
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: EBADF: bad file descriptor, read
+    at Error (native)
