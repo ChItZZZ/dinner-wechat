@@ -15,11 +15,11 @@ exports.createOrder = function (req, res, next) {
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
     var store_id = parseInt(data.store_id || 1);
     var desk_id = parseInt(data.desk_id || 1);
-    var order_obj = data.order_str;
+    var order_obj = JSON.parse(data.order_str);
     var price = data.price;
     var string = '';
 
-    if(order_obj.length > 0){
+    if(order_obj != null){
         for (var i in order_obj) {
             string += order_obj[i].name + "*" + order_obj[i].counter + ";";
         }
@@ -34,13 +34,14 @@ exports.createOrder = function (req, res, next) {
             }
             console.log(result.insertId);
             var order_id = result.insertId;
-            for (var i = 0; i<order_obj.length;i++) {
+	    var j = 0;
+            for (var i in order_obj) {
                 var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price) ' +
                     'VALUES (?,?,?,?,?)';
                 var food_name = order_obj[i].name;
                 var food_quantity = order_obj[i].counter;
                 var food_price = order_obj[i].price;
-                var values_food = [order_id, i + 1, food_name, food_quantity, food_price];
+                var values_food = [order_id, j + 1, food_name, food_quantity, food_price];
                 db.exec(sql_food, values_food, function (err, result) {
                     if (err) {
                         //callback(err);
@@ -49,6 +50,7 @@ exports.createOrder = function (req, res, next) {
                         console.log("food inserted");
                     }
                 });
+		++j;
             }
         });
         res.end();
