@@ -10,6 +10,11 @@ router.get('/', function (req, res, next) {
     res.render('home');
 });
 
+
+router.get('/react', function (req, res, next) {
+    res.render('test');
+
+})
 router.get('/order', function (req, res, next) {
     res.render('order');
 });
@@ -26,13 +31,7 @@ router.post('/searchOrder', orderController.order);
 router.get('/searchOrder', orderController.searchOrder);
 
 router.get('/haha', function (req,res,next) {
-    res.render('test',{
-        arr:[{
-            id:1
-        },{
-            id:"2"
-        }]
-    })
+    res.render('haha');
 })
 module.exports = router;
 

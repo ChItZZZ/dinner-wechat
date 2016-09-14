@@ -1,34 +1,35 @@
 {
     "button":[
-    {
-        "type":"view",
-        "name":"点餐",
-        "url": "https://open.weixin.qq.com/connect/Oauth 2.0/authorize?appid=wx9c8cd7c4560629ec&redirect_uri=http://123.206.218.240:3000/test1&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
-    },
-    {
-        "type":"click",
-        "name":"餐厅",
-        "key":"V1001_TODAY_SINGER"
-    },
-    {
-        "name":"吃面骚年",
-        "sub_button":[
-            {
-                "type":"click",
-                "name":"订单",
-                "key":"V1001_ORDER"
-            },
-            {
-                "type":"view",
-                "name":"福利",
-                "url":"https://www.baidu.com/"
-            },
-            {
-                "type":"click",
-                "name":"赞一下我们",
-                "key":"V1001_GOOD"
-            }
-        ]
-    }
-]
+        {
+            "type":"view",
+            "name":"点餐",
+            "url": "http://115.159.87.149:3000"
+        },
+        {
+            "type":"click",
+            "name":"餐厅",
+            "key":"V1001_TODAY_SINGER"
+        },
+        {
+            "name":"吃面骚年",
+            "sub_button":[
+                {
+                    "type":"click",
+                    "name":"订单",
+                    "key":"V"
+                },
+                {
+                    "type":"view",
+                    "name":"福利",
+                    "url":"http://115.159.87.149:3000/searchOrder"
+
+                },
+                {
+                    "type":"click",
+                    "name":"赞一下我们",
+                    "key":"V1001_GOOD"
+                }
+            ]
+        }
+    ]
 }

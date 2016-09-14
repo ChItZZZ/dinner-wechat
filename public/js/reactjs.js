@@ -1,22 +1,9 @@
 /**
  *
- * Created by my on 9/10/16.
+ * Created by my on 9/13/16.
  */
 var iG = iG || {};
-//    if (window.localStorage) {
-//        try {
-//            iG = JSON.parse(localStorage["zaiG"]) || {};
-//        } catch (e) {
-//            localStorage.removeItem("zaiG");
-//            iG = iG || {};
-//        }
-//    } else {
-//        iG = iG || {};
-//    }
 $(function () {
-
-    //
-
     $("body").on("click", ".list_id_respone", function () {
         iG["order"] = iG["order"] || {};
         var index = $(this).attr("data_id");
@@ -29,7 +16,6 @@ $(function () {
             iG.order[index] = obj;
             iG.order[index].counter = 1;
         }
-//            if (window.localStorage) {
     });
 
     $("#myOrder").click(function () {
@@ -96,9 +82,6 @@ $(function () {
         }
         $(this).siblings(".nocounter").html(iG.order[index].counter);
         $("#price_txt").html(countPrice() + "元");
-//            if (window.localStorage) {
-//                localStorage["zaiG"] = JSON.stringify(iG);
-//            }
     });
 
     $("body").on("click", ".counter_minus", function () {
@@ -120,19 +103,12 @@ $(function () {
         }
         $(this).siblings(".nocounter").html(iG.order[index].counter);
         $("#price_txt").html(countPrice() + "元");
-//            if (window.localStorage) {
-//                localStorage["zaiG"] = JSON.stringify(iG);
-//            }
     });
 
     $("body").on("click", "#clearOder", function () {
         iG["order"] = {};
         $("#J_order_list").html(buildOrder(iG.order));
         $("#price_txt").html(countPrice() + "元");
-//            init();
-//            if (window.localStorage) {
-//                localStorage["zaiG"] = JSON.stringify(iG);
-//            }
     });
 
     $("body").on("click", "#J_menuList dd a", function () {
@@ -245,50 +221,8 @@ function countPrice() {
 }
 
 //显示每个菜品大分类下的每个菜品
-function listManger(_list) {
-    var result = "";
-    var listArr = listArr || [];
-    var indexList = _list[iG.indexMenu];
-    for (var i in indexList) {
-        listArr.push(indexList[i]);
-        if (Math.floor(i / 3) === 0 && i > 2) {
-            result += "<div class=\"row\">";
-            result += buildList(listArr);
-            result += "</div>";
-            listArr = [];
-        }
-    }
-    result += "<div class=\"row\">";
-    result += buildList(listArr);
-    result += "</div>";
-    return result;
-}
 
 //单个菜品显示
-function buildList(_list) {
-    var result = "";
-    for (var i in _list) {
-        result += '<div class=\"col-md-4 clearfix foot-items\">\
-            <div class=\"col-xs-4 foot-img\">\
-            <img src=\"' + _list[i].imageUrl + '\" class=\"img-responsive\" alt=\"Responsive image\" style=\"height: 90px; \" data_id=\"' + _list[i].id + '\" >\
-            </div>\
-            <div class=\"col-xs-4 foot-info\"><p>\
-            <strong>' + _list[i].name + '</strong>\
-            </p>\
-            <p class=\"colred\">'
-            + _list[i].price + '元/份\
-            </p>\
-            <p>\
-            <small>' + _list[i].sels + '人买过</small>\
-            </p>\
-            </div>\
-            <div class=\"col-xs-4 icons-pick foot-pick\">\
-            <div class="btn_wrap counter"><button class="list_minus counter_minus fl" style="display: none;" data_id=\"' + _list[i].id + '\"ontouchstart=""><strong></strong></button><i class="nocounter fl" style="display: none;">0</i><button class="list_add counter_plus" data_id=\"' + _list[i].id + '\" ontouchstart=""><strong></strong></button> <em class="fixBig  fake"></em></div>\
-            </div>\
-            </div>';
-    }
-    return result;
-}
 
 //order界面
 function buildOrder(_list) {
