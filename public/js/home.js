@@ -16,7 +16,14 @@ var iG = iG || {};
 $(function () {
 
     //
-
+    $.ajax({
+        url:'http://localhost:3000/items',
+        type:'GET',
+        success: function (data) {
+            iG = data;
+            init();
+        }
+    })
     $("body").on("click", ".list_id_respone", function () {
         iG["order"] = iG["order"] || {};
         var index = $(this).attr("data_id");
@@ -163,7 +170,7 @@ $(function () {
     $("#submitOrder").click(function () {
         var order_str = JSON.stringify(iG.order);
         $.ajax({
-            url: 'http://115.159.87.149:3000/createOrder',
+            url: 'http://localhost:3000/createOrder',
             type: 'post',
             data: {
                 order_str: order_str,

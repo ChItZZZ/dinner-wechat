@@ -9,6 +9,11 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+var webpack = require('webpack'),
+    webpackDevMiddleware = require('webpack-dev-middleware'),
+    webpackHotMiddleware = require('webpack-hot-middleware'),
+    webpackDevConfig = require('./webpack.config.js');
+
 var app = express();
 
 // view engine setup
@@ -22,6 +27,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+/**
+ * webpack
+ */
+var compiler = webpack(webpackDevConfig);
+// attach to the compiler & the server
+app.use(webpackDevMiddleware(compiler, {
+
+    // public path should be the same with webpack config
+    publicPath: webpackDevConfig.output.publicPath,
+    noInfo: true,
+    stats: {
+        colors: true
+    }
+}));
+app.use(webpackHotMiddleware(compiler));
 
 app.use('/', routes);
 app.use('/users', users);
