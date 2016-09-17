@@ -6,10 +6,12 @@ var hotMiddlewareScript = 'webpack-hot-middleware/client?reload=true';
 
 var devConfig = {
     entry: {
-        index: ['./public/component/Main.js', hotMiddlewareScript]
+        Main: ['./public/component/Main.js', hotMiddlewareScript],
+        ListMenu: ['./public/component/Main.js', hotMiddlewareScript]
+
     },
     output: {
-        filename: './[name]/bundle.js',
+        filename: './build/[name].js',
         path: path.resolve('./public'),
         publicPath: publicPath
     },
@@ -28,7 +30,7 @@ var devConfig = {
             exclude: /node_modules/,
             // babel6 才需要配置这个，presets里面两个预编译插件，前一个用于编译es6，后一个用于编译react。按需配置。这个工程都需要。
             query: {
-                presets: ['react']
+                presets: ['react', 'es2015']
             }
         }]
     },
@@ -36,7 +38,10 @@ var devConfig = {
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin()
-    ]
+    ],
+    //externals: {
+    //    'react': 'React'
+    //},
 };
 
 module.exports = devConfig;

@@ -20,7 +20,7 @@ $(function () {
         url:'http://localhost:3000/items',
         type:'GET',
         success: function (data) {
-            iG = data;
+            iG.items = data;
             init();
         }
     })

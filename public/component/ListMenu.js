@@ -2,7 +2,7 @@
  *
  * Created by my on 9/13/16.
  */
-//var React = require('react');
+var React = require('react');
 var dataList = {
     "面类": [{id: "1", name: "咸肉面", cls: "肉品", price: "15", sels: "45", imageUrl: "images/1.jpg"},
         {id: "2", name: "牛肉面", cls: "肉品", price: "23", sels: "75", imageUrl: "images/2.jpg"},
@@ -15,7 +15,7 @@ var dataList = {
         {id: "17", name: "黄豆", cls: "蔬菜", price: "152", sels: "524", imageUrl: "images/17.jpg"},
         {id: "18", name: "白苦瓜", cls: "蔬菜", price: "152", sels: "524", imageUrl: "images/18.jpg"},
     ],
-    "糕点": [{id: "24", name: "糕点", cls: "糕点", price: "152", sels: "12", imageUrl: "images/24.jpg"},
+    "test糕点": [{id: "24", name: "糕点", cls: "糕点", price: "152", sels: "12", imageUrl: "images/24.jpg"},
         {id: "25", name: "糕点", cls: "糕点", price: "154", sels: "16", imageUrl: "images/25.jpg"},
         {id: "26", name: "糕点", cls: "糕点", price: "151", sels: "18", imageUrl: "images/26.jpg"},
         {id: "27", name: "糕点", cls: "糕点", price: "152", sels: "19", imageUrl: "images/27.jpg"},
@@ -29,7 +29,8 @@ var dataList = {
 var ListMenu = React.createClass({
     getInitialState: function () {
       return {
-          see:false
+          see:false,
+          dataName:''
       }
     },
     render: function () {
@@ -38,7 +39,7 @@ var ListMenu = React.createClass({
         //});
 
         var oneMenuNodes = Object.keys(dataList).map(function (name, index) {
-            return <dd className="active" key={index}><a data_name={name}>{name}</a></dd>;
+            return <dd className="active" key={index}><a dataName={name}>{name}</a></dd>;
         })
 
         var display = this.state.see?'block':'';
@@ -49,8 +50,4 @@ var ListMenu = React.createClass({
         );
     }
 });
-listMenu = ReactDOM.render(
-    <ListMenu results={dataList}></ListMenu>,
-    document.getElementById('ex')
-);
-//module.exports = ListMenu;
+module.exports = ListMenu;
