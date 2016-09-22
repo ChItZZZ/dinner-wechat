@@ -2,7 +2,9 @@
  * Created by 重书 on 2016/9/7.
  */
 var db = require('../utils/db');
+var config = require('../config/app_config');
 var sd = require('silly-datetime');
+var https = require('https');
 
 exports.createOrder = function (req, res, next) {
     console.log(req.body);
@@ -56,13 +58,13 @@ exports.createOrder = function (req, res, next) {
         res.end();
     }
 
-
 }
 
 exports.searchOrder = function (req, res, next) {
-    var data = req.body;
-    var userOpenId = data.open_id || 123;
-    var values_order = [userOpenId];
+    // var data = req.body;
+    // var userOpenId = data.open_id || 123;
+    // var openIdCode = data.code;
+    // var values_order = [userOpenId];
     var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? ';
     db.exec(sql_order, values_order, function (err, result) {
         if (err) {
