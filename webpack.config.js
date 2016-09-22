@@ -6,9 +6,8 @@ var hotMiddlewareScript = 'webpack-hot-middleware/client?reload=true';
 
 var devConfig = {
     entry: {
-        Main: ['./public/component/Main.js', hotMiddlewareScript],
-        ListMenu: ['./public/component/Main.js', hotMiddlewareScript]
-
+        Main: ['./public/component/Main.js', hotMiddlewareScript]
+        //ListMenu: ['./public/component/Main.js', hotMiddlewareScript]
     },
     output: {
         filename: './build/[name].js',
@@ -22,7 +21,7 @@ var devConfig = {
             //loader: 'url?limit=8192&context=client&name=[path][name].[ext]'
             loader: 'url?limit=8192&name=[path][name].[ext]'
         }, {
-            test: /\.scss$/,
+            test: /\.css$/,
             loader: 'style-loader!css-loader',
         }, {
             test: /\.jsx?$/,
@@ -39,9 +38,10 @@ var devConfig = {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin()
     ],
-    //externals: {
-    //    'react': 'React'
-    //},
+    externals: {    // 指定采用外部 CDN 依赖的资源，不被webpack打包
+        "react": "React",
+        "react-dom": "ReactDOM"
+    }
 };
 
 module.exports = devConfig;

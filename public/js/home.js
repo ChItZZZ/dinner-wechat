@@ -17,6 +17,7 @@ $(function () {
 
     //
     $.ajax({
+
         url:'http://localhost:3000/items',
         type:'GET',
         success: function (data) {

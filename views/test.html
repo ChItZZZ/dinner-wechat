@@ -5,18 +5,16 @@
     <title>Title</title>
 </head>
 <body>
-<div>
-    <div class="row gray_line">
-
-        <label for="coupon">优惠券</label>
-    <span class="twitter-typeahead">
-        <input type="text" name="phone" class="form-control tt-query" autocomplete="off"
-               spellcheck="false" dir="auto" id="coupon">
-    </span>
-    </div>
+<div id="div">
 
 </div>
 
-<script src="js/jasjda.js"></script>
+<script>
+    var div = document.getElementById('div');
+    var a = document.createElement('h1');
+    var text = document.createTextNode("ncz");
+    a.appendChild(text)
+    div.appendChild(a)
+</script>
 </body>
 </html>

@@ -276,7 +276,7 @@ bottom: 0;background-color: #e9e9eb;box-shadow: inset -10px 0px 40px #ccccce;-we
 -moz-box-sizing: content-box;
 box-sizing: content-box;
 padding: 5px 10px;font-size: 15px;display: inline-block; text-indent: -100px;padding: 5px 11px;height: 12px;}
-.row .btn_wrap button.list_minus{'' /* margin-right: -10px; */}
+/*.row .btn_wrap button.list_minus{'' !* margin-right: -10px; *!}*/
 .row .btn_wrap button.list_add{/* margin-left: -10px; */}
 .row .btn_wrap button.list_minus strong{background: url("../images/btnminus.png") no-repeat;background-size: 22px 22px;} 
 .row .btn_wrap button.list_add strong{background: url("../images/btnplus.png") no-repeat;background-size: 22px 22px;} 

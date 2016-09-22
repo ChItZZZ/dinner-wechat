@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -7,8 +6,10 @@ var app = require('../app');
 var debug = require('debug')('wechat:server');
 var http = require('http');
 
-var browserSync = require('browser-sync');
+var reload = require('reload');
+var http = require('http');
 
+var bs = require('browser-sync').create();
 /**
  * Get port from environment and store in Express.
  */
@@ -21,13 +22,28 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+reload(server, app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-//server.listen(port, listening);
-server.listen(port);
+
+// browsersync is a nice choice when modifying only views (with their css & js)
+
+server.listen(port, function () {
+    bs.init({
+        open: false,
+        ui: false,
+        notify: false,
+        proxy: 'localhost:3000',
+        files: ['../views/*'],
+        port: 8080
+    });
+    console.log('App (dev) is going to be running on port 8080 (by browsersync).');
+});
+
+//server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
