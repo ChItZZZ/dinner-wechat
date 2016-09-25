@@ -20,7 +20,7 @@ $(function () {
 
     $.ajax({
         type: 'get',
-        url: 'http://115.159.87.149:3000/items',
+        url: 'http://wechat.qiancs.cn/items',
         success: function (data) {
             console.log(data);
             iG.items = data;
@@ -183,7 +183,7 @@ $(function () {
 
 
         $.ajax({
-            url: 'http://115.159.87.149:3000/createOrder',
+            url: 'http://wechat.qiancs.cn/createOrder',
             type: 'post',
             data: {
                 order_str: order_str,
