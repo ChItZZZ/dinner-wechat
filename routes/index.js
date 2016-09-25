@@ -27,7 +27,7 @@ router.get('/searchOrder', orderController.searchOrder);
 
 
 router.get('/pay',function(req,res,next){
-    res.render('pingpp-pay');
+    res.render('pingpp_pay');
 });
 
 router.get('/haha', function (req,res,next) {
