@@ -13,7 +13,17 @@ router.get('/pay',function(req,res,next){
     res.render('pingpp_pay');
 });
 
+router.get('/payone',function(req,res,next){
+    res.render('pay_one');
+});
+
 router.post('/getCharge',createCharge.create);
+
+router.post('/createCharge' function(req,res,next){
+    var data = req.body;
+    console.log(JSON.stringify(data));
+    res.end();
+});
 
 router.post('/paymentResult',paymentResult.handleResult);
 
