@@ -22,6 +22,7 @@ http.createServer(function (req, res) {
       switch (event.type) {
         case "charge.succeeded":
           // 开发者在此处加入对支付异步通知的处理代码
+          console.log("succeeded");
           return resp("OK", 200);
           break;
         case "refund.succeeded":
@@ -36,4 +37,4 @@ http.createServer(function (req, res) {
       return resp('JSON 解析失败', 400);
     }
   });
-}).listen(8000, "127.0.0.1");
+}).listen(8000);

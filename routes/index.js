@@ -3,8 +3,17 @@ var router = express.Router();
 
 var orderController = require('../controller/orderController');
 var itemController = require('../controller/itemController');
+var createCharge = require('../payment/createCharge')
 
 var db = require('../utils/db');
+
+
+router.get('/pay',function(req,res,next){
+    res.render('pingpp_pay');
+});
+
+router.post('/getCharge',createCharge.create);
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
     res.render('home');
@@ -26,9 +35,6 @@ router.post('/searchOrder', orderController.order);
 router.get('/searchOrder', orderController.searchOrder);
 
 
-router.get('/pay',function(req,res,next){
-    res.render('pingpp_pay');
-});
 
 router.get('/haha', function (req,res,next) {
     res.render('test',{

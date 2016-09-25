@@ -1,6 +1,6 @@
 'use strict';
 // api_key 获取方式：登录 [Dashboard](https://dashboard.pingxx.com)->点击管理平台右上角公司名称->开发信息-> Secret Key
-var API_KEY = "sk_test_ibbTe5jLGCi5rzfH4OqPW9KC"
+var API_KEY = "sk_test_rDa1e5env5aPqPqHC8v1azv9"
 
 var http = require('http');
 var _url = require('url');
@@ -9,15 +9,18 @@ http.createServer(function (req, res) {
   var urlParts = _url.parse(req.url, true);
   switch (urlParts.pathname) {
     case "/oauth": // 跳转到微信进行认证
-      var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('WX_PUB_APP_ID', 'http://example.com/getopenid?showwxpaytitle=1');
+      var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c', 
+      'http://wechat.qiancs.cn/getopenid?showwxpaytitle=1');
       res.writeHead(302, {
         "Location": oauthUrl
       });
       res.end('');
       break;
     case "/getopenid": // 回调地址，获取 openid
-      pingpp.wxPubOauth.getOpenid('WX_PUB_APP_ID', 'WX_PUB_APP_SECRET', urlParts.query.code, function(err, openid){
+      pingpp.wxPubOauth.getOpenid('wx5bc13508fcdbca3c', '30337a4abdfb0a2c2ef892f23e141847 ', 
+      urlParts.query.code, function(err, openid){
         console.log(openid);
+        res.send(open_id);
         // ...
         // pass openid to extra['open_id'] and create a charge
         // ...

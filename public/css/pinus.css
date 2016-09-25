@@ -312,7 +312,7 @@ header .content .logo {
 }
 header .content .logo span {
   display: block;
-  background: url(../img/logo/logo-l.svg) no-repeat top center;
+  background: url(../images/logo/logo-l.svg) no-repeat top center;
   -webkit-background-size: cover;
   background-size: cover;
   width: 52px;
@@ -573,7 +573,7 @@ header .h_content span {
   height: 14px;
   margin: auto;
   display: block;
-  background: url(../img/logo.png) no-repeat top center;
+  background: url(../images/logo.png) no-repeat top center;
   margin-bottom: 14px;
 }
 body {
