@@ -10,7 +10,7 @@ exports.handleResult = function (req,res,next)
       });
       res.end(ret);
     }
-  switch (event.type) {
+  switch (data.type) {
         case "charge.succeeded":
             // 开发者在此处加入对支付异步通知的处理代码
             console.log("支付成功");
