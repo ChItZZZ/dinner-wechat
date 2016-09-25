@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>MiniCheckout</title>
+    <title>支付</title>
     <link rel="stylesheet" type="text/css" href="css/pinus.css">
 </head>
 <body>
@@ -48,9 +48,10 @@
             if (xhr.readyState == 4 && xhr.status == 200) {
                 console.log(xhr.responseText);
                 pingpp.createPayment(xhr.responseText, function(result, err) {
-                    console.log(result);
-                    console.log(err.msg);
-                    console.log(err.extra);
+                    if(err)
+                        alert('error');
+                    else
+                        alert('pay successed');
                 });
             }
         }
