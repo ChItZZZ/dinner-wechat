@@ -25,6 +25,11 @@ router.post('/createOrder', orderController.createOrder);
 router.post('/searchOrder', orderController.order);
 router.get('/searchOrder', orderController.searchOrder);
 
+
+router.get('/pay',function(req,res,next){
+    res.render('pingpp-pay');
+});
+
 router.get('/haha', function (req,res,next) {
     res.render('test',{
         arr:[{
