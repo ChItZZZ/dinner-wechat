@@ -61,10 +61,10 @@ exports.createOrder = function (req, res, next) {
 }
 
 exports.searchOrder = function (req, res, next) {
-    // var data = req.body;
-    // var userOpenId = data.open_id || 123;
+     var data = req.body;
+     var userOpenId = data.open_id || 123;
     // var openIdCode = data.code;
-    // var values_order = [userOpenId];
+     var values_order = [userOpenId];
     var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? ';
     db.exec(sql_order, values_order, function (err, result) {
         if (err) {

@@ -20,7 +20,7 @@ $(function () {
 
     $.ajax({
         type: 'get',
-        url: 'http://115.159.87.149:3000/items',
+        url: 'http://localhost:3000/items',
         success: function (data) {
             console.log(data);
             iG.items = data;
@@ -183,7 +183,7 @@ $(function () {
 
 
         $.ajax({
-            url: 'http://115.159.87.149:3000/createOrder',
+            url: 'http://localhost:3000/createOrder',
             type: 'post',
             data: {
                 order_str: order_str,
