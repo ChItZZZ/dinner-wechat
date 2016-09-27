@@ -20,11 +20,10 @@ $(function () {
 
     $.ajax({
         type: 'get',
-        url: 'http://wechat.qiancs.cn/items',
+        url: 'http://localhost:8080/items',
         success: function (data) {
-            console.log(data);
             iG.items = data;
-            console.log(iG.items);
+            //console.log(iG.items);
             init();//ajax成功后执行init();
 
         },
@@ -149,12 +148,12 @@ $(function () {
 //            }
     });
 
-    $("body").on("click", "#J_menuList dd a", function () {
+    $("body").on("click", "#J_menuList dd", function () {
         iG.indexMenu = $(this).attr("data_name");
         $("#J_list_Container").html(listManger(iG.items));
         $("#J_menuList .active").removeClass("active");
-        $(this).parent("dd").addClass("active");
-        console.log(iG);
+        $(this).addClass("active");
+        //console.log(iG);
     });
     $("#remote_order").click(function () {
         $(".nav-tabs li.active").removeClass("active");
@@ -205,7 +204,7 @@ $(function () {
 })
 function init() {
     setMenu(iG.items);
-    console.log(iG.items);
+    //console.log(iG.items);
     $("#J_list_Container").html(listManger(iG.items));
     $("#loadingView").addClass("hide");
 }
@@ -233,7 +232,7 @@ function buildMenu(_list) {
     for (var i in _list) {
         active = "";
         if (_list[i] === iG.indexMenu)active = "active";
-        menuHtml += "<dd class=\"" + active + "\"><a data_name=\"" + _list[i] + "\">" + _list[i] + "</a></dd>";
+        menuHtml += "<dd class=\"" + active + "\" data_name="+_list[i]+"><a data_name=\"" + _list[i] + "\">" + _list[i] + "</a></dd>";
     }
     menuHtml += "</dl>";
     $("#J_menuList").html(menuHtml);
