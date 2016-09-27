@@ -36,13 +36,13 @@ app.use(webpackHotMiddleware(compiler));
 
 // browsersync is a nice choice when modifying only views (with their css & js)
 var bs = require('browser-sync').create();
-app.listen(port, function(){
+app.listen(3000, function(){
     bs.init({
         open: false,
         ui: false,
         notify: false,
         proxy: 'localhost:3000',
-        files: ['./server/views/**'],
+        files: ['./views/**','public/js/home.js'],
         port: 8080
     });
     console.log('App (dev) is going to be running on port 8080 (by browsersync).');
