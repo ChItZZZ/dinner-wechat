@@ -17,6 +17,38 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 //app.engine('html',ejs.renderFile);
 
+var webpack = require('webpack'),
+    webpackDevMiddleware = require('webpack-dev-middleware'),
+    webpackHotMiddleware = require('webpack-hot-middleware'),
+    webpackDevConfig = require('./webpack.config.js');
+
+var compiler = webpack(webpackDevConfig);
+
+app.use(webpackDevMiddleware(compiler, {
+    publicPath: webpackDevConfig.output.publicPath,
+    noInfo: true,
+    stats: {
+        colors: true
+    }
+}));
+app.use(webpackHotMiddleware(compiler));
+
+
+// browsersync is a nice choice when modifying only views (with their css & js)
+var bs = require('browser-sync').create();
+app.listen(port, function(){
+    bs.init({
+        open: false,
+        ui: false,
+        notify: false,
+        proxy: 'localhost:3000',
+        files: ['./server/views/**'],
+        port: 8080
+    });
+    console.log('App (dev) is going to be running on port 8080 (by browsersync).');
+});
+
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
