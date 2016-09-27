@@ -19,7 +19,7 @@ router.get('/payone',function(req,res,next){
 
 router.post('/getCharge',createCharge.create);
 
-router.post('/createCharge' function(req,res,next){
+router.post('/createCharge', function(req,res,next){
     var data = req.body;
     console.log(JSON.stringify(data));
     res.end();
