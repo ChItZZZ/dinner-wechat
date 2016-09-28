@@ -4,6 +4,7 @@ exports.handleResult = function (req,res,next)
 {
   req.setEncoding('utf8');
   var data = req.body;
+  console.log(data);
   var resp = function (ret, status_code) {
       res.writeHead(status_code, {
         "Content-Type": "text/plain; charset=utf-8"
