@@ -36,7 +36,7 @@
         var amount = document.getElementById('amount').value * 100;
 
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://wechat.qiancs.cn/getCharge", true);
+        xhr.open("POST", "http://localhost:3000/getCharge", true);
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(JSON.stringify({
             channel: channel,

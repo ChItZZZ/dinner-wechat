@@ -52,6 +52,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/order', function (req, res, next) {
+    console.log('order');
     res.render('order');
 });
 
@@ -66,7 +67,7 @@ router.post('/createOrder', orderController.createOrder);
 router.post('/searchOrder', orderController.order);
 router.get('/searchOrder', orderController.searchOrder);
 
-
+router.post('/updateOrder_test', orderController.updateOrder);
 
 router.get('/haha', function (req,res,next) {
     res.render('test',{

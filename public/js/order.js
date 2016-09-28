@@ -6,7 +6,7 @@ $(function () {
     console.log("Posting now");
     $.ajax({
         type: 'post',
-        url: 'http://localhost:3000/searchorder',
+        url: 'http://wechat.qiancs.cn/searchorder',
         data: {
             open_id:123
         },
