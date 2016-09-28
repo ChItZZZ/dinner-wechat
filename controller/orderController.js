@@ -5,6 +5,7 @@ var db = require('../utils/db');
 var config = require('../config/app_config');
 var sd = require('silly-datetime');
 var https = require('https');
+var async = require('async');
 
 exports.createOrder = function (req, res, next) {
     console.log(req.body);
@@ -38,12 +39,13 @@ exports.createOrder = function (req, res, next) {
             var order_id = result.insertId;
 	    var j = 0;
             for (var i in order_obj) {
-                var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price) ' +
-                    'VALUES (?,?,?,?,?)';
+                var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price,gd_id) ' +
+                    'VALUES (?,?,?,?,?,?)';
+                var food_id = order_obj[i].id;
                 var food_name = order_obj[i].name;
                 var food_quantity = order_obj[i].counter;
                 var food_price = order_obj[i].price;
-                var values_food = [order_id, j + 1, food_name, food_quantity, food_price];
+                var values_food = [order_id, j + 1, food_name, food_quantity, food_price,food_id];
                 db.exec(sql_food, values_food, function (err, result) {
                     if (err) {
                         //callback(err);
@@ -151,4 +153,79 @@ exports.order = function (req, res, next) {
         //res.render('order',order_list);
         res.json(order_list)
     });
+}
+
+exports.updateOrder = function (req) {    // ***** 定义 0为未支付，1为支付成功，未完待续 *******
+    var jsonSet = req.body;
+    var orderId = jsonSet.data.object.order_no || 123;
+    // var openIdCode = data.code;
+    var values_order = [orderId];
+    var sql_order = 'UPDATE od_hdr SET od_state = 1 where od_id = ? ';
+    var sql_get_items =  'SELECT gd_id,gd_quantity FROM od_ln where od_id = ? ';
+    var sql_update_inventory = 'UPDATE gd_mst SET gd_inventory = gd_inventory - ? where gd_id = ? ';
+    async.series({
+            // update
+            step_update: function(callback) {
+                db.exec(sql_order, values_order, function (err, result) {
+                    if (err) {
+                        //callback(err);
+                        console.log(err);
+                        return;
+                    }
+                    //callback(null, result);
+                });
+                callback(null, 'update order successfully');
+            },
+            // get items
+            step_get:function(callback) {
+                db.exec(sql_get_items, values_order, function (err, result) {
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
+                    //callback(null, result);
+                    console.log(result);
+                    //var item_detail = {};
+                    //var item_list = [];
+                    if (result.length > 0) {
+                        var item_list = [];
+                        var item_detail = {};
+                        for (var i = 0; i < result.length; ++i) {
+
+                            item_detail['id'] = result[i].gd_id;
+                            item_detail['quantity'] = result[i].gd_quantity;
+
+                            item_list.push(item_detail);
+                            item_detail = {};
+                        }
+                        callback(null, item_list);
+                    }
+
+                });
+
+            }
+        },
+        function(err, results) {
+            // update inventory in parallel
+            var item_list = results.step_get;
+            if(item_list.length > 0){
+                async.each(item_list, function(item, callback) {
+                    var values_item = [item.quantity,item.id];
+                    db.exec(sql_update_inventory, values_item, function (err, result) {
+                        if (err) {
+                            console.log(err);
+                            return;
+                        }
+                        //callback(null, result);
+                        console.log(result);
+
+                    });
+                }, function(err) {
+                    log('1.1 err: ' + err);
+                    return;
+                });
+
+            }
+        });
+
 }
