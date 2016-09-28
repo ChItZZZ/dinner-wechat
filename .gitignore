@@ -4,3 +4,6 @@
 /test_module.js
 /node_modules
 /.idea/workspace.xml
+/nohup.out
+/npm_debug.log
+
