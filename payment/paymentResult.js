@@ -1,4 +1,4 @@
-
+var orderController = require('../controller/orderController');
 
 exports.handleResult = function (req,res,next) 
 {
@@ -12,7 +12,9 @@ exports.handleResult = function (req,res,next)
       res.end(ret);
     }
   switch (data.type) {
+
         case "charge.succeeded":
+            orderController.updateOrder(data);
             // 开发者在此处加入对支付异步通知的处理代码
             console.log("支付成功");
             return resp("OK", 200);
