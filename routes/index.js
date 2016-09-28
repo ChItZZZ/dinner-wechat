@@ -19,7 +19,7 @@ router.get('/payone',function(req,res,next){
 
 router.post('/getCharge',createCharge.create);
 
-router.post('/createCharge',function(req,res,next){
+router.post('/createCharge', function(req,res,next){
     var data = req.body;
     console.log(JSON.stringify(data));
     res.end();
@@ -33,6 +33,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/order', function (req, res, next) {
+    console.log('order');
     res.render('order');
 });
 
@@ -47,7 +48,7 @@ router.post('/createOrder', orderController.createOrder);
 router.post('/searchOrder', orderController.order);
 router.get('/searchOrder', orderController.searchOrder);
 
-
+router.post('/updateOrder_test', orderController.updateOrder);
 
 router.get('/haha', function (req,res,next) {
     res.render('test',{
