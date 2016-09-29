@@ -8,6 +8,18 @@ var paymentResult = require('../payment/paymentResult');
 
 var db = require('../utils/db');
 
+//prepare : set OpenID in Session
+var session = require('express-session');
+router.use(session({
+    secret:"hello",
+    cookie:{ maxAge: 600000 },
+    resave :true,
+    saveUninitialized :true
+}));
+var API_KEY = "sk_test_rDa1e5env5aPqPqHC8v1azv9";
+var _url = require('url');
+var pingpp = require('pingpp')(API_KEY);
+//..end prepare
 
 router.get('/pay',function(req,res,next){
     res.render('pingpp_pay');
@@ -29,6 +41,13 @@ router.post('/paymentResult',paymentResult.handleResult);
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
+    if(!req.session.openID) {
+        var urlParts = _url.parse(req.url, true);
+        pingpp.wxPubOauth.getOpenid('wx5bc13508fcdbca3c', '30337a4abdfb0a2c2ef892f23e141847 ',
+            urlParts.query.code, function (err, openid) {
+                req.session.openID = openid;
+            });
+    }
     res.render('home');
 });
 
