@@ -3,29 +3,34 @@
  * Created by my on 9/10/16.
  */
 var iG = iG || {};
-//    if (window.localStorage) {
-//        try {
-//            iG = JSON.parse(localStorage["zaiG"]) || {};
-//        } catch (e) {
-//            localStorage.removeItem("zaiG");
-//            iG = iG || {};
-//        }
-//    } else {
-//        iG = iG || {};
-//    }
+    //if (window.localStorage) {
+    //    try {
+    //        iG = JSON.parse(localStorage["zaiG"]) || {};
+    //    } catch (e) {
+    //        localStorage.removeItem("zaiG");
+    //        iG = iG || {};
+    //    }
+    //} else {
+    //    iG = iG || {};
+    //}
 $(function () {
     setTimeout(function () {
         window.scrollTo(0, 1);
     }, 0);
 
+
+    function jsonptest(){
+        iG.items = data;
+        //console.log(iG.items);
+        init();//ajax成功后执行init();
+    }
     $.ajax({
         type: 'get',
-        url: 'http://localhost:8080/items',
+        url: 'http://localhost:3000/items',
         success: function (data) {
             iG.items = data;
             //console.log(iG.items);
             init();//ajax成功后执行init();
-
         },
     })
 
@@ -64,7 +69,6 @@ $(function () {
     });
     $("body").on("click", ".foot-img img", function () {
         $("#imgViewer img").attr("src", $(this).attr("src"));
-
         $("#imgViewer").show();
         var item = getIndex($(this).attr("data_id"));
         $("#J_imgInfo").html("<strong>" + item.name + "</strong><span class=\"colred\">" + item.price + "元/份</span><small>" + item.sels + "人买过</small>");
@@ -89,15 +93,25 @@ $(function () {
     //点菜加菜
     $("body").on("click", ".counter_plus", function () {
         iG["order"] = iG["order"] || {};
-        var index = $(this).attr("data_id");
-//            if(iG.order[index].counter == 0){
+
+        var badge = $('.active').find('.badge');
+        var menu_name = $('.active').attr('data_name');
+        console.log(menu_name)
+        if(iG.order[menu_name]){
+            iG.order[menu_name] ++;
+        }
+        else{
+            iG.order[menu_name] = 1;
+        }
+        badge.html(iG.order[menu_name]);
+        badge.show();
+
         $(this).siblings(".counter_minus").show();
         $(this).siblings(".nocounter").show();
-//            }
-//            console.log(index)
+        var index = $(this).attr("data_id");
         if (iG.order[index]) {
             iG.order[index].counter = iG.order[index].counter + 1;
-            console.log(iG.order[index].counter);
+
         } else {
             var obj = getIndex(index);
             iG.order[index] = obj;
@@ -106,16 +120,29 @@ $(function () {
             $(this).siblings(".nocounter").show();
 
         }
-//            console.log(iG.order[index].counter);
         $(this).siblings(".nocounter").html(iG.order[index].counter);
         $("#price_txt").html(countPrice() + "元");
-//            if (window.localStorage) {
-//                localStorage["zaiG"] = JSON.stringify(iG);
-//            }
+            if (window.localStorage) {
+                localStorage["zaiG"] = JSON.stringify(iG);
+            }
     });
 
     $("body").on("click", ".counter_minus", function () {
         iG["order"] = iG["order"] || {};
+
+        var badge = $('.active').find('.badge');
+        var menu_name = $('.active').attr('data_name');
+        if(iG.order[menu_name] === 1){
+            badge.hide();
+        }
+        if(iG.order[menu_name]){
+            iG.order[menu_name] --;
+        }
+        else{
+            iG.order[menu_name] = 1;
+        }
+        badge.html(iG.order[menu_name]);
+
         var index = $(this).attr("data_id");
         if (iG.order[index].counter === 1) {
             $(this).hide();
@@ -123,7 +150,6 @@ $(function () {
             iG.order[index].counter = iG.order[index].counter - 1;
             return;
         }
-        ;
         if (iG.order[index]) {
             iG.order[index].counter = iG.order[index].counter - 1;
         } else {
@@ -133,9 +159,9 @@ $(function () {
         }
         $(this).siblings(".nocounter").html(iG.order[index].counter);
         $("#price_txt").html(countPrice() + "元");
-//            if (window.localStorage) {
-//                localStorage["zaiG"] = JSON.stringify(iG);
-//            }
+            if (window.localStorage) {
+                localStorage["zaiG"] = JSON.stringify(iG);
+            }
     });
 
     $("body").on("click", "#clearOder", function () {
@@ -143,9 +169,9 @@ $(function () {
         $("#J_order_list").html(buildOrder(iG.order));
         $("#price_txt").html(countPrice() + "元");
 //            init();
-//            if (window.localStorage) {
-//                localStorage["zaiG"] = JSON.stringify(iG);
-//            }
+            if (window.localStorage) {
+                localStorage["zaiG"] = JSON.stringify(iG);
+            }
     });
 
     $("body").on("click", "#J_menuList dd", function () {
@@ -174,13 +200,7 @@ $(function () {
 
     });
     $("#submitOrder").click(function () {
-        //$(".viewer:visible").removeClass("show").addClass("hide");
-        //$("#submitView").removeClass("hide").addClass("show");
-        //iG.order.open_id = "123";
-        //iG.order.price = countPrice();
         var order_str = JSON.stringify(iG.order);
-
-
         $.ajax({
             url: 'http://wechat.qiancs.cn/createOrder',
             type: 'post',
@@ -232,7 +252,7 @@ function buildMenu(_list) {
     for (var i in _list) {
         active = "";
         if (_list[i] === iG.indexMenu)active = "active";
-        menuHtml += "<dd class=\"" + active + "\" data_name="+_list[i]+"><a data_name=\"" + _list[i] + "\">" + _list[i] + "</a></dd>";
+        menuHtml += "<dd class=\"" + active + "\" data_name="+_list[i]+"><a data_name=\"" + _list[i] + "\"><span class='badge pull-left'></span>" + _list[i] + "</a></dd>";
     }
     menuHtml += "</dl>";
     $("#J_menuList").html(menuHtml);
@@ -298,7 +318,7 @@ function buildList(_list) {
             + _list[i].price + '元/份\
             </p>\
             <p>\
-            <small>' + _list[i].sels + '人买过</small>\
+            <small>月售' + _list[i].sels + '份</small>\
             </p>\
             </div>\
             <div class=\"col-xs-4 icons-pick foot-pick\">\

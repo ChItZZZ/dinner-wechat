@@ -16,37 +16,45 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 //app.engine('html',ejs.renderFile);
-
-var webpack = require('webpack'),
-    webpackDevMiddleware = require('webpack-dev-middleware'),
-    webpackHotMiddleware = require('webpack-hot-middleware'),
-    webpackDevConfig = require('./webpack.config.js');
-
-var compiler = webpack(webpackDevConfig);
-
-app.use(webpackDevMiddleware(compiler, {
-    publicPath: webpackDevConfig.output.publicPath,
-    noInfo: true,
-    stats: {
-        colors: true
-    }
-}));
-app.use(webpackHotMiddleware(compiler));
-
-
-// browsersync is a nice choice when modifying only views (with their css & js)
-var bs = require('browser-sync').create();
-app.listen(3000, function(){
-    bs.init({
-        open: false,
-        ui: false,
-        notify: false,
-        proxy: 'localhost:3000',
-        files: ['./views/**','public/js/home.js'],
-        port: 8080
-    });
-    console.log('App (dev) is going to be running on port 8080 (by browsersync).');
+app.all('*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    res.header("X-Powered-By",' 3.2.1')
+    if(req.method=="OPTIONS") res.send(200);/*让options请求快速返回*/
+    else  next();
 });
+
+//var webpack = require('webpack'),
+//    webpackDevMiddleware = require('webpack-dev-middleware'),
+//    webpackHotMiddleware = require('webpack-hot-middleware'),
+//    webpackDevConfig = require('./webpack.config.js');
+
+//var compiler = webpack(webpackDevConfig);
+
+//app.use(webpackDevMiddleware(compiler, {
+//    publicPath: webpackDevConfig.output.publicPath,
+//    noInfo: true,
+//    stats: {
+//        colors: true
+//    }
+//}));
+//app.use(webpackHotMiddleware(compiler));
+//
+//
+//// browsersync is a nice choice when modifying only views (with their css & js)
+//var bs = require('browser-sync').create();
+//app.listen(3000, function(){
+//    bs.init({
+//        open: false,
+//        ui: false,
+//        notify: false,
+//        proxy: 'localhost:3000',
+//        files: ['./views/**','public/js/home.js'],
+//        port: 8080
+//    });
+//    console.log('App (dev) is going to be running on port 8080 (by browsersync).');
+//});
 
 
 // uncomment after placing your favicon in /public
