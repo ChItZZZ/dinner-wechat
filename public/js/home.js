@@ -93,17 +93,17 @@ $(function () {
     //点菜加菜
     $("body").on("click", ".counter_plus", function () {
         iG["order"] = iG["order"] || {};
-
+        iG['menu'] = iG['menu'] || {};
         var badge = $('.active').find('.badge');
         var menu_name = $('.active').attr('data_name');
         console.log(menu_name)
-        if(iG.order[menu_name]){
-            iG.order[menu_name] ++;
+        if(iG.menu[menu_name]){
+            iG.menu[menu_name] ++;
         }
         else{
-            iG.order[menu_name] = 1;
+            iG.menu[menu_name] = 1;
         }
-        badge.html(iG.order[menu_name]);
+        badge.html(iG.menu[menu_name]);
         badge.show();
 
         $(this).siblings(".counter_minus").show();
@@ -111,7 +111,8 @@ $(function () {
         var index = $(this).attr("data_id");
         if (iG.order[index]) {
             iG.order[index].counter = iG.order[index].counter + 1;
-
+            $(this).siblings(".counter_minus").show();
+            $(this).siblings(".nocounter").show();
         } else {
             var obj = getIndex(index);
             iG.order[index] = obj;
@@ -122,9 +123,9 @@ $(function () {
         }
         $(this).siblings(".nocounter").html(iG.order[index].counter);
         $("#price_txt").html(countPrice() + "元");
-            if (window.localStorage) {
-                localStorage["zaiG"] = JSON.stringify(iG);
-            }
+        //if (window.localStorage) {
+        //    localStorage["zaiG"] = JSON.stringify(iG);
+        //}
     });
 
     $("body").on("click", ".counter_minus", function () {
@@ -132,16 +133,16 @@ $(function () {
 
         var badge = $('.active').find('.badge');
         var menu_name = $('.active').attr('data_name');
-        if(iG.order[menu_name] === 1){
+        if(iG.menu[menu_name] === 1){
             badge.hide();
         }
-        if(iG.order[menu_name]){
-            iG.order[menu_name] --;
+        if(iG.menu[menu_name]){
+            iG.menu[menu_name] --;
         }
         else{
-            iG.order[menu_name] = 1;
+            iG.menu[menu_name] = 1;
         }
-        badge.html(iG.order[menu_name]);
+        badge.html(iG.menu[menu_name]);
 
         var index = $(this).attr("data_id");
         if (iG.order[index].counter === 1) {
@@ -202,7 +203,7 @@ $(function () {
     $("#submitOrder").click(function () {
         var order_str = JSON.stringify(iG.order);
         $.ajax({
-            url: 'http://wechat.qiancs.cn/createOrder',
+            url: 'http://localhost:3000/createOrder',
             type: 'post',
             data: {
                 order_str: order_str,
@@ -212,7 +213,7 @@ $(function () {
                 store_id:1
             },
             success: function (data) {
-                alert(data);
+                window.location = 'http://localhost:3000/pay?price='+countPrice();
             }
         })
     })
@@ -224,9 +225,9 @@ $(function () {
 })
 function init() {
     setMenu(iG.items);
-    //console.log(iG.items);
     $("#J_list_Container").html(listManger(iG.items));
     $("#loadingView").addClass("hide");
+    $(".list_minus").addClass('hide');
 }
 
 function setMenu(_list) {
@@ -269,8 +270,11 @@ function getIndex(_id) {
 function submit() {
     var data = iG.order;
     var result = [];
+
     for (var i in data) {
-        result.push({id: iG.order[i].id, counter: iG.order[i].counter});
+        if(data[i].id && data[i].counter) {
+            result.push({id: iG.order[i].id, counter: iG.order[i].counter});
+        }
     }
     return JSON.stringify(result);
 }
@@ -278,7 +282,9 @@ function submit() {
 function countPrice() {
     var price = 0;
     for (var i in iG.order) {
-        price += Number(iG.order[i].price) * iG.order[i].counter;
+        if(iG.order[i].price ) {
+            price += Number(iG.order[i].price) * iG.order[i].counter;
+        }
     }
     return price;
 }
@@ -322,7 +328,7 @@ function buildList(_list) {
             </p>\
             </div>\
             <div class=\"col-xs-4 icons-pick foot-pick\">\
-            <div class="btn_wrap counter"><button class="list_minus counter_minus fl" style="display: none;" data_id=\"' + _list[i].id + '\"ontouchstart=""><strong></strong></button><i class="nocounter fl" style="display: none;">0</i><button class="list_add counter_plus" data_id=\"' + _list[i].id + '\" ontouchstart=""><strong></strong></button> <em class="fixBig  fake"></em></div>\
+            <div class="btn_wrap counter"><button class="list_minus counter_minus fl" style="display: none" data_id=\"' + _list[i].id + '\"ontouchstart=""><strong></strong></button><i class="nocounter fl" style=""></i><button class="list_add counter_plus" data_id=\"' + _list[i].id + '\" ontouchstart=""><strong></strong></button> <em class="fixBig  fake"></em></div>\
             </div>\
             </div>';
     }

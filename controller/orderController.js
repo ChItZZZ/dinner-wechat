@@ -21,7 +21,7 @@ exports.createOrder = function (req, res, next) {
     var price = data.price;
     var string = '';
 
-    if(order_obj != null){
+    if (order_obj != null) {
         for (var i in order_obj) {
             string += order_obj[i].name + "*" + order_obj[i].counter + ";";
         }
@@ -36,7 +36,7 @@ exports.createOrder = function (req, res, next) {
             }
             console.log(result.insertId);
             var order_id = result.insertId;
-	    var j = 0;
+            var j = 0;
             for (var i in order_obj) {
                 var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price) ' +
                     'VALUES (?,?,?,?,?)';
@@ -52,9 +52,10 @@ exports.createOrder = function (req, res, next) {
                         console.log("food inserted");
                     }
                 });
-		++j;
+                ++j;
             }
         });
+        //res.redirect('pay');
         res.end();
     }
 
@@ -77,13 +78,13 @@ exports.searchOrder = function (req, res, next) {
         var order_list = [];
         if (result.length > 0) {
             for (var i = 0; i < result.length; ++i) {
-                var items= new Array();
+                var items = new Array();
                 var item_list = [];
                 var item_detail = {};
-                items=result[i].od_string.split(";");
+                items = result[i].od_string.split(";");
                 for (var j = 0; j < items.length; j++) {
                     var item = items[j].split("*");
-                    if(item[0] != null && item[0] != ''){
+                    if (item[0] != null && item[0] != '') {
                         item_detail['name'] = item[0];
                         item_detail['counter'] = item[1];
                         item_list.push(item_detail);
@@ -92,7 +93,7 @@ exports.searchOrder = function (req, res, next) {
 
                 }
                 order_detail['id'] = result[i].od_id;
-                order_detail['date'] = sd.format(result[i].od_date,'YYYY/MM/DD/hh:mm');
+                order_detail['date'] = sd.format(result[i].od_date, 'YYYY/MM/DD/hh:mm');
                 order_detail['items'] = item_list;
                 order_detail['price'] = result[i].od_total_price;
                 order_detail['state'] = result[i].od_state;
@@ -103,7 +104,7 @@ exports.searchOrder = function (req, res, next) {
         var a = {};
         a.arr = order_list;
         console.log(a.arr);
-        res.render('order',a);
+        res.render('order', a);
 
     });
 }
@@ -123,13 +124,13 @@ exports.order = function (req, res, next) {
         var order_list = [];
         if (result.length > 0) {
             for (var i = 0; i < result.length; ++i) {
-                var items= new Array();
+                var items = new Array();
                 var item_list = [];
                 var item_detail = {};
-                items=result[i].od_string.split(";");
+                items = result[i].od_string.split(";");
                 for (var j = 0; j < items.length; j++) {
                     var item = items[j].split("*");
-                    if(item[0] != null && item[0] != ''){
+                    if (item[0] != null && item[0] != '') {
                         item_detail['name'] = item[0];
                         item_detail['counter'] = item[1];
                         item_list.push(item_detail);
