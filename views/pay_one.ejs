@@ -4,7 +4,7 @@
     <title>Ping++ One Demo</title>
 </head>
 <body>
-    <button id="pay">点此调起壹收款</button>
+    <button id="pay" align="center" style="width:100px;height:80px">点此调起壹收款</button>
 </body>
 <script type="text/javascript" src="https://one.pingxx.com/lib/pingpp_one.js"></script>
 <script type="text/javascript">
@@ -23,11 +23,14 @@
                 debug:true                                   //(可选，debug 模式下会将 charge_url 的返回结果透传回来)
             },function(res){
                 //debug 模式下获取 charge_url 的返回结果
+console.log('res'+res);
                 if(res.debug&&res.chargeUrlOutput){
                     console.log(res.chargeUrlOutput);
+		    alert('1');
                 }
                 if(!res.status){
                     //处理错误
+		    alert('2');
                     alert(res.msg);
                 }
                 else{
@@ -35,6 +38,7 @@
                     if(res.debug&&!res.wxSuccess){
                         if(confirm('当前为 debug 模式，是否继续支付？')){
                             pingpp_one.resume();
+		    alert('3');
                         }
                     }
                     //若微信公众号渠道需要使用壹收款的支付成功页面，则在这里进行成功回调，
@@ -42,13 +46,15 @@
                     //其他渠道的处理方法请见第 2 节
                     else pingpp_one.success(function(res){
                         if(!res.status){
+		    alert('4');
                             alert(res.msg);
                         }
                     },function(){
                         //这里处理支付成功页面点击“继续购物”按钮触发的方法，
                         //例如：若你需要点击“继续购物”按钮跳转到你的购买页，
                         //则在该方法内写入 window.location.href = "你的购买页面 url"
-                        window.location.href='http://wechat.qiancs.cn';//示例
+		    alert('5');
+                        window.location.href='http://wechat.qiancs.cn/';//示例
                     });
                 }
             });
