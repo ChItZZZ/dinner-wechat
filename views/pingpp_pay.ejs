@@ -48,11 +48,14 @@
             if (xhr.readyState == 4 && xhr.status == 200) {
                 console.log(xhr.responseText);
                 pingpp.createPayment(xhr.responseText, function(result, err) {
-                    if(result)
+                     if (result == "success") {
 			alert('success');
-                    console.log(err.msg);
-                    console.log(err.extra);
-               });
+  			} else if (result == "fail") {
+			alert('fail');
+ 			 } else if (result == "cancel") {
+			alert('cancel');
+ 		 	}              
+		 });
             }
         }
     }

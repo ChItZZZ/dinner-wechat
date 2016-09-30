@@ -24,8 +24,8 @@ exports.create = function (req,res,next)
     case 'alipay_wap':
       extra = {
         // success_url 和 cancel_url 在本地测试不要写 localhost ，请写 127.0.0.1。URL 后面不要加自定义参数
-        'success_url': 'http://www.yourdomain.com/success',
-        'cancel_url': 'http://www.yourdomain.com/cancel'
+        'success_url': 'http://wechat.qiancs.cn',
+        'cancel_url': 'http://wechat.qiancs.cn'
       };
       break;
     case 'wx_pub':
