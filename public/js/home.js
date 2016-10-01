@@ -20,7 +20,7 @@ $(function () {
 
     $.ajax({
         type: 'get',
-        url: 'http://wechat.qiancs.cn/items',
+        url: '/items',
         success: function (data) {
             console.log(data);
             iG.items = data;
@@ -183,7 +183,7 @@ $(function () {
 
 
         $.ajax({
-            url: 'http://wechat.qiancs.cn/createOrder',
+            url: '/createOrder',
             type: 'post',
             data: {
                 order_str: order_str,
