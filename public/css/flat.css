@@ -286,7 +286,7 @@ padding: 5px 10px;font-size: 15px;display: inline-block; text-indent: -100px;pad
 .row .btn_wrap button.list_add strong{background: url("../images/btnplus.png") no-repeat;background-size: 22px 22px;} 
 .row .btn_wrap button.list_minus:active strong{background: url("../images/btnminuss.png") no-repeat;background-size: 22px 22px;}
 .row .btn_wrap button.list_add:active strong{background: url("../images/btnpluss.png") no-repeat;background-size: 22px 22px;}
-.row .btn_wrap i{display: none; width: 22px; text-align: center;font-style: normal;vertical-align: top;margin-top: 3px;line-height:18px;}
+.row .btn_wrap i{width: 22px; text-align: center;font-style: normal;vertical-align: top;margin-top: 3px;line-height:18px;}
 
 
 .btn-addfoot{
