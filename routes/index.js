@@ -21,10 +21,11 @@ var _url = require('url');
 var pingpp = require('pingpp')(API_KEY);
 //get openid and store into session first,then render home page
 router.get('/',function (req,res,next){
-    var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c', 
-      'http://wechat.qiancs.cn/getopenid?showwxpaytitle=1');
-    res.redirect(oauthUrl);
-    res.end();
+    //var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c',
+    //  'http://wechat.qiancs.cn/getopenid?showwxpaytitle=1');
+    //res.redirect(oauthUrl);
+    //res.end();
+    res.render('home');
 });
 
 router.get('/getopenid',function (req,res,next){
