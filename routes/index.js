@@ -78,5 +78,8 @@ router.get('/haha', function (req,res,next) {
         }]
     })
 })
+router.get('/cart', function (req,res,next) {
+    res.render('cart');
+})
 module.exports = router;
 

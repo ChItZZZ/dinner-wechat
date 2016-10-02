@@ -18,12 +18,6 @@ $(function () {
         window.scrollTo(0, 1);
     }, 0);
 
-
-    function jsonptest(){
-        iG.items = data;
-        //console.log(iG.items);
-        init();//ajax成功后执行init();
-    }
     $.ajax({
         type: 'get',
         url: 'http://localhost:3000/items',
@@ -62,7 +56,13 @@ $(function () {
         $(".wrapper,#wrapper").removeClass("show");
         $(".wrapper,#wrapper").removeClass("hide");
 //            buildList(iG.order);
-        $("#J_list_Container").html(listManger(iG.items));
+        $("#J_list_Container").html(listManger(iG.items))
+        var result = "";
+        var listArr = listArr || [];
+        var indexList = iG.items[iG.indexMenu];
+        for (var i in indexList) {
+            console.log(i.counter);
+        }
         $("#wrapper").addClass("show");
         $("#wrapper2").addClass("hide");
 
@@ -92,6 +92,8 @@ $(function () {
 
     //点菜加菜
     $("body").on("click", ".counter_plus", function () {
+        $(".counter_minus").removeClass('hide');
+        //$(".nocounter").removeClass('hide');
         iG["order"] = iG["order"] || {};
         iG['menu'] = iG['menu'] || {};
         var badge = $('.active').find('.badge');
@@ -127,28 +129,22 @@ $(function () {
         //    localStorage["zaiG"] = JSON.stringify(iG);
         //}
     });
+    $("body").on("click","#myInfo", function () {
+
+    })
 
     $("body").on("click", ".counter_minus", function () {
         iG["order"] = iG["order"] || {};
 
-        var badge = $('.active').find('.badge');
-        var menu_name = $('.active').attr('data_name');
-        if(iG.menu[menu_name] === 1){
-            badge.hide();
-        }
-        if(iG.menu[menu_name]){
-            iG.menu[menu_name] --;
-        }
-        else{
-            iG.menu[menu_name] = 1;
-        }
-        badge.html(iG.menu[menu_name]);
+
 
         var index = $(this).attr("data_id");
-        if (iG.order[index].counter === 1) {
-            $(this).hide();
-            $(this).siblings('.nocounter').hide();
+        if (iG.order[index].counter === 0) {
+            return;
+            //$(this).hide();
+            //$(this).siblings('.nocounter').hide();
             iG.order[index].counter = iG.order[index].counter - 1;
+            $(this).disabled = true;
             return;
         }
         if (iG.order[index]) {
@@ -160,9 +156,22 @@ $(function () {
         }
         $(this).siblings(".nocounter").html(iG.order[index].counter);
         $("#price_txt").html(countPrice() + "元");
-            if (window.localStorage) {
-                localStorage["zaiG"] = JSON.stringify(iG);
-            }
+            //if (window.localStorage) {
+            //    localStorage["zaiG"] = JSON.stringify(iG);
+            //}
+        var badge = $('.active').find('.badge');
+        var menu_name = $('.active').attr('data_name');
+        if(iG.menu[menu_name] === 1){
+            badge.hide();
+        }
+        if(iG.menu[menu_name]){
+            iG.menu[menu_name] --;
+        }
+        else{
+            iG.menu[menu_name] = 0;
+            badge.hide();
+        }
+        badge.html(iG.menu[menu_name]);
     });
 
     $("body").on("click", "#clearOder", function () {
@@ -227,7 +236,7 @@ function init() {
     setMenu(iG.items);
     $("#J_list_Container").html(listManger(iG.items));
     $("#loadingView").addClass("hide");
-    $(".list_minus").addClass('hide');
+    //$(".list_minus").addClass('hide');
 }
 
 function setMenu(_list) {
@@ -328,7 +337,10 @@ function buildList(_list) {
             </p>\
             </div>\
             <div class=\"col-xs-4 icons-pick foot-pick\">\
-            <div class="btn_wrap counter"><button class="list_minus counter_minus fl" style="display: none" data_id=\"' + _list[i].id + '\"ontouchstart=""><strong></strong></button><i class="nocounter fl" style=""></i><button class="list_add counter_plus" data_id=\"' + _list[i].id + '\" ontouchstart=""><strong></strong></button> <em class="fixBig  fake"></em></div>\
+            <div class="btn_wrap counter">\
+            <button class="list_minus counter_minus fl" style="" data_id=\"' + _list[i].id + '\"ontouchstart=""><strong></strong></button>' +
+            '<i class="nocounter fl" style="">' +(_list[i].counter||'0')+
+            '</i><button class="list_add counter_plus" data_id=\"' + _list[i].id + '\" ontouchstart=""><strong></strong></button> <em class="fixBig  fake"></em></div>\
             </div>\
             </div>';
     }

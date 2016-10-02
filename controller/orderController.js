@@ -5,7 +5,7 @@ var db = require('../utils/db');
 var config = require('../config/app_config');
 var sd = require('silly-datetime');
 var https = require('https');
-var async = require('async');
+//var async = require('async');
 
 exports.createOrder = function (req, res, next) {
     console.log(req.body);
