@@ -5,7 +5,7 @@ var db = require('../utils/db');
 var config = require('../config/app_config');
 var sd = require('silly-datetime');
 var https = require('https');
-//var async = require('async');
+var async = require('async');
 
 exports.createOrder = function (req, res, next) {
     console.log(req.body);
@@ -63,7 +63,7 @@ exports.createOrder = function (req, res, next) {
 
 }
 
-exports.createOrderInfo = function (data) {
+exports.createOrderInfo = function (data,callback) {
     console.log('info ' + JSON.stringify(data));
     var order_str = data.order_str;
     var userOpenId = data.open_id;
@@ -86,10 +86,11 @@ exports.createOrderInfo = function (data) {
             'VALUES (?,?,?,?,?,?,?)';
         db.exec(sql_order, values_order, function (err, result) {
             if (err) {
+		callback(err);
                 return;
             }
-            console.log(result.insertId);
             var order_id = result.insertId;
+	    callback(null,order_id);
             var j = 0;
             for (var i in order_obj) {
                 var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price,gd_id) ' +
