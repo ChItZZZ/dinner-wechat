@@ -21,15 +21,13 @@ var _url = require('url');
 var pingpp = require('pingpp')(API_KEY);
 //get openid and store into session first,then render home page
 router.get('/',function (req,res,next){
-    //var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c',
-    //  'http://wechat.qiancs.cn/getopenid?showwxpaytitle=1');
-    //res.redirect(oauthUrl);
-    //res.end();
-    res.render('home');
+    var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c',
+     'http://wechat.qiancs.cn/getopenid?showwxpaytitle=1');
+    res.redirect(oauthUrl);
+    res.end();
 });
 
 router.get('/getopenid',function (req,res,next){
-    console.log('code ' + req.query.code);
     pingpp.wxPubOauth.getOpenid('wx5bc13508fcdbca3c', '30337a4abdfb0a2c2ef892f23e141847', 
     req.query.code, function(err, openid){
         console.log(openid);
@@ -40,7 +38,9 @@ router.get('/getopenid',function (req,res,next){
 });
 
 router.get('/pay',function(req,res,next){
-    res.render('pingpp_pay');
+    var data = req.query;
+    res.render('pingpp_pay',{price:data.price, order_str:data.order_str,
+                             desk_id:data.desk_id, store_id:data.store_id});
 });
 
 router.post('/getCharge',createCharge.create);
@@ -70,16 +70,11 @@ router.get('/searchOrder', orderController.searchOrder);
 router.post('/updateOrder_test', orderController.updateOrder);
 
 router.get('/haha', function (req,res,next) {
-    res.render('test',{
-        arr:[{
-            id:1
-        },{
-            id:"2"
-        }]
-    })
-})
+    res.render('test',{arr:'aaarrr'});
+});
+
 router.get('/cart', function (req,res,next) {
     res.render('cart');
-})
+});
 module.exports = router;
 

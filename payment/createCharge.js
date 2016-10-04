@@ -1,5 +1,6 @@
 'use strict';
 // Ping++ Server SDK
+var orderController = require('../controller/orderController');
 
 var API_KEY = "sk_test_rDa1e5env5aPqPqHC8v1azv9";
 var APP_ID = "app_8en54GC0iHmH1ajL";
@@ -15,11 +16,16 @@ exports.create = function (req,res,next)
   pingpp.setPrivateKeyPath(__dirname + "/your_rsa_private_key.pem");
   req.setEncoding('utf-8');
   var data = req.body;
+  data.open_id = req.session.open_id;
+  console.log('session id ' + data.open_id)
   var channel = data.channel;
-  var openid = data.openid;
+  var openid = data.open_id;
   var amount = data.amount;
   var client_ip = req.connection.remoteAddress;
   var extra = {};
+
+  orderController.createOrderInfo(data);
+
   switch (channel) {
     case 'alipay_wap':
       extra = {
@@ -34,9 +40,11 @@ exports.create = function (req,res,next)
       };
       break;
   }
+  
   var order_no = crypto.createHash('md5')
               .update(new Date().getTime().toString())
               .digest('hex').substr(0, 12);
+              
   pingpp.charges.create({
       order_no:  order_no,// 推荐使用 8-20 位，要求数字或字母，不允许其他字符
       app:       {id: APP_ID},
