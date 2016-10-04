@@ -37,35 +37,34 @@ router.get('/getopenid',function (req,res,next){
     });
 });
 
+//if openid exists, then return home page directly
+router.get('/home',function(req,res,next){
+    if(req.session.openid)
+        res.render('home');
+    else
+        res.redirect('http://wechat.qiancs.cn/');
+    res.end();
+});
+
+//return payment page
 router.get('/pay',function(req,res,next){
     var data = req.query;
     res.render('pingpp_pay',{price:data.price, order_str:data.order_str,
                              desk_id:data.desk_id, store_id:data.store_id});
 });
 
+//generate charge and send it to client
 router.post('/getCharge',createCharge.create);
 
-router.post('/createCharge', function(req,res,next){
-    var data = req.body;
-    console.log(JSON.stringify(data));
-    res.end();
-});
-
+//get the payment result .  After payment,the third part sever will sent a post request to this url
 router.post('/paymentResult',paymentResult.handleResult);
 
-
-router.get('/order', function (req, res, next) {
-    console.log('order');
-    res.render('order');
-});
 
 //send items information to front end
 router.get('/items', itemController.getItems);
 
-router.post('/createOrder', orderController.createOrder);
-
-router.post('/searchOrder', orderController.order);
-router.get('/searchOrder', orderController.searchOrder);
+//get order records
+router.get('/order', orderController.searchOrder);
 
 router.post('/updateOrder_test', orderController.updateOrder);
 

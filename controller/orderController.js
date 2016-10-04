@@ -7,62 +7,6 @@ var sd = require('silly-datetime');
 var https = require('https');
 var async = require('async');
 
-exports.createOrder = function (req, res, next) {
-    console.log(req.body);
-    //var data = JSON.parse(req.body);
-    var data = req.body;
-    var order_str = data.order_str;
-
-    var userOpenId = data.open_id;
-
-    var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
-    var store_id = parseInt(data.store_id || 1);
-    var desk_id = parseInt(data.desk_id || 1);
-    var order_obj = JSON.parse(data.order_str);
-    var price = data.price;
-    var string = '';
-
-    if (order_obj != null) {
-        for (var i in order_obj) {
-            string += order_obj[i].name + "*" + order_obj[i].counter + ";";
-        }
-
-        var values_order = [store_id, desk_id, time, userOpenId, 0, price, string];
-
-        var sql_order = 'INSERT INTO od_hdr (od_store_id,od_desk_id,od_date,od_wechatopenid,od_state,od_total_price,od_string) ' +
-            'VALUES (?,?,?,?,?,?,?)';
-        db.exec(sql_order, values_order, function (err, result) {
-            if (err) {
-                return;
-            }
-            console.log(result.insertId);
-            var order_id = result.insertId;
-            var j = 0;
-            for (var i in order_obj) {
-                var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price,gd_id) ' +
-                    'VALUES (?,?,?,?,?,?)';
-                var food_id = order_obj[i].id;
-                var food_name = order_obj[i].name;
-                var food_quantity = order_obj[i].counter;
-                var food_price = order_obj[i].price;
-                var values_food = [order_id, j + 1, food_name, food_quantity, food_price,food_id];
-                db.exec(sql_food, values_food, function (err, result) {
-                    if (err) {
-                        //callback(err);
-                        return;
-                    } else {
-                        console.log("food inserted");
-                    }
-                });
-                ++j;
-            }
-        });
-        //res.redirect('pay');
-        res.end();
-    }
-
-}
-
 exports.createOrderInfo = function (data,callback) {
     console.log('info ' + JSON.stringify(data));
     var order_str = data.order_str;
@@ -117,7 +61,7 @@ exports.createOrderInfo = function (data,callback) {
 
 exports.searchOrder = function (req, res, next) {
      var data = req.body;
-     var userOpenId = data.open_id || 123;
+     var userOpenId = req.session.openid;
     // var openIdCode = data.code;
      var values_order = [userOpenId];
     var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? ';
@@ -164,7 +108,7 @@ exports.searchOrder = function (req, res, next) {
 }
 exports.order = function (req, res, next) {
     var data = req.body;
-    var userOpenId = data.open_id || 123;
+    var userOpenId = req.session.openid;
     var values_order = [userOpenId];
     var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? ';
     db.exec(sql_order, values_order, function (err, result) {
@@ -209,7 +153,7 @@ exports.order = function (req, res, next) {
 }
 
 exports.updateOrder = function (req) {    // ***** 定义 0为未支付，1为支付成功，未完待续 *******
-    var jsonSet = req.body;
+    var jsonSet = req;
     var orderId = jsonSet.data.object.order_no || 123;
     // var openIdCode = data.code;
     var values_order = [orderId];
