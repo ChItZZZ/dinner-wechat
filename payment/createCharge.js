@@ -16,46 +16,44 @@ exports.create = function (req,res,next)
   pingpp.setPrivateKeyPath(__dirname + "/your_rsa_private_key.pem");
   req.setEncoding('utf-8');
   var data = req.body;
-  data.open_id = req.session.open_id;
-  console.log('session id ' + data.open_id)
+  data.open_id = req.session.openid;
+  console.log('session id ' + req.session.openid);
   var channel = data.channel;
   var openid = data.open_id;
   var amount = data.amount;
   var client_ip = req.connection.remoteAddress;
   var extra = {};
-
-  orderController.createOrderInfo(data);
-
   switch (channel) {
     case 'alipay_wap':
       extra = {
-        // success_url 和 cancel_url 在本地测试不要写 localhost ，请写 127.0.0.1。URL 后面不要加自定义参数
         'success_url': 'http://wechat.qiancs.cn',
         'cancel_url': 'http://wechat.qiancs.cn'
       };
       break;
     case 'wx_pub':
       extra = {
-        'open_id': openid// 用户在商户微信公众号下的唯一标识，获取方式可参考 wxPubOauth.js
+        'open_id': openid
       };
       break;
   }
-  
-  var order_no = crypto.createHash('md5')
-              .update(new Date().getTime().toString())
-              .digest('hex').substr(0, 12);
-              
-  pingpp.charges.create({
-      order_no:  order_no,// 推荐使用 8-20 位，要求数字或字母，不允许其他字符
+
+  orderController.createOrderInfo(data,function(err,order_id){
+      if(err){
+	console.log('err' + err);
+        res.end();
+        return;
+      }
+      pingpp.charges.create({
+      order_no:  order_id,
       app:       {id: APP_ID},
-      channel:   channel,// 支付使用的第三方支付渠道取值，请参考：https://www.pingxx.com/api#api-c-new
-      amount:    amount,//订单总金额, 人民币单位：分（如订单总金额为 1 元，此处请填 100）
-      client_ip: client_ip,// 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
+      channel:   channel,
+      amount:    amount,
+      client_ip: client_ip,
       currency:  "cny",
       subject:   "Charge Subject",
       body:      "Charge Body",
       extra:     extra
-    }, function(err,charge){
+      }, function(err,charge){
       if(err){
         console.log("生成charge失败" + err);
         res.end();
@@ -65,5 +63,6 @@ exports.create = function (req,res,next)
       res.send(charge);
       res.end();
     });
-
+  });  
+              
 }
