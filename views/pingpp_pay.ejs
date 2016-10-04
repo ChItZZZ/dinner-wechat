@@ -51,6 +51,7 @@
                 pingpp.createPayment(xhr.responseText, function(result, err) {
                      if (result == "success") {
 			            alert('success');
+				    window.location = 'http://wechat.qiancs.cn/home';
   			        } else if (result == "fail") {
 			            alert('fail');
  			        } else if (result == "cancel") {
