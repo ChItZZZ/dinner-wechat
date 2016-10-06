@@ -20,7 +20,7 @@ $(function () {
 
     $.ajax({
         type: 'get',
-        url: 'http://localhost:3000/items',
+        url: 'http://wechat.qiancs.cn/items',
         success: function (data) {
             iG.items = data;
             //console.log(iG.items);
@@ -211,21 +211,27 @@ $(function () {
     });
     $("#submitOrder").click(function () {
         var order_str = JSON.stringify(iG.order);
-        $.ajax({
-            url: 'http://localhost:3000/createOrder',
-            type: 'post',
-            data: {
-                order_str: order_str,
-                price: countPrice(),
-                open_id:123,
-                desk_id:1,
-                store_id:1
-            },
-            success: function (data) {
-                window.location = 'http://localhost:3000/pay?price='+countPrice();
-            }
-        })
-    })
+        var desk_id = 1;
+        var store_id = 1;
+        window.location = 'http://wechat.qiancs.cn/pay?price='+ countPrice() + '&'
+                                               +'order_str='+ order_str + '&'
+                                               +'desk_id='  + desk_id   + '&'
+                                               +'store_id=' + store_id;
+
+        // $.ajax({
+        //     url: 'http://wechat.qiancs.cn/pay',
+        //     type: 'post',
+        //     data: {
+        //         order_str: order_str,
+        //         price: countPrice(),
+        //         desk_id:1,
+        //         store_id:1
+        //     },
+        //     success: function (data) {
+        //        window.location = 'http://wechat.qiancs.cn/pay?price='+countPrice()+'order_str='+order_str;
+        //     }
+        // })
+    });
     $("#cancelSubmit").click(function () {
         $(".viewer:visible").removeClass("show").addClass("hide");
         $("#wrapper2").removeClass("hide").addClass("show");
