@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="div" style="width: 200px;height: 200px;background-color: red"></div>
+<script>
+    document.getElementById('div').addEventListener('click', function (e) {
+        console.log(e.target.nodeName);
+        console.log(e.srcElement.nodeName);
+    })
+</script>
+</body>
+</html>
