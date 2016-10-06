@@ -5,14 +5,11 @@ var db = require('../utils/db');
 var config = require('../config/app_config');
 var sd = require('silly-datetime');
 var https = require('https');
-//var async = require('async');
+var async = require('async');
 
-exports.createOrder = function (req, res, next) {
-    console.log(req.body);
-    //var data = JSON.parse(req.body);
-    var data = req.body;
+exports.createOrderInfo = function (data,callback) {
+    console.log('info ' + JSON.stringify(data));
     var order_str = data.order_str;
-
     var userOpenId = data.open_id;
 
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
@@ -33,10 +30,11 @@ exports.createOrder = function (req, res, next) {
             'VALUES (?,?,?,?,?,?,?)';
         db.exec(sql_order, values_order, function (err, result) {
             if (err) {
+		callback(err);
                 return;
             }
-            console.log(result.insertId);
             var order_id = result.insertId;
+	    callback(null,order_id);
             var j = 0;
             for (var i in order_obj) {
                 var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price,gd_id) ' +
@@ -57,15 +55,13 @@ exports.createOrder = function (req, res, next) {
                 ++j;
             }
         });
-        //res.redirect('pay');
-        res.end();
     }
 
 }
 
 exports.searchOrder = function (req, res, next) {
      var data = req.body;
-     var userOpenId = data.open_id || 123;
+     var userOpenId = req.session.openid;
     // var openIdCode = data.code;
      var values_order = [userOpenId];
     var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? ';
@@ -112,7 +108,7 @@ exports.searchOrder = function (req, res, next) {
 }
 exports.order = function (req, res, next) {
     var data = req.body;
-    var userOpenId = data.open_id || 123;
+    var userOpenId = req.session.openid;
     var values_order = [userOpenId];
     var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? ';
     db.exec(sql_order, values_order, function (err, result) {
@@ -157,7 +153,7 @@ exports.order = function (req, res, next) {
 }
 
 exports.updateOrder = function (req) {    // ***** 定义 0为未支付，1为支付成功，未完待续 *******
-    var jsonSet = req.body;
+    var jsonSet = req;
     var orderId = jsonSet.data.object.order_no || 123;
     // var openIdCode = data.code;
     var values_order = [orderId];
