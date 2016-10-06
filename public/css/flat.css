@@ -717,6 +717,7 @@ font-size: 13px;
 	color: white;
 	width: 70px;
 	height: 70px;
+	border:3px solid white
 }
 
 #J_menuList dd.active{
