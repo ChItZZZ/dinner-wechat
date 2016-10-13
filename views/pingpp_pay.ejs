@@ -36,7 +36,7 @@
         var amount = document.getElementById('amount').value * 100;
 
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://localhost:3000/getCharge", true);
+        xhr.open("POST", "http://wechat.qiancs.cn/getCharge", true);
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.send(JSON.stringify({
             channel: channel,
@@ -48,11 +48,14 @@
             if (xhr.readyState == 4 && xhr.status == 200) {
                 console.log(xhr.responseText);
                 pingpp.createPayment(xhr.responseText, function(result, err) {
-                    if(result)
+                     if (result == "success") {
 			alert('success');
-                    console.log(err.msg);
-                    console.log(err.extra);
-               });
+  			} else if (result == "fail") {
+			alert('fail');
+ 			 } else if (result == "cancel") {
+			alert('cancel');
+ 		 	}              
+		 });
             }
         }
     }

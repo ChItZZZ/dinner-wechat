@@ -156,7 +156,7 @@ exports.order = function (req, res, next) {
 }
 
 exports.updateOrder = function (req) {    // ***** 定义 0为未支付，1为支付成功，未完待续 *******
-    var jsonSet = req.body;
+    var jsonSet = req;
     var orderId = jsonSet.data.object.order_no || 123;
     // var openIdCode = data.code;
     var values_order = [orderId];
