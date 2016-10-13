@@ -182,7 +182,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) { "us'e strict";
 
   // BUTTON PUBLIC CLASS DEFINITION
   // ==============================

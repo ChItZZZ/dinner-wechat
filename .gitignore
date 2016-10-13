@@ -1,9 +1,11 @@
-/test.html
+/views/test.html
 /test.js
 # Created by .ignore support plugin (hsz.mobi)
 /test_module.js
+/test2.js
 /node_modules
 /.idea/workspace.xml
 /nohup.out
 /npm_debug.log
 
+/demo.js
