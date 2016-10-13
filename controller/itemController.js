@@ -13,13 +13,4 @@ exports.getItems = function(req, res, next) {
         res.end();
     });
 }
-exports.demo = function(req, res, next) {
-    item.demo(function(err, result) {
-        if (err) {
-            res.end();
-            return;
-        }
-        res.send(result);
-        res.end();
-    });
-}
+
