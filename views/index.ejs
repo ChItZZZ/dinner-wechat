@@ -22,6 +22,13 @@
     <div id="sidebar-wrapper">
         <div class="well sidebar-nav">
             <nav id="J_menuList" class="nav nav-list">
+                <dl>
+                    <% for (var i in iG.menu) { %>
+                    <dd class=<% active %> data_name=<% iG.menu[i]%>>
+                        <a data_name=<% iG.menu[i]%>><span class='badge pull-left'></span> <%= _list[i] %>  </a>
+                    </dd>
+                    <% } %>
+                </dl>
             </nav>
         </div>
     </div>
@@ -32,14 +39,14 @@
         </div>
     </div>
     <!--<footer class="footFix footLeft" >-->
-    <footer >
-        <button id="myInfo" class="btn_change " style="position: fixed;left: 15px;z-index: 1002;background-color: rgba(0,0,0,.5);color: white;">
-            <div><i class="fa fa-user"></i> </div>
-            <a href="/order" style="color: white;">订单</a>
+    <footer>
+        <button class="btn_change "
+                style="position: fixed;left: 15px;z-index: 1002;background-color: rgba(0,0,0,.5);color: white;">
+            下单
             <!--span class="num">9</span-->
         </button>
         <button id="myOrder" class="btn_change " style="position:fixed;right: 15px;background-color: rgba(255,0,0,.7);">
-            <div><i class="fa fa-shopping-cart"></i></div>购物车
+            购物车
             <!--span class="num">9</span-->
         </button>
     </footer>
@@ -83,7 +90,7 @@
             <div class="col-xs-12 foot-info">
                 <div class="imgViewer_contain">
                     <div class="img_contain">
-                        <img src="" class="img-responsive" alt="Responsive image" style=""/>
+                        <img src="" class="img-responsive" alt="Responsive image"/>
                     </div>
                     <div id="J_imgInfo" class="info_contain clearfix">
                         <strong>
@@ -112,7 +119,41 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        setTimeout(function () {
+            window.scrollTo(0, 1);
+        }, 0);
+        $.ajax({
+            type: 'get',
+            url: 'http://wechat.qiancs.cn/items',
+            success: function (data) {
+                iG.items = data;
+                //console.log(iG.items);
+                init();//ajax成功后执行init();
+            },
+        })
+        function  init(){
+            setMenu(iG.items);
+        }
+        function setMenu(_list) {
+            iG.menu = [];
+            iG.indexMenu = (function () {
+                var menu;
+                var count = 0;
+                for (var i in _list) {
+                    if (count === 0) {
+                        menu = i;
+                    }
+                    count++;
+                    iG.menu.push(i);
+                }
+                return menu;
+            })();
+            buildMenu(iG.menu);
+        }
+    })
+</script>
 <!--<script src="build/Main.js"></script>-->
-<script src="js/home.js"></script>
 </body>
 </html>

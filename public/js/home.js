@@ -3,16 +3,16 @@
  * Created by my on 9/10/16.
  */
 var iG = iG || {};
-//    if (window.localStorage) {
-//        try {
-//            iG = JSON.parse(localStorage["zaiG"]) || {};
-//        } catch (e) {
-//            localStorage.removeItem("zaiG");
-//            iG = iG || {};
-//        }
-//    } else {
-//        iG = iG || {};
-//    }
+    //if (window.localStorage) {
+    //    try {
+    //        iG = JSON.parse(localStorage["zaiG"]) || {};
+    //    } catch (e) {
+    //        localStorage.removeItem("zaiG");
+    //        iG = iG || {};
+    //    }
+    //} else {
+    //    iG = iG || {};
+    //}
 $(function () {
     setTimeout(function () {
         window.scrollTo(0, 1);
@@ -20,13 +20,11 @@ $(function () {
 
     $.ajax({
         type: 'get',
-        url: '/items',
+        url: 'http://wechat.qiancs.cn/items',
         success: function (data) {
-            console.log(data);
             iG.items = data;
-            console.log(iG.items);
+            //console.log(iG.items);
             init();//ajax成功后执行init();
-
         },
     })
 
@@ -58,14 +56,19 @@ $(function () {
         $(".wrapper,#wrapper").removeClass("show");
         $(".wrapper,#wrapper").removeClass("hide");
 //            buildList(iG.order);
-        $("#J_list_Container").html(listManger(iG.items));
+        $("#J_list_Container").html(listManger(iG.items))
+        var result = "";
+        var listArr = listArr || [];
+        var indexList = iG.items[iG.indexMenu];
+        for (var i in indexList) {
+            console.log(i.counter);
+        }
         $("#wrapper").addClass("show");
         $("#wrapper2").addClass("hide");
 
     });
     $("body").on("click", ".foot-img img", function () {
         $("#imgViewer img").attr("src", $(this).attr("src"));
-
         $("#imgViewer").show();
         var item = getIndex($(this).attr("data_id"));
         $("#J_imgInfo").html("<strong>" + item.name + "</strong><span class=\"colred\">" + item.price + "元/份</span><small>" + item.sels + "人买过</small>");
@@ -89,16 +92,29 @@ $(function () {
 
     //点菜加菜
     $("body").on("click", ".counter_plus", function () {
+        $(".counter_minus").removeClass('hide');
+        //$(".nocounter").removeClass('hide');
         iG["order"] = iG["order"] || {};
-        var index = $(this).attr("data_id");
-//            if(iG.order[index].counter == 0){
+        iG['menu'] = iG['menu'] || {};
+        var badge = $('.active').find('.badge');
+        var menu_name = $('.active').attr('data_name');
+        console.log(menu_name)
+        if(iG.menu[menu_name]){
+            iG.menu[menu_name] ++;
+        }
+        else{
+            iG.menu[menu_name] = 1;
+        }
+        badge.html(iG.menu[menu_name]);
+        badge.show();
+
         $(this).siblings(".counter_minus").show();
         $(this).siblings(".nocounter").show();
-//            }
-//            console.log(index)
+        var index = $(this).attr("data_id");
         if (iG.order[index]) {
             iG.order[index].counter = iG.order[index].counter + 1;
-            console.log(iG.order[index].counter);
+            $(this).siblings(".counter_minus").show();
+            $(this).siblings(".nocounter").show();
         } else {
             var obj = getIndex(index);
             iG.order[index] = obj;
@@ -107,24 +123,30 @@ $(function () {
             $(this).siblings(".nocounter").show();
 
         }
-//            console.log(iG.order[index].counter);
         $(this).siblings(".nocounter").html(iG.order[index].counter);
         $("#price_txt").html(countPrice() + "元");
-//            if (window.localStorage) {
-//                localStorage["zaiG"] = JSON.stringify(iG);
-//            }
+        //if (window.localStorage) {
+        //    localStorage["zaiG"] = JSON.stringify(iG);
+        //}
     });
+    $("body").on("click","#myInfo", function () {
+
+    })
 
     $("body").on("click", ".counter_minus", function () {
         iG["order"] = iG["order"] || {};
+
+
+
         var index = $(this).attr("data_id");
-        if (iG.order[index].counter === 1) {
-            $(this).hide();
-            $(this).siblings('.nocounter').hide();
+        if (iG.order[index].counter === 0) {
+            return;
+            //$(this).hide();
+            //$(this).siblings('.nocounter').hide();
             iG.order[index].counter = iG.order[index].counter - 1;
+            $(this).disabled = true;
             return;
         }
-        ;
         if (iG.order[index]) {
             iG.order[index].counter = iG.order[index].counter - 1;
         } else {
@@ -134,9 +156,22 @@ $(function () {
         }
         $(this).siblings(".nocounter").html(iG.order[index].counter);
         $("#price_txt").html(countPrice() + "元");
-//            if (window.localStorage) {
-//                localStorage["zaiG"] = JSON.stringify(iG);
-//            }
+            //if (window.localStorage) {
+            //    localStorage["zaiG"] = JSON.stringify(iG);
+            //}
+        var badge = $('.active').find('.badge');
+        var menu_name = $('.active').attr('data_name');
+        if(iG.menu[menu_name] === 1){
+            badge.hide();
+        }
+        if(iG.menu[menu_name]){
+            iG.menu[menu_name] --;
+        }
+        else{
+            iG.menu[menu_name] = 0;
+            badge.hide();
+        }
+        badge.html(iG.menu[menu_name]);
     });
 
     $("body").on("click", "#clearOder", function () {
@@ -144,17 +179,17 @@ $(function () {
         $("#J_order_list").html(buildOrder(iG.order));
         $("#price_txt").html(countPrice() + "元");
 //            init();
-//            if (window.localStorage) {
-//                localStorage["zaiG"] = JSON.stringify(iG);
-//            }
+            if (window.localStorage) {
+                localStorage["zaiG"] = JSON.stringify(iG);
+            }
     });
 
-    $("body").on("click", "#J_menuList dd a", function () {
+    $("body").on("click", "#J_menuList dd", function () {
         iG.indexMenu = $(this).attr("data_name");
         $("#J_list_Container").html(listManger(iG.items));
         $("#J_menuList .active").removeClass("active");
-        $(this).parent("dd").addClass("active");
-        console.log(iG);
+        $(this).addClass("active");
+        //console.log(iG);
     });
     $("#remote_order").click(function () {
         $(".nav-tabs li.active").removeClass("active");
@@ -175,28 +210,28 @@ $(function () {
 
     });
     $("#submitOrder").click(function () {
-        //$(".viewer:visible").removeClass("show").addClass("hide");
-        //$("#submitView").removeClass("hide").addClass("show");
-        //iG.order.open_id = "123";
-        //iG.order.price = countPrice();
         var order_str = JSON.stringify(iG.order);
+        var desk_id = 1;
+        var store_id = 1;
+        window.location = 'http://wechat.qiancs.cn/pay?price='+ countPrice() + '&'
+                                               +'order_str='+ order_str + '&'
+                                               +'desk_id='  + desk_id   + '&'
+                                               +'store_id=' + store_id;
 
-
-        $.ajax({
-            url: '/createOrder',
-            type: 'post',
-            data: {
-                order_str: order_str,
-                price: countPrice(),
-                open_id:123,
-                desk_id:1,
-                store_id:1
-            },
-            success: function (data) {
-                alert(data);
-            }
-        })
-    })
+        // $.ajax({
+        //     url: 'http://wechat.qiancs.cn/pay',
+        //     type: 'post',
+        //     data: {
+        //         order_str: order_str,
+        //         price: countPrice(),
+        //         desk_id:1,
+        //         store_id:1
+        //     },
+        //     success: function (data) {
+        //        window.location = 'http://wechat.qiancs.cn/pay?price='+countPrice()+'order_str='+order_str;
+        //     }
+        // })
+    });
     $("#cancelSubmit").click(function () {
         $(".viewer:visible").removeClass("show").addClass("hide");
         $("#wrapper2").removeClass("hide").addClass("show");
@@ -205,9 +240,9 @@ $(function () {
 })
 function init() {
     setMenu(iG.items);
-    console.log(iG.items);
     $("#J_list_Container").html(listManger(iG.items));
     $("#loadingView").addClass("hide");
+    //$(".list_minus").addClass('hide');
 }
 
 function setMenu(_list) {
@@ -233,7 +268,7 @@ function buildMenu(_list) {
     for (var i in _list) {
         active = "";
         if (_list[i] === iG.indexMenu)active = "active";
-        menuHtml += "<dd class=\"" + active + "\"><a data_name=\"" + _list[i] + "\">" + _list[i] + "</a></dd>";
+        menuHtml += "<dd class=\"" + active + "\" data_name="+_list[i]+"><a data_name=\"" + _list[i] + "\"><span class='badge pull-left'></span>" + _list[i] + "</a></dd>";
     }
     menuHtml += "</dl>";
     $("#J_menuList").html(menuHtml);
@@ -250,8 +285,11 @@ function getIndex(_id) {
 function submit() {
     var data = iG.order;
     var result = [];
+
     for (var i in data) {
-        result.push({id: iG.order[i].id, counter: iG.order[i].counter});
+        if(data[i].id && data[i].counter) {
+            result.push({id: iG.order[i].id, counter: iG.order[i].counter});
+        }
     }
     return JSON.stringify(result);
 }
@@ -259,7 +297,9 @@ function submit() {
 function countPrice() {
     var price = 0;
     for (var i in iG.order) {
-        price += Number(iG.order[i].price) * iG.order[i].counter;
+        if(iG.order[i].price ) {
+            price += Number(iG.order[i].price) * iG.order[i].counter;
+        }
     }
     return price;
 }
@@ -299,11 +339,14 @@ function buildList(_list) {
             + _list[i].price + '元/份\
             </p>\
             <p>\
-            <small>' + _list[i].sels + '人买过</small>\
+            <small>月售' + _list[i].sels + '份</small>\
             </p>\
             </div>\
             <div class=\"col-xs-4 icons-pick foot-pick\">\
-            <div class="btn_wrap counter"><button class="list_minus counter_minus fl" style="display: none;" data_id=\"' + _list[i].id + '\"ontouchstart=""><strong></strong></button><i class="nocounter fl" style="display: none;">0</i><button class="list_add counter_plus" data_id=\"' + _list[i].id + '\" ontouchstart=""><strong></strong></button> <em class="fixBig  fake"></em></div>\
+            <div class="btn_wrap counter">\
+            <button class="list_minus counter_minus fl" style="" data_id=\"' + _list[i].id + '\"ontouchstart=""><strong></strong></button>' +
+            '<i class="nocounter fl" style="">' +(_list[i].counter||'0')+
+            '</i><button class="list_add counter_plus" data_id=\"' + _list[i].id + '\" ontouchstart=""><strong></strong></button> <em class="fixBig  fake"></em></div>\
             </div>\
             </div>';
     }
