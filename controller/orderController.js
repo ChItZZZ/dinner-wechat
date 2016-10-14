@@ -10,7 +10,7 @@ var async = require('async');
 exports.createOrderInfo = function (data,callback) {
     console.log('info ' + JSON.stringify(data));
     var order_str = data.order_str;
-    var userOpenId = data.open_id;
+    var userOpenId = data.open_id ||123 ;
 
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
     var store_id = parseInt(data.store_id || 1);
