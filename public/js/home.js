@@ -20,7 +20,7 @@ $(function () {
 
     $.ajax({
         type: 'get',
-        url: 'http://wechat.qiancs.cn/items',
+        url: '/items',
         success: function (data) {
             iG.items = data;
             //console.log(iG.items);
@@ -213,13 +213,13 @@ $(function () {
         var order_str = JSON.stringify(iG.order);
         var desk_id = 1;
         var store_id = 1;
-        window.location = 'http://wechat.qiancs.cn/pay?price='+ countPrice() + '&'
+        window.location = '/pay?price='+ countPrice() + '&'
                                                +'order_str='+ order_str + '&'
                                                +'desk_id='  + desk_id   + '&'
                                                +'store_id=' + store_id;
 
         // $.ajax({
-        //     url: 'http://wechat.qiancs.cn/pay',
+        //     url: '/pay',
         //     type: 'post',
         //     data: {
         //         order_str: order_str,
@@ -228,7 +228,7 @@ $(function () {
         //         store_id:1
         //     },
         //     success: function (data) {
-        //        window.location = 'http://wechat.qiancs.cn/pay?price='+countPrice()+'order_str='+order_str;
+        //        window.location = '/pay?price='+countPrice()+'order_str='+order_str;
         //     }
         // })
     });

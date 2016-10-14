@@ -32,7 +32,7 @@ router.get('/',function (req,res,next){
 });
 
 router.get('/getopenid',function (req,res,next){
-    pingpp.wxPubOauth.getOpenid('wx5bc13508fcdbca3c', '30337a4abdfb0a2c2ef892f23e141847', 
+    pingpp.wxPubOauth.getOpenid('wx5bc13508fcdbca3c', '30337a4abdfb0a2c2ef892f23e141847',
     req.query.code, function(err, openid){
         console.log(openid);
 	req.session.openid = openid;
@@ -53,7 +53,7 @@ router.get('/home',function(req,res,next){
 //return payment page
 router.get('/pay',function(req,res,next){
     var data = req.query;
-    res.render('pingpp_pay',{price:data.price, order_str:data.order_str,
+    res.render('pingpp_pay',{price:data.price, order_id:0,order_str:data.order_str,
                              desk_id:data.desk_id, store_id:data.store_id});
 });
 
@@ -65,6 +65,7 @@ router.get('/payForUnfinishedOrder',function(req,res,next){
 
 //generate charge and send it to client
 router.post('/getCharge',createCharge.create);
+router.post('/getChargeForUnfinished',createCharge.createForUnfinishedOrder);
 
 //get the payment result .  After payment,the third part sever will sent a post request to this url
 router.post('/paymentResult',paymentResult.handleResult);
