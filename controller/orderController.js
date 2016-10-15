@@ -10,7 +10,7 @@ var async = require('async');
 exports.createOrderInfo = function (data,callback) {
     console.log('info ' + JSON.stringify(data));
     var order_str = data.order_str;
-    var userOpenId = data.open_id;
+    var userOpenId = data.open_id ||123 ;
 
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
     var store_id = parseInt(data.store_id || 1);
@@ -61,10 +61,10 @@ exports.createOrderInfo = function (data,callback) {
 
 exports.searchOrder = function (req, res, next) {
      var data = req.body;
-     var userOpenId = req.session.openid;
+     var userOpenId = req.session.openid || 123;
     // var openIdCode = data.code;
      var values_order = [userOpenId];
-    var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? ';
+    var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? order by od_date DESC';
     db.exec(sql_order, values_order, function (err, result) {
         if (err) {
             //callback(err);
