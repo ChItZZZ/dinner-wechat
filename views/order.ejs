@@ -52,52 +52,56 @@
 <body>
 <script src="/js/order.js"></script>
 <div id="wrapper2" class="viewer wrapper countpage clearfix show" >
-    <section class="oder_content">
-        <div class="container" id="J_order_list">
-            <div class="row" id="J_order_Manager" style="border-bottom: 3px solid #00a1cb">
-                <div class="col-xs-12 clearfix board_content">
-                    <div class="col-xs-4 title_contain">
-                        <p class="menu_title ">我的订单</p>
-                    </div>
-                    <div class="col-xs-2">
-                    </div>
-                    <div class="col-xs-3 title_contain">
-                    </div>
-                </div>
+    <div class="row z-depth-2" id="J_order_Manager" style="border-bottom: 3px solid #00a1cb">
+        <div class="col-xs-12 clearfix board_content">
+            <div class="col-xs-4 title_contain">
+                <p class="menu_title ">我的订单</p>
             </div>
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-3 title_contain">
+            </div>
+        </div>
+    </div>
+    <section class="oder_content">
+
+        <div class="container" id="J_order_list">
+
             <% for (var i = 0;i < (arr.length);i++){ %>
-            <div class="row order_gray_line " id="<%= arr[i]['id'] %>"
+            <div class="row card z-depth-1 darken-1 hoverable" id="<%= arr[i]['id'] %>"
                  <% if(arr[i]['state']==0){ %>
                  onclick=payOrder("<%= arr[i]['id'] %>",<%= arr[i].price %>)
                  <% } %>>
-                <div class="col-md-12 clearfix board_content order_state">
-                    <div class="col-md-6">
-                        <% if(arr[i]['state']==0){ %>
+                <div class="col-md-12 clearfix card-content order_state">
+                    <% if(arr[i]['state']==0){ %>
+                    <div class="col-md-6 red-text">
                         订单未支付
-                        <% }else{ %>
+                        <% } else{ %>
+                    <div class="col-md-6 ">
                         订单已完成
                         <% } %>
-
                         <span style="font-size: 14px;color: darkgray;">
                             <%= arr[i]['date'] %>
                         </span>
                     </div>
                 </div>
+                <div class="col s12 clearfix card-action">
                 <% for (var j = 0;j < arr[i].items.length;j++){ %>
-                <div class="col-md-12 clearfix board_content">
-                    <div class="col-xs-6">
-                        <div class="col-md-6 clearfix item_name"><span>
+
+                    <div class="col s6">
+                        <div class="col s6 clearfix item_name"><span>
                                 <%= arr[i].items[j]['name'] %>
                             </span></div>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col s6">
                         <div class="btn_wrap counter"><i class="nocounter fl" style="display: inline-block;">
-                                <%= arr[i].items[j]['counter'] %>
+                                <%= arr[i].items[j]['counter'] %> 份
                             </i></div>
                     </div>
-                </div>
+
                 <% } %>
-                <div class="col-md-12 clearfix board_content order_paid">
+                </div>
+                <div class="col-md-12 clearfix card-action order_paid">
                     <span class="ac_paid" id="priceOf<%= arr[i]['id'] %>">实付:
                         <%= arr[i].price %>
                     </span>
