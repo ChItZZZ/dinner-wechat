@@ -64,7 +64,7 @@ exports.searchOrder = function (req, res, next) {
      var userOpenId = req.session.openid || 123;
     // var openIdCode = data.code;
      var values_order = [userOpenId];
-    var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? ';
+    var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? order by od_date DESC';
     db.exec(sql_order, values_order, function (err, result) {
         if (err) {
             //callback(err);
