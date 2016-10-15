@@ -253,7 +253,7 @@ bottom: 0;background-color: #e9e9eb;box-shadow: inset -10px 0px 40px #ccccce;-we
 .sidebar-nav nav dl dt{font-weight: bold;font-size: 18px;}
 .sidebar-nav nav dl dd{font-size: 13px;padding: 3px 0;padding-right: 15px;text-align: right;height: 45px;display: block}
 .sidebar-nav nav dl dd.active{color: #fff;background-color:rgba(0,0,0,.6);}
-.sidebar-nav nav dl dd.active a{color: #fff}
+.sidebar-nav nav dl dd.active a{color: black}
 .sidebar-nav nav dl dd a{color: #5e6060}
 /*.sidebar-nav nav dl dd span{display: none; -webkit-text-size-adjust:none;font-size: 10px;position: absolute;right: 8px;top: 6px;background-color: #F66B22;color: #fff;font-family: Verdana;font-weight: normal;padding: 2px 4px;border-radius: 15px;line-height: 10px; text-align: center;opacity: 0.7}*/
 .sidebar-nav nav dl dd span{
@@ -390,7 +390,7 @@ color:#FF9900;
 	}
 	.notice .price{
 		color:red;
-		font-size:20px;
+		font-size:26px;
 	}
 
 	.gray_line{
@@ -712,17 +712,23 @@ font-size: 13px;
 	-webkit-border-radius:50%;
 	-moz-border-radius:50%;
 	border-radius:50%;
-	background-color: #5bc0de;
+	background-color: rgba(255,0,0,.7);
 	border:0;
 	color: white;
 	width: 70px;
 	height: 70px;
-	border:3px solid white
+	border:3px solid white;
+    position: fixed;
+    right: 15px;
+    border:3px solid white;
+    box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+
 }
 
 #J_menuList dd.active{
-
-	background-color: rgba(0,0,0,.4);
+	/*background-color: #4db6ac;*/
+    background-color: white;
+    border-left: 3px solid black;
 }
 /*dd span{*/
 	/*display: inline-block;*/
@@ -754,4 +760,20 @@ dd a{
 	border-radius: 50%;
 	margin-top: 11px;
 	margin-left: 13px;
+}
+#header{
+	background-color: #4db6ac ;
+	transition: box-shadow .25s;
+	padding: 12px 0;
+	margin: 0 0 1rem 0;
+	border-radius: 2px;
+	color: white;
+	line-height: 30px;
+	box-shadow: 0 8px 30px 0 rgba(0,0,0,0.1),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.btn-my{
+    background-color: #4db6ac;
+    color: white;
+    margin-top: 30px;
+    padding: 10px 12px;
 }

@@ -129,9 +129,6 @@ $(function () {
         //    localStorage["zaiG"] = JSON.stringify(iG);
         //}
     });
-    $("body").on("click","#myInfo", function () {
-
-    })
 
     $("body").on("click", ".counter_minus", function () {
         iG["order"] = iG["order"] || {};
@@ -353,20 +350,7 @@ function buildList(_list) {
     return result;
 }
 function buildOrder(_list) {
-    var result = "<div class=\"row\" id=\"J_order_Manager\">\
-                <div class=\"col-xs-12 clearfix board_content\">\
-                <div class=\"col-xs-4 title_contain\">\
-                <p class=\"menu_title \">菜篮子</p>\
-                </div>\
-                <div class=\"col-xs-2\"></div>\
-                <div class=\"col-xs-3 title_contain\">\
-                <button class=\"btn btn-info\" id=\"addOrder\">返回选购</button>\
-                </div>\
-                <div class=\"col-xs-3 title_contain\">\
-                <button id=\"clearOder\"class=\"btn btn-default\">清空购物车</button>\
-                </div>\
-                </div>\
-                </div>";
+    var result = '';
     var check = true;
     for (var i in _list) {
         if (_list[i].counter === 0)continue;
