@@ -20,7 +20,7 @@ $(function () {
 
     $.ajax({
         type: 'get',
-        url: 'http://wechat.qiancs.cn/items',
+        url: 'http://localhost:3000/items',
         success: function (data) {
             iG.items = data;
             //console.log(iG.items);
@@ -213,13 +213,13 @@ $(function () {
         var order_str = JSON.stringify(iG.order);
         var desk_id = 1;
         var store_id = 1;
-        window.location = 'http://wechat.qiancs.cn/pay?price='+ countPrice() + '&'
+        window.location = 'http://localhost:3000/pay?price='+ countPrice() + '&'
                                                +'order_str='+ order_str + '&'
                                                +'desk_id='  + desk_id   + '&'
                                                +'store_id=' + store_id;
 
         // $.ajax({
-        //     url: 'http://wechat.qiancs.cn/pay',
+        //     url: 'http://localhost:3000/pay',
         //     type: 'post',
         //     data: {
         //         order_str: order_str,
@@ -228,7 +228,7 @@ $(function () {
         //         store_id:1
         //     },
         //     success: function (data) {
-        //        window.location = 'http://wechat.qiancs.cn/pay?price='+countPrice()+'order_str='+order_str;
+        //        window.location = 'http://localhost:3000/pay?price='+countPrice()+'order_str='+order_str;
         //     }
         // })
     });
@@ -268,7 +268,7 @@ function buildMenu(_list) {
     for (var i in _list) {
         active = "";
         if (_list[i] === iG.indexMenu)active = "active";
-        menuHtml += "<dd class=\"" + active + "\" data_name="+_list[i]+"><a data_name=\"" + _list[i] + "\"><span class='badge pull-left'></span>" + _list[i] + "</a></dd>";
+        menuHtml += "<dd class=\"" + active + "\" data_name="+_list[i]+"><span class='badge pull-left'></span><a data_name=\"" + _list[i] + "\">" + _list[i] + "</a></dd>";
     }
     menuHtml += "</dl>";
     $("#J_menuList").html(menuHtml);

@@ -282,8 +282,8 @@ box-sizing: content-box;
 padding: 5px 10px;font-size: 15px;display: inline-block; text-indent: -100px;padding: 5px 11px;height: 12px;}
 .row .btn_wrap button.list_minus{'' /* margin-right: -10px; */}
 .row .btn_wrap button.list_add{/* margin-left: -10px; */}
-.row .btn_wrap button.list_minus strong{background: url("../images/btnminus.png") no-repeat;background-size: 22px 22px;} 
-.row .btn_wrap button.list_add strong{background: url("../images/btnplus.png") no-repeat;background-size: 22px 22px;} 
+.row .btn_wrap button.list_minus strong{background: url("../images/btnminus.png") no-repeat;background-size: 22px 22px;}
+.row .btn_wrap button.list_add strong{background: url("../images/btnplus.png") no-repeat;background-size: 22px 22px;}
 .row .btn_wrap button.list_minus:active strong{background: url("../images/btnminuss.png") no-repeat;background-size: 22px 22px;}
 .row .btn_wrap button.list_add:active strong{background: url("../images/btnpluss.png") no-repeat;background-size: 22px 22px;}
 .row .btn_wrap i{width: 22px; text-align: center;font-style: normal;vertical-align: top;margin-top: 3px;line-height:18px;}
@@ -341,7 +341,7 @@ color:#FF9900;
 		background:#f2eeeb !important
 	}
 	.oder_content{
-		
+
 	}
 	.oder_content .row{
 		background:#FFF;
@@ -349,7 +349,7 @@ color:#FF9900;
 		border-left:1px solid #ccc;
 		border-right:1px solid #ccc;
 	}
-	
+
 	.oder_content .row:first-child {border-top:1px solid #ccc;}
 	.oder_content .row:last-child {border-bottom:1px solid #ccc;}
 	button.button-circle {
@@ -493,7 +493,7 @@ font-size: 14px;
     background-repeat:no-repeat;
 }
 #imgViewer img{
-	
+
 }
 .imgViewer_contain{
 	margin:0 auto;
@@ -630,21 +630,21 @@ width:100%
 /*.twitter-typeahead {*/
 /*width: 100%;*/
 /*}*/
-body #submitView .uneditable-input, 
-body #submitView textarea, 
-body #submitView input[type="text"], 
-body #submitView input[type="password"], 
-body #submitView input[type="datetime"], 
-body #submitView input[type="datetime-local"], 
-body #submitView input[type="date"], 
-body #submitView input[type="month"], 
-body #submitView input[type="time"], 
-body #submitView input[type="week"], 
-body #submitView input[type="number"], 
-body #submitView input[type="email"], 
-body #submitView input[type="url"], 
-body #submitView input[type="search"], 
-body #submitView input[type="tel"], 
+body #submitView .uneditable-input,
+body #submitView textarea,
+body #submitView input[type="text"],
+body #submitView input[type="password"],
+body #submitView input[type="datetime"],
+body #submitView input[type="datetime-local"],
+body #submitView input[type="date"],
+body #submitView input[type="month"],
+body #submitView input[type="time"],
+body #submitView input[type="week"],
+body #submitView input[type="number"],
+body #submitView input[type="email"],
+body #submitView input[type="url"],
+body #submitView input[type="search"],
+body #submitView input[type="tel"],
 body #submitView input[type="color"] {
 -webkit-appearance: none !important;
 color: #717171;
@@ -752,6 +752,6 @@ dd a{
 	vertical-align: baseline;
 	background-color: rgba(255,0,0,.8);
 	border-radius: 50%;
-	margin-top:14%;
+	margin-top: 11px;
 	margin-left: 13px;
 }
