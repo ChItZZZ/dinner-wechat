@@ -20,7 +20,7 @@ $(function () {
 
     $.ajax({
         type: 'get',
-        url: 'http://wechat.qiancs.cn/items',
+        url: '/items',
         success: function (data) {
             iG.items = data;
             //console.log(iG.items);
@@ -129,9 +129,6 @@ $(function () {
         //    localStorage["zaiG"] = JSON.stringify(iG);
         //}
     });
-    $("body").on("click","#myInfo", function () {
-
-    })
 
     $("body").on("click", ".counter_minus", function () {
         iG["order"] = iG["order"] || {};
@@ -213,13 +210,13 @@ $(function () {
         var order_str = JSON.stringify(iG.order);
         var desk_id = 1;
         var store_id = 1;
-        window.location = 'http://wechat.qiancs.cn/pay?price='+ countPrice() + '&'
+        window.location = '/pay?price='+ countPrice() + '&'
                                                +'order_str='+ order_str + '&'
                                                +'desk_id='  + desk_id   + '&'
                                                +'store_id=' + store_id;
 
         // $.ajax({
-        //     url: 'http://wechat.qiancs.cn/pay',
+        //     url: '/pay',
         //     type: 'post',
         //     data: {
         //         order_str: order_str,
@@ -228,7 +225,7 @@ $(function () {
         //         store_id:1
         //     },
         //     success: function (data) {
-        //        window.location = 'http://wechat.qiancs.cn/pay?price='+countPrice()+'order_str='+order_str;
+        //        window.location = '/pay?price='+countPrice()+'order_str='+order_str;
         //     }
         // })
     });
@@ -268,7 +265,7 @@ function buildMenu(_list) {
     for (var i in _list) {
         active = "";
         if (_list[i] === iG.indexMenu)active = "active";
-        menuHtml += "<dd class=\"" + active + "\" data_name="+_list[i]+"><a data_name=\"" + _list[i] + "\"><span class='badge pull-left'></span>" + _list[i] + "</a></dd>";
+        menuHtml += "<dd class=\"" + active + "\" data_name="+_list[i]+"><span class='badge pull-left'></span><a data_name=\"" + _list[i] + "\">" + _list[i] + "</a></dd>";
     }
     menuHtml += "</dl>";
     $("#J_menuList").html(menuHtml);
@@ -353,20 +350,7 @@ function buildList(_list) {
     return result;
 }
 function buildOrder(_list) {
-    var result = "<div class=\"row\" id=\"J_order_Manager\">\
-                <div class=\"col-xs-12 clearfix board_content\">\
-                <div class=\"col-xs-4 title_contain\">\
-                <p class=\"menu_title \">菜篮子</p>\
-                </div>\
-                <div class=\"col-xs-2\"></div>\
-                <div class=\"col-xs-3 title_contain\">\
-                <button class=\"btn btn-info\" id=\"addOrder\">返回选购</button>\
-                </div>\
-                <div class=\"col-xs-3 title_contain\">\
-                <button id=\"clearOder\"class=\"btn btn-default\">清空购物车</button>\
-                </div>\
-                </div>\
-                </div>";
+    var result = '';
     var check = true;
     for (var i in _list) {
         if (_list[i].counter === 0)continue;
