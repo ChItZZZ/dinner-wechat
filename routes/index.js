@@ -71,6 +71,8 @@ router.get('/payForUnfinishedOrder', function (req, res, next) {
 //generate charge and send it to client
 router.post('/getCharge', createCharge.create);
 
+router.post('/getChargeForUnfinished', createCharge.createForUnfinishedOrder);
+
 //get the payment result .  After payment,the third part sever will sent a post request to this url
 router.post('/paymentResult', paymentResult.handleResult);
 
