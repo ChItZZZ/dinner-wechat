@@ -3,6 +3,7 @@ var router = express.Router();
 
 var orderController = require('../controller/orderController');
 var itemController = require('../controller/itemController');
+var balanceController = require('../controller/balanceController');
 var createCharge = require('../payment/createCharge');
 var paymentResult = require('../payment/paymentResult');
 
@@ -75,5 +76,12 @@ router.get('/haha', function (req,res,next) {
 router.get('/cart', function (req,res,next) {
     res.render('cart');
 });
+
+router.post('/recharge', balanceController.recharge());
+
+router.post('/deduct', balanceController.deduct());
+
+router.post('/inquire', balanceController.inquire());
+
 module.exports = router;
 

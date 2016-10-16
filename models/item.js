@@ -75,4 +75,4 @@ exports.getItems = function(callback) {
         }
         callback(null, items);
     });
-}
+};
