@@ -63,8 +63,9 @@ exports.searchOrder = function (req, res, next) {
      var data = req.body;
      var userOpenId = req.session.openid || 123;
     // var openIdCode = data.code;
-     var values_order = [userOpenId];
-    var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? order by od_date DESC';
+     var values_order = [userOpenId,0,5];
+    //var sql_order = 'SELECT TOP 5 * FROM od_hdr WHERE od_id NOT IN ( SELECT TOP 5*(?-1) od_id FROM od_hdr where od_wechatopenid = ? order by od_date DESC ) and od_wechatopenid = ? order by od_date DESC';
+    var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? order by od_date DESC LIMIT ?,? ';
     db.exec(sql_order, values_order, function (err, result) {
         if (err) {
             //callback(err);
@@ -108,9 +109,12 @@ exports.searchOrder = function (req, res, next) {
 }
 exports.order = function (req, res, next) {
     var data = req.body;
-    var userOpenId = req.session.openid;
-    var values_order = [userOpenId];
-    var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? ';
+    var userOpenId = req.session.openid || 123;
+    var offset = (data.page - 1)*5;
+    // var openIdCode = data.code;
+    var values_order = [userOpenId,offset,5];
+    //var sql_order = 'SELECT TOP 5 * FROM od_hdr WHERE od_id NOT IN ( SELECT TOP 5*(?-1) od_id FROM od_hdr where od_wechatopenid = ? order by od_date DESC ) and od_wechatopenid = ? order by od_date DESC';
+    var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? order by od_date DESC LIMIT ?,? ';
     db.exec(sql_order, values_order, function (err, result) {
         if (err) {
             //callback(err);
@@ -137,7 +141,7 @@ exports.order = function (req, res, next) {
 
                 }
                 order_detail['id'] = result[i].od_id;
-                order_detail['date'] = result[i].od_date;
+                order_detail['date'] = sd.format(result[i].od_date, 'YYYY/MM/DD/hh:mm');
                 order_detail['items'] = item_list;
                 order_detail['price'] = result[i].od_total_price;
                 order_detail['state'] = result[i].od_state;
@@ -147,8 +151,8 @@ exports.order = function (req, res, next) {
         }
         var a = {};
         a.arr = order_list;
-        //res.render('order',order_list);
-        res.json(order_list)
+        console.log(a.arr);
+        res.json(a.arr);
     });
 }
 

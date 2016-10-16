@@ -46,7 +46,7 @@ router.get('/home', function (req, res, next) {
     if (req.session.openid)
         res.render('home');
     else
-        res.redirect('http://wechat.qiancs.cn/');
+        res.redirect('/');
     res.end();
 });
 
@@ -54,7 +54,15 @@ router.get('/home', function (req, res, next) {
 router.get('/pay', function (req, res, next) {
     var data = req.query;
     res.render('pingpp_pay', {
-        price: data.price, order_str: data.order_str,
+        price: data.price,order_id:0, order_str: data.order_str,
+        desk_id: data.desk_id, store_id: data.store_id
+    });
+});
+
+router.get('/payForUnfinishedOrder', function (req, res, next) {
+    var data = req.query;
+    res.render('pingpp_pay', {
+        price: data.price, order_id:data.order_id,order_str: data.order_str,
         desk_id: data.desk_id, store_id: data.store_id
     });
 });
@@ -71,6 +79,9 @@ router.get('/items', itemController.getItems);
 
 //get order records
 router.get('/order', orderController.searchOrder);
+
+// fetch for more orders
+router.post('/getMoreOrder', orderController.order);
 
 router.post('/updateOrder_test', orderController.updateOrder);
 
