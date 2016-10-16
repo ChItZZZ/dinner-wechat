@@ -90,11 +90,12 @@ function updateFire(){
 
                     }
                 }
+                options = [
+                    {selector: '#footer', offset: -20, callback: 'updateFire()' },
+                ];
+                Materialize.scrollFire(options);
             }
-            options = [
-                {selector: '#footer', offset: -20, callback: 'updateFire()' },
-            ];
-            Materialize.scrollFire(options);
+
             $("#loader").hide();
         }
     })
