@@ -20,16 +20,17 @@ var API_KEY = "sk_test_rDa1e5env5aPqPqHC8v1azv9";
 var _url = require('url');
 var pingpp = require('pingpp')(API_KEY);
 //get openid and store into session first,then render home page
-//router.get('/',function (req,res,next){
-//    var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c',
-//     'http://wechat.qiancs.cn/getopenid?showwxpaytitle=1');
-//    res.redirect(oauthUrl);
-//    res.end();
-//});
-router.get("/", function (req, res, next) {
-    res.render('home');
-
-})
+router.get('/',function (req,res,next){
+   var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c',
+    'http://wechat.qiancs.cn/getopenid?showwxpaytitle=1');
+   res.redirect(oauthUrl);
+    //res.render('home');
+   res.end();
+});
+// router.get("/", function (req, res, next) {
+//     res.render('home');
+//
+// })
 
 router.get('/getopenid', function (req, res, next) {
     pingpp.wxPubOauth.getOpenid('wx5bc13508fcdbca3c', '30337a4abdfb0a2c2ef892f23e141847',
