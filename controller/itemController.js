@@ -12,5 +12,14 @@ exports.getItems = function(req, res, next) {
         res.json(result);
         res.end();
     });
+};
+
+exports.scanQR = function (req,res,next) {
+    var data = req.query;
+    var itemId = data.item_id;
+    var itemList = req.session.orderItems || [];
+    itemList.push(itemId);
+    req.session.orderItems = itemList;
+    res.redirect('/');
 }
 
