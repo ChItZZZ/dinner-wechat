@@ -22,11 +22,18 @@ var _url = require('url');
 var pingpp = require('pingpp')(API_KEY);
 //get openid and store into session first,then render home page
 router.get('/',function (req,res,next){
-   var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c',
-    'http://wechat.qiancs.cn/getopenid?showwxpaytitle=1');
-   res.redirect(oauthUrl);
-    //res.render('home');
-   res.end();
+    if (req.session.openid){
+        console.log("QR code scan :" + req.session.orderItems);
+        res.render('home',{order_items:req.session.orderItems});
+    }
+    else{
+        var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c',    //本地注释
+            'http://wechat.qiancs.cn/getopenid?showwxpaytitle=1');                                             //本地注释
+        res.redirect(oauthUrl);                                                         //本地注释
+        console.log("QR code scan :" + req.session.orderItems);
+        res.render('home',{order_items:req.session.orderItems});
+    }
+    res.end();
 });
 // router.get("/", function (req, res, next) {
 //     res.render('home');
@@ -43,10 +50,13 @@ router.get('/getopenid', function (req, res, next) {
         });
 });
 
+// QR code scanning
+router.get('/addByQRCode',itemController.scanQR);
+
 //if openid exists, then return home page directly
 router.get('/home', function (req, res, next) {
     if (req.session.openid)
-        res.render('home');
+        res.render('home',{order_items:req.session.orderItems});
     else
         res.redirect('/');
     res.end();
@@ -93,11 +103,11 @@ router.get('/haha', function (req, res, next) {
     res.render('test', {arr: 'aaarrr'});
 });
 
-router.post('/recharge', balanceController.recharge());
+router.post('/recharge', balanceController.recharge);
 
-router.post('/deduct', balanceController.deduct());
+router.post('/deduct', balanceController.deduct);
 
-router.post('/inquire', balanceController.inquire());
+router.post('/inquire', balanceController.inquire);
 
 router.get('/test', function (req, res, next) {
     res.render("test");
