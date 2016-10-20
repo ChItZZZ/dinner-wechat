@@ -229,4 +229,4 @@ exports.updateOrder = function (req) {    // ***** 定义 0为未支付，1为�
             }
         });
 
-}
+};

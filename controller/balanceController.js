@@ -1,11 +1,11 @@
 var balance = require("../models/balance");
 
 exports.recharge = function(req, res, next){
-
+    console.log('info: ' + 'in recharge');
     var data = req.body;
     var openId = data.session.openId;
     var amount = data.amount;
-    balance.recharge("testOpenId", amount, function (err, result) {
+    balance.recharge('testOpenId', amount, function (err, result) {
         if (err) {
             res.end();
             return;
@@ -17,11 +17,11 @@ exports.recharge = function(req, res, next){
 };
 
 exports.deduct = function(req, res, next){
-
+    console.log('info: ' + 'in deduct');
     var data = req.body;
     var openId = data.session.openId;
     var amount = data.data.amount;
-    balance.deduct("testOpenId", amount, function (err, result) {
+    balance.deduct('testOpenId', amount, function (err, result) {
         if (err) {
             res.end();
             return;
@@ -33,10 +33,10 @@ exports.deduct = function(req, res, next){
 };
 
 exports.inquire = function(req, res, next){
-
+    console.log('info: ' + 'in inquire');
     var data = req.body;
     var openId = data.session.openId;
-    balance.inquier("testOpenId", function (err, result) {
+    balance.inquier('testOpenId', function (err, result) {
         if (err) {
             res.end();
             return;
