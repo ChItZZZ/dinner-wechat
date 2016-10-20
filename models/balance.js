@@ -32,7 +32,6 @@ exports.recharge = function(openid, amount, callback) {
                     return;
                 }
             });
-            s
             var rechargeValues = [cardNumber, time, amount, amount + currentBalance];
             db.exec(rechargeInsert, rechargeValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db3');
