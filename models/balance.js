@@ -91,7 +91,7 @@ exports.deduct = function(openid, amount, callback){
 
     var inquireValues = [openid];
     console.log('info: ' + 'in deduct model05');
-    de.exec(balanceInquire, inquireValues, function(err, result){
+    db.exec(balanceInquire, inquireValues, function(err, result){
         console.log('info: ' + 'in deduct model db1');
         if (err) {
             callback(err);
@@ -130,7 +130,7 @@ exports.inquire = function(openid, callback){
     var balanceInquire = "SELECT * FROM blc_master WHERE BLC_OPENID = ?";
     var inquireValues = [openid];
     console.log('info: ' + 'in inquire model01');
-    de.exec(balanceInquire, inquireValues, function(err, result){
+    db.exec(balanceInquire, inquireValues, function(err, result){
         console.log('info: ' + 'in inquire model db1');
         if (err) {
             callback(err);
