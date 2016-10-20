@@ -4,7 +4,7 @@ var sd = require('silly-datetime');
 exports.recharge = function(openid, amount, callback) {
     console.log('info: ' + 'in recharge model');
     console.log('amount: ' + amount);
-    var balanceInquire = "SELECT * FROM BLC_MASTER WHERE BLC_OPENID = ?";
+    var balanceInquire = "SELECT * FROM blc_master WHERE BLC_OPENID = ?";
     var balanceUpdate = "UPDATE BLC_MASTER SET BLC_BALANCE = ?, BLC_LAST_CHANGE = ? WHERE BLC_OPENID = ?";
     var balanceInsert = "INSERT INTO BLC_MASTER (BLC_OPENID,BLC_BALANCE,BLC_LAST_CHANGE,BLC_CARD_TYPE)" +
         "VALUES(?,?,?,?)";
