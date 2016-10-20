@@ -80,7 +80,7 @@ exports.deduct = function(openid, amount, callback){
     console.log('info: ' + 'in deduct model');
     console.log('amount: ' + amount);
     var balanceInquire = "SELECT * FROM blc_master WHERE BLC_OPENID = ?";
-    var balanceUpdate = "UPDATE blc_master SET BLC_BALANCE = ?, BLC_LAST_CHANGE = ? WHERE BLC_OPENID = ?"
+    var balanceUpdate = "UPDATE blc_master SET BLC_BALANCE = ?, BLC_LAST_CHANGE = ? WHERE BLC_OPENID = ?";
     var rechargeInsert = "INSERT INTO chg_master (BLC_CARD_NUMBER,CHG_DATE,CHG_AMOUNT,CHG_AFTER_AMOUNT)" +
         "VALUES(?,?,?,?)";
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
