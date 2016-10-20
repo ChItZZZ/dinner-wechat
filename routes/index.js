@@ -111,7 +111,7 @@ router.post('/inquire', balanceController.inquire);
 
 router.get('/test', function (req, res, next) {
     res.render("test");
-})
+});
 //router.get("/cart", function (req, res, next) {
 //    var orStr = req.query.order;
 //    var order = JSON.parse(orStr);
@@ -119,6 +119,6 @@ router.get('/test', function (req, res, next) {
 //})
 router.get("/recharge", function (req, res, next) {
     res.render("recharge");
-})
+});
 module.exports = router;
 
