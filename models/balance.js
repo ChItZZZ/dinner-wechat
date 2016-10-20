@@ -86,7 +86,7 @@ exports.deduct = function(openid, amount, callback){
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
 
     var inquireValues = [openid];
-    de.exec(balanceInquire, values, function(err, result){
+    de.exec(balanceInquire, inquireValues, function(err, result){
         console.log('info: ' + 'in deduct model db1');
         if (err) {
             callback(err);
