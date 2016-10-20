@@ -5,11 +5,11 @@ exports.recharge = function(openid, amount, callback) {
     console.log('info: ' + 'in recharge model');
     console.log('amount: ' + amount);
     var balanceInquire = "SELECT * FROM blc_master WHERE BLC_OPENID = ?";
-    var balanceUpdate = "UPDATE BLC_MASTER SET BLC_BALANCE = ?, BLC_LAST_CHANGE = ? WHERE BLC_OPENID = ?";
-    var balanceInsert = "INSERT INTO BLC_MASTER (BLC_OPENID,BLC_BALANCE,BLC_LAST_CHANGE,BLC_CARD_TYPE)" +
+    var balanceUpdate = "UPDATE blc_master SET BLC_BALANCE = ?, BLC_LAST_CHANGE = ? WHERE BLC_OPENID = ?";
+    var balanceInsert = "INSERT INTO blc_master (BLC_OPENID,BLC_BALANCE,BLC_LAST_CHANGE,BLC_CARD_TYPE)" +
         "VALUES(?,?,?,?)";
-    var rechargeInsert = "INSERT INTO CHG_MASTER (CHG_DATE,CHG_AMOUNT,CHG_AFTER_AMOUNT)" +
-        "VALUES(?,?,?,?)";
+    var rechargeInsert = "INSERT INTO chg_master (CHG_DATE,CHG_AMOUNT,CHG_AFTER_AMOUNT)" +
+        "VALUES(?,?,?)";
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
 
     var inquireValues = [openid];
@@ -70,9 +70,9 @@ exports.recharge = function(openid, amount, callback) {
 exports.deduct = function(openid, amount, callback){
     console.log('info: ' + 'in deduct model');
     console.log('amount: ' + amount);
-    var balanceInquire = "SELECT * FROM BLC_MASTER WHERE BLC_OPENID = ?";
-    var balanceUpdate = "UPDATE BLC_MASTER SET BLC_BALANCE = ?, BLC_LAST_CHANGE = ? WHERE BLC_OPENID = ?"
-    var rechargeInsert = "INSERT INTO CHG_MASTER (BLC_CARD_NUMBER,CHG_DATE,CHG_AMOUNT,CHG_AFTER_AMOUNT)" +
+    var balanceInquire = "SELECT * FROM blc_master WHERE BLC_OPENID = ?";
+    var balanceUpdate = "UPDATE blc_master SET BLC_BALANCE = ?, BLC_LAST_CHANGE = ? WHERE BLC_OPENID = ?"
+    var rechargeInsert = "INSERT INTO chg_master (BLC_CARD_NUMBER,CHG_DATE,CHG_AMOUNT,CHG_AFTER_AMOUNT)" +
         "VALUES(?,?,?,?)";
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
 
@@ -112,7 +112,7 @@ exports.deduct = function(openid, amount, callback){
 
 exports.inquire = function(openid, callback){
     console.log('info: ' + 'in inquire model');
-    var balanceInquire = "SELECT * FROM BLC_MASTER WHERE BLC_OPENID = ?";
+    var balanceInquire = "SELECT * FROM blc_master WHERE BLC_OPENID = ?";
     var inquireValues = [openid];
     de.exec(balanceInquire, inquireValues, function(err, result){
         console.log('info: ' + 'in inquire model db1');
