@@ -36,7 +36,7 @@ exports.inquire = function(req, res, next){
     console.log('info: ' + 'in inquire');
     var data = req.body;
     //var openId = data.session.openId;
-    balance.inquier('testOpenId', function (err, result) {
+    balance.inquire('testOpenId', function (err, result) {
         if (err) {
             res.end();
             return;
