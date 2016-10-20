@@ -8,8 +8,8 @@ exports.recharge = function(openid, amount, callback) {
     var balanceUpdate = "UPDATE blc_master SET BLC_BALANCE = ?, BLC_LAST_CHANGE = ? WHERE BLC_OPENID = ?";
     var balanceInsert = "INSERT INTO blc_master (BLC_OPENID,BLC_BALANCE,BLC_LAST_CHANGE,BLC_CARD_TYPE)" +
         "VALUES(?,?,?,?)";
-    var rechargeInsert = "INSERT INTO chg_master (CHG_DATE,CHG_AMOUNT,CHG_AFTER_AMOUNT)" +
-        "VALUES(?,?,?)";
+    var rechargeInsert = "INSERT INTO chg_master (BLC_CARD_NUMBER,CHG_DATE,CHG_AMOUNT,CHG_AFTER_AMOUNT)" +
+        "VALUES(?,?,?,?)";
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
 
     var inquireValues = [openid];
@@ -52,7 +52,17 @@ exports.recharge = function(openid, amount, callback) {
                 }
             });
 
-            var rechargeValues = [time, amount, amount];
+            db.exec(balanceInquire, inquireValues, function (err, result) {
+                console.log('info: ' + 'in recharge model db6');
+                if (err) {
+                    callback(err);
+                    return;
+                }
+            });
+
+            var cardNumber = result[0].blc_card_number;
+
+            var rechargeValues = [cardNumber,time, amount, amount];
             db.exec(rechargeInsert, rechargeValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db5');
                 if (err) {
@@ -87,6 +97,7 @@ exports.deduct = function(openid, amount, callback){
         if(result.length == 1 && currentBalance >= amount){
             console.log('info: ' + 'in deduct model db2');
             var currentBalance = result[0].blc_balance;
+            var cardNumber = result[0].blc_card_number;
 
             var updateValues = [currentBalance - amount, time, openid];
             db.exec(balanceUpdate, updateValues,  function(err, result){
