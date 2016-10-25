@@ -30,8 +30,6 @@ router.get('/',function (req,res,next){
         var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c',    //本地注释
             'http://wechat.qiancs.cn/getopenid?showwxpaytitle=1');                                             //本地注释
         res.redirect(oauthUrl);                                                         //本地注释
-        console.log("QR code scan :" + req.session.orderItems);
-        res.render('home',{order_items:req.session.orderItems});
     }
     res.end();
 });
@@ -45,7 +43,7 @@ router.get('/getopenid', function (req, res, next) {
         req.query.code, function (err, openid) {
             console.log(openid);
             req.session.openid = openid;
-            res.render('home');
+            res.render('home',{order_items:req.session.orderItems});
             res.end();
         });
 });
