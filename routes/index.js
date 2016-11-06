@@ -6,6 +6,7 @@ var itemController = require('../controller/itemController');
 var balanceController = require('../controller/balanceController');
 var createCharge = require('../payment/createCharge');
 var paymentResult = require('../payment/paymentResult');
+var couponController = require('../controller/couponController');
 
 var db = require('../utils/db');
 
@@ -118,5 +119,8 @@ router.get('/test', function (req, res, next) {
 router.get("/recharge", function (req, res, next) {
     res.render("recharge");
 });
+
+//优惠券status: 0未生效，1已过期，2可用
+router.post("/coupon",couponController.getCoupons);
 module.exports = router;
 
