@@ -76,3 +76,57 @@ exports.getItems = function(callback) {
         callback(null, items);
     });
 };
+
+/**
+  get items config from db , callbacl error or json result
+ recommend list is the list of item id,
+     result json format like this:
+         {
+    "size": [
+    "大份",
+    "小份"
+],
+    "flavor": [
+    "微辣",
+    "中辣"
+],
+    "recommend": [
+    "7"
+]
+}
+ */
+exports.getConfig = function (value,callback){
+    var sql_config = 'SELECT * FROM gd_mst_config where gd_id = ? order by gd_config_type ';
+    db.exec(sql_config, value, function (err, result) {
+        if (err) {
+            //callback(err);
+            return;
+        }
+        var configuration = {};
+        if(result.length>0){
+
+            var sizeList=[];
+            var flavorList=[];
+            var recommendList=[];
+            for(var i = 0 ; i<result.length;i++){
+                switch (result[i].gd_config_type){
+                    case 1:
+                        sizeList.push(result[i].gd_config);
+                        break;
+                    case 2:
+                        flavorList.push(result[i].gd_config);
+                        break;
+                    case 3:
+                        recommendList.push(result[i].gd_config);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            configuration.size = sizeList;
+            configuration.flavor= flavorList;
+            configuration.recommend = recommendList;
+        }
+        callback(null,configuration);
+    });
+}

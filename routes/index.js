@@ -90,6 +90,8 @@ router.post('/paymentResult', paymentResult.handleResult);
 //send items information to front end
 router.get('/items', itemController.getItems);
 
+router.get('/itemConfig',itemController.getConfiguration);
+
 //get order records
 router.get('/order', orderController.searchOrder);
 
