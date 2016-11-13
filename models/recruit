@@ -1,0 +1,25 @@
+var db = require("../utils/db");
+var sd = require('silly-datetime');
+
+exports.inquire = function(callback){
+    var activityInquire = "select * from recruit_master ";
+    var values = [];
+    db.exec(activityInquire, values, function (err, result) {
+        var recruits = {};
+        if (err) {
+            callback(err);
+            return;
+        }
+        else{
+            var recruit = {};
+            for(var i = 0; i < result.length; i += 1){
+                recuit['id'] = result[i].recruit_id;
+                recruit['title'] = result[i].recruit_title;
+                recruit['content'] = result[i].recruit_content;
+                recruit['releae_date'] = result[i].release_date;
+                recruits[i] = recruit;
+            }
+        }
+        callback(null, activities);
+    });
+};
