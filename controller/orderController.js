@@ -141,11 +141,10 @@ exports.searchOrder = function (req, res, next) {
     var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? order by od_date DESC LIMIT ?,? ';
     db.exec(sql_order, values_order, function (err, result) {
         if (err) {
-            //callback(err);
+            console.log('get historyOrder from db err');
+            res.end();
             return;
         }
-        //callback(null, result);
-        console.log(result);
         var order_detail = {};
         var order_list = [];
         if (result.length > 0) {
