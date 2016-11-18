@@ -7,6 +7,70 @@ var sd = require('silly-datetime');
 var https = require('https');
 var async = require('async');
 
+
+/**
+ * new order data ={
+ *                  channel:"wx_pub",
+ *                  amount:1000,
+ *                  orderInfo: [ {id:'1',name:"food1",count:2,price:10} , 
+ *                               {id:'2',name:"food2",count:3,price:20} ,
+ *                             ],
+ *                  desk_id: 1,
+ *                  store_id: 1,
+ *                  price: 10,
+ *                  open_id : "ofgw6w_9U_gXWa74bVa1Wjwixqbo"
+ *                 }
+ */
+
+exports.createOrderInfoNew = function (data,callback){
+    console.log('info New ' + JSON.stringify(data));
+    var orderInfo = data.orderInfo;
+    var userOpenId = data.open_id ||123 ;
+    var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
+    var store_id = parseInt(data.store_id || 1);
+    var desk_id = parseInt(data.desk_id || 1);
+    var price = data.price;
+    var string = '';
+
+    if (orderInfo.length != 0) {
+        for (var i in orderInfo) {
+            string += orderInfo[i].name + "*" + orderInfo[i].count + ";";
+        }
+
+        var values_order = [store_id, desk_id, time, userOpenId, 0, price, string];
+
+        var sql_order = 'INSERT INTO od_hdr (od_store_id,od_desk_id,od_date,od_wechatopenid,od_state,od_total_price,od_string) ' +
+            'VALUES (?,?,?,?,?,?,?)';
+        db.exec(sql_order, values_order, function (err, result) {
+            if (err) {
+		        callback(err);
+                return;
+            }
+            var order_id = result.insertId;
+	        callback(null,order_id);
+            var j = 0;
+            for (var i in orderInfo) {
+                var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price,gd_id) ' +
+                    'VALUES (?,?,?,?,?,?)';
+                var food_id = orderInfo[i].id;
+                var food_name = orderInfo[i].name;
+                var food_quantity = orderInfo[i].count;
+                var food_price = orderInfo[i].price;
+                var values_food = [order_id, j + 1, food_name, food_quantity, food_price,food_id];
+                db.exec(sql_food, values_food, function (err, result) {
+                    if (err) {
+                        //callback(err);
+                        return;
+                    } else {
+                        console.log("food inserted");
+                    }
+                });
+                ++j;
+            }
+        });
+    }
+}
+
 exports.createOrderInfo = function (data,callback) {
     console.log('info ' + JSON.stringify(data));
     var order_str = data.order_str;
