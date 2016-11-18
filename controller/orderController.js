@@ -120,15 +120,24 @@ exports.createOrderInfo = function (data,callback) {
             }
         });
     }
-
 }
 
+
+/**
+ * history order : 
+ * order_list ={ historyOrder:
+ *                 [
+ *                  {"id":176,"date":"2016/11/18/05:05","items":[{"name":"蛋挞","counter":"3"}],"price":30,"state":0},
+ *                  {"id":177,"date":"2016/11/18/05:05","items":[{"name":"蛋挞","counter":"1"},{"name":"慕斯","counter":"1"}],"price":30,"state":1}
+ *                 ]
+ *             }
+ */
+
 exports.searchOrder = function (req, res, next) {
-     var data = req.body;
-     var userOpenId = req.session.openid || 123;
+    var data = req.body;
+    var userOpenId = req.session.openid || 123;
     // var openIdCode = data.code;
-     var values_order = [userOpenId,0,5];
-    //var sql_order = 'SELECT TOP 5 * FROM od_hdr WHERE od_id NOT IN ( SELECT TOP 5*(?-1) od_id FROM od_hdr where od_wechatopenid = ? order by od_date DESC ) and od_wechatopenid = ? order by od_date DESC';
+    var values_order = [userOpenId,0,5];
     var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? order by od_date DESC LIMIT ?,? ';
     db.exec(sql_order, values_order, function (err, result) {
         if (err) {
@@ -164,11 +173,10 @@ exports.searchOrder = function (req, res, next) {
                 order_detail = {};
             }
         }
-        var a = {};
-        a.arr = order_list;
-        console.log(a.arr);
-        res.render('order', a);
-
+        var obj = {};
+        obj.historyOrder = order_list;
+        res.json(obj);
+        res.end();
     });
 }
 exports.order = function (req, res, next) {
