@@ -18,8 +18,8 @@ exports.inquire = function(callback){
         else{
             console.log('info: ' + 'in recruit.js inquire else');
             var recruit = {};
-            for(var i = 0; i < result.length; i += 1){
-                recuit['id'] = result[i].recruit_id;
+            for(var i = 0; i < result.length; i++){
+                recruit['id'] = result[i].recruit_id;
                 recruit['title'] = result[i].recruit_title;
                 recruit['content'] = result[i].recruit_content;
                 recruit['releae_date'] = result[i].release_date;
