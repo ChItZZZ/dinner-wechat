@@ -74,7 +74,7 @@ exports.getCoupons = function(req,res,next){
                     var a = {};
                     a.arr = coupon_list;
                     console.log("coupon list :"+a.arr);
-                    res.json(a.arr);
+                    res.json(a);
                 }
             });
         }

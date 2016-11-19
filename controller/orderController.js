@@ -103,7 +103,7 @@ exports.searchOrder = function (req, res, next) {
         var a = {};
         a.arr = order_list;
         console.log(a.arr);
-        res.render('order', a);
+        res.json(a);
 
     });
 }
