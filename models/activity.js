@@ -8,16 +8,12 @@ exports.inquire = function(callback){
     db.exec(activityInquire, values, function (err, result) {
         var activities = {};
         if (err) {
-            console.log('info: ' + 'activity error 2');
             callback(err);
             return;
         }
         else{
-            console.log('info: ' + 'activity else 1');
-            var activity = {};
-            console.log('info: ' + 'activity else 2' + result.length);
             for(var i = 0; i < result.length; i++){
-                console.log('info: ' + 'activity for');
+                var activity = {};
                 activity['id'] = result[i].activity_id;
                 activity['type'] = result[i].activity_type;
                 activity['amount1'] = result[i].activity_amount1;
@@ -30,7 +26,6 @@ exports.inquire = function(callback){
                 activity['catalogue'] = result[i].activity_catalogue;
                 activities[i] = activity;
             }
-            console.log('info: ' + 'activity else 3');
         }
         callback(null, activities);
         return;
