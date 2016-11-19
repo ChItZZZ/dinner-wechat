@@ -5,6 +5,7 @@ exports.inquire = function(req, res, next){
     var data = req.body;
     recurit.inquire(function (err, result) {
         if (err) {
+            console.log('info: ' + 'in recruit inquire controller err1');
             res.end();
             return;
         }

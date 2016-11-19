@@ -7,10 +7,12 @@ exports.inquire = function(callback){
     db.exec(activityInquire, values, function (err, result) {
         var recruits = {};
         if (err) {
+            console.log('info: ' + 'in recruit inquire err1');
             callback(err);
             return;
         }
         else{
+            console.log('info: ' + 'in recruit inquire else');
             var recruit = {};
             for(var i = 0; i < result.length; i += 1){
                 recuit['id'] = result[i].recruit_id;
