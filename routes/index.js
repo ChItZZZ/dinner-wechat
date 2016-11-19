@@ -7,6 +7,8 @@ var balanceController = require('../controller/balanceController');
 var createCharge = require('../payment/createCharge');
 var paymentResult = require('../payment/paymentResult');
 var couponController = require('../controller/couponController');
+var activityController = require('../controller/activityController');
+var recruitController = require('../controller/recruitController');
 
 var db = require('../utils/db');
 
@@ -113,6 +115,10 @@ router.post('/recharge', balanceController.recharge);
 router.post('/deduct', balanceController.deduct);
 
 router.post('/inquire', balanceController.inquire);
+
+router.post('/getActivity', activityController.inquire);
+
+router.post('/getRecruit', recruitController.inquire);
 
 router.get('/test', function (req, res, next) {
     res.render("test");
