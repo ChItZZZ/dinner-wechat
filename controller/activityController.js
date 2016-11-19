@@ -5,6 +5,7 @@ exports.inquire = function(req, res, next){
     var data = req.body;
     balance.inquire(function (err, result) {
         if (err) {
+            console.log('info: ' + 'activity error 1');
             res.end();
             return;
         }
