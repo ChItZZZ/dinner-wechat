@@ -15,7 +15,7 @@ exports.inquire = function(callback){
         else{
             console.log('info: ' + 'activity else 1');
             var activity = {};
-            console.log('info: ' + 'activity else 2');
+            console.log('info: ' + 'activity else 2' + result.length);
             for(var i = 0; i < result.length; i += 1){
                 console.log('info: ' + 'activity for');
                 activity['id'] = result[i].activity_id;
