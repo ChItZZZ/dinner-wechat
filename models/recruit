@@ -20,6 +20,6 @@ exports.inquire = function(callback){
                 recruits[i] = recruit;
             }
         }
-        callback(null, activities);
+        callback(null, recruits);
     });
 };

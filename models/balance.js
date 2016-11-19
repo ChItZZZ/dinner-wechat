@@ -13,6 +13,7 @@ exports.recharge = function(openid, amount, callback) {
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
 
     var inquireValues = [openid];
+    var rechargeResult = {};
     db.exec(balanceInquire, inquireValues, function (err, result) {
         console.log('info: ' + 'in recharge model db1');
         if (err) {
@@ -28,7 +29,8 @@ exports.recharge = function(openid, amount, callback) {
             db.exec(balanceUpdate, updateValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db2');
                 if (err) {
-                    callback(err);
+                    rechargeResult['successful'] = '0';
+                    callback(err,rechargeResult);
                     return;
                 }
             });
@@ -36,25 +38,35 @@ exports.recharge = function(openid, amount, callback) {
             db.exec(rechargeInsert, rechargeValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db3');
                 if (err) {
-                    callback(err);
-                    return;
+                    rechargeResult['successful'] = '1';
+                    rechargeResult['cardNumber'] = cardNumber;
+                    rechargeResult['balance'] = amount+currentBalance;
                 }
             });
+            rechargeResult['successful'] = '1';
+            rechargeResult['cardNumber'] = cardNumber;
+            rechargeResult['balance'] = amount+currentBalance;
+            callback(err, rechargeResult);
+            return;
         } else if (result.length == 0) {
 
             var insertValues = [openid, amount, time, "hahaha"];
             db.exec(balanceInsert, insertValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db4');
                 if (err) {
-                    callback(err);
+                    rechargeResult['successful'] = '0';
+                    callback(err,rechargeResult);
                     return;
                 }
             });
+            rechargeResult['successful'] = '1';
+            rechargeResult['cardNumber'] = cardNumber;
+            rechargeResult['balance'] = amount;
 
             db.exec(balanceInquire, inquireValues, function (err, result) {
-                console.log('info: ' + 'in recharge model db6');
                 if (err) {
-                    callback(err);
+                    rechargeResult['successful'] = '0';
+                    callback(err,rechargeResult);
                     return;
                 }
             });
@@ -65,12 +77,19 @@ exports.recharge = function(openid, amount, callback) {
             db.exec(rechargeInsert, rechargeValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db5');
                 if (err) {
-                    callback(err);
+                    rechargeResult['successful'] = '0';
+                    callback(err,rechargeResult);
                     return;
                 }
             });
+            rechargeResult['successful'] = '1';
+            rechargeResult['cardNumber'] = cardNumber;
+            rechargeResult['balance'] = amount;
+            callback(err,rechargeResult);
+            return;
         } else {
-            callback(err);
+            rechargeResult['successful'] = '0';
+            callback(err,rechargeResult);
             return;
         }
     });
@@ -86,11 +105,13 @@ exports.deduct = function(openid, amount, callback){
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
 
     var inquireValues = [openid];
+    var deductResult = {};
     console.log('info: ' + 'in deduct model05');
     db.exec(balanceInquire, inquireValues, function(err, result){
         console.log('info: ' + 'in deduct model db1');
         if (err) {
-            callback(err);
+            deductResult['successful'] = '0';
+            callback(err,deductResult);
             return;
         }
 
@@ -103,20 +124,28 @@ exports.deduct = function(openid, amount, callback){
             var updateValues = [currentBalance - amount, time, openid];
             db.exec(balanceUpdate, updateValues,  function(err, result){
                 if (err) {
-                    callback(err);
+                    deductResult['successful'] = '0';
+                    callback(err,deductResult);
                     return;
                 }
             });
+            deductResult['successful'] = '1';
+            deductResult['cardNumber'] = cardNumber;
+            deductResult['balance'] = currentBalance - amount;
 
             var rechargeValues = [cardNumber, time, amount, currentBalance-amount];
             db.exec(rechargeInsert, rechargeValues, function(err, result){
                 console.log('info: ' + 'in deduct model db3');
                 if(err){
-                    callback(err);
+                    callback(err,deductResult);
                     return;
                 }
             });
+            callback(err,deductResult);
+            return;
         }else{
+            deductResult['successful'] = '0';
+            callback(err,deductResult);
             return;
         }
     });
