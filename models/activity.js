@@ -2,8 +2,8 @@ var db = require("../utils/db");
 var sd = require('silly-datetime');
 
 exports.inquire = function(callback){
-    var activityInquire = "select * from activity_config where activity_start_date <= DATE_FORMAT(CURDATE(), 'MM-dd-yyyy')" +
-        " and activity_end_date >= DATE_FORMAT(CURDATE(), 'MM-dd-yyyy') order by activity_type";
+    var activityInquire = "select * from activity_config where TO_DAYS(NOW()) > TO_DAYS(activity_start_date) " +
+        " and TO_DAYS(NOW()) < TO_DAYS(activity_end_date) order by activity_type";
     var values = [];
     db.exec(activityInquire, values, function (err, result) {
         var activities = {};
