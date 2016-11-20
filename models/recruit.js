@@ -1,5 +1,4 @@
 var db = require("../utils/db");
-var sd = require('silly-datetime');
 
 exports.inquire = function(callback){
     var recruitInquire = "select * from recruit_master ";

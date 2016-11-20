@@ -7,6 +7,7 @@ exports.recharge = function(req, res, next){
     var amount = data.amount;
     balance.recharge(openId, amount, function (err, result) {
         if (err) {
+            res.json(result);
             res.end();
             return;
         }
@@ -23,6 +24,7 @@ exports.deduct = function(req, res, next){
     var amount = data.amount;
     balance.deduct(openId, amount, function (err, result) {
         if (err) {
+            res.json(result);
             res.end();
             return;
         }
@@ -38,6 +40,7 @@ exports.inquire = function(req, res, next){
     var openId = data.session.openId;
     balance.inquire(openId, function (err, result) {
         if (err) {
+            res.json(result);
             res.end();
             return;
         }
