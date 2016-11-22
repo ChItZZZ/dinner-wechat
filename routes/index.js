@@ -9,6 +9,7 @@ var paymentResult = require('../payment/paymentResult');
 var couponController = require('../controller/couponController');
 var activityController = require('../controller/activityController');
 var recruitController = require('../controller/recruitController');
+var commentController = require('../controller/commentController');
 
 var db = require('../utils/db');
 
@@ -119,6 +120,8 @@ router.post('/inquire', balanceController.inquire);
 router.post('/getActivity', activityController.inquire);
 
 router.post('/getRecruit', recruitController.inquire);
+
+router.post('/addComment', commentController.add);
 
 router.get('/test', function (req, res, next) {
     res.render("test");

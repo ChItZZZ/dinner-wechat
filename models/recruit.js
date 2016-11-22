@@ -1,8 +1,7 @@
 var db = require("../utils/db");
-var sd = require('silly-datetime');
 
 exports.inquire = function(callback){
-    var recruitInquire = "select * from recruit_master ";
+    var recruitInquire = "select * from recruit_master limit 1";
     var values = [];
     var recruits = {};
     db.exec(recruitInquire, values, function (err, result) {
@@ -13,15 +12,12 @@ exports.inquire = function(callback){
         }
         else{
             console.log('info: ' + 'in recruit.js inquire else');
-            for(var i = 0; i < result.length; i++){
-                var recruit = {};
-                recruit['id'] = result[i].recruit_id;
-                recruit['title'] = result[i].recruit_title;
-                recruit['content'] = result[i].recruit_content;
-                recruit['releae_date'] = result[i].release_date;
-                recruits[i] = recruit;
-            }
+            var recruit = {};
+            recruit['id'] = result[0].recruit_id;
+            recruit['title'] = result[0].recruit_title;
+            recruit['content'] = result[0].recruit_content;
+            recruit['releae_date'] = result[0].release_date;
         }
-        callback(null, recruits);
+        callback(null, recruit);
     });
 };
