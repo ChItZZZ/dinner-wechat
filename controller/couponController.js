@@ -58,6 +58,7 @@ exports.getCoupons = function(req,res,next){
                             default:
                                 break;
                         }
+                        coupon_detail['type'] = detail[0].coupon_type;
                         coupon_detail['description']=detail[0].coupon_description;
                         coupon_detail['catalogue']=detail[0].coupon_catalogue;
                         coupon_list.push(coupon_detail);
@@ -72,8 +73,8 @@ exports.getCoupons = function(req,res,next){
                     return;
                 } else {
                     var a = {};
-                    a.arr = coupon_list;
-                    console.log("coupon list :"+a.arr);
+                    a.couponList = coupon_list;
+                    console.log("coupon list :"+a.couponList);
                     res.json(a);
                 }
             });
