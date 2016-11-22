@@ -164,11 +164,15 @@ exports.inquire = function(openid, callback){
         }
         var balance = {};
         if(result.length == 1){
+            balance['hasCard'] = '1';
             balance['cardNumber'] = result[0].blc_card_number;
             balance['openid'] = result[0].blc_openid;
             balance['balance'] = result[0].blc_balance + '';
             balance['lastChangeDate'] = result[0].blc_last_change + '';
             balance['type'] = result[0].blc_card_type;
+        }
+        else{
+            balance['hasCard'] = '0';
         }
         callback(null, balance);
         return;
