@@ -3,7 +3,7 @@ var sd = require('silly-datetime');
 
 exports.inquire = function(callback){
     var activityInquire = "select * from activity_config where TO_DAYS(NOW()) > TO_DAYS(activity_start_date) " +
-        " and TO_DAYS(NOW()) < TO_DAYS(activity_end_date) order by activity_type";
+        " and TO_DAYS(NOW()) < TO_DAYS(activity_end_date) order by activity_type limit 1";
     var values = [];
     db.exec(activityInquire, values, function (err, result) {
         var activities = {};
@@ -24,7 +24,7 @@ exports.inquire = function(callback){
                 activity['endDate'] = result[i].activity_end_date;
                 activity['description'] = result[i].activity_description;
                 activity['catalogue'] = result[i].activity_catalogue;
-                activities[i] = activity;
+                activities['activity'] = activity;
             }
         }
         callback(null, activities);
