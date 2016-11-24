@@ -25,44 +25,32 @@ var API_KEY = "sk_test_rDa1e5env5aPqPqHC8v1azv9";
 var _url = require('url');
 var pingpp = require('pingpp')(API_KEY);
 //get openid and store into session first,then render home page
-router.get('/',function (req,res,next){
+router.get('/home',function (req,res,next){
     if (req.session.openid){
         console.log("QR code scan :" + req.session.orderItems);
-        res.render('home',{order_items:req.session.orderItems});
+        //res.render('home',{order_items:req.session.orderItems});
+        res.redirect('http://mddm.qiancs.cn');
     }
     else{
-        var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c',   
+        var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c', 
             'http://wechat.qiancs.cn/getopenid?showwxpaytitle=1');                                           
         res.redirect(oauthUrl);                                                       
     }
     res.end();
 });
-// router.get("/", function (req, res, next) {
-//     res.render('home');
-//
-// })
 
 router.get('/getopenid', function (req, res, next) {
     pingpp.wxPubOauth.getOpenid('wx5bc13508fcdbca3c', '30337a4abdfb0a2c2ef892f23e141847',
         req.query.code, function (err, openid) {
             console.log(openid);
             req.session.openid = openid;
-            res.render('home',{order_items:req.session.orderItems});
+            res.redirect('http://mddm.qiancs.cn');
             res.end();
         });
 });
 
 // QR code scanning
 router.get('/addByQRCode',itemController.scanQR);
-
-//if openid exists, then return home page directly
-router.get('/home', function (req, res, next) {
-    if (req.session.openid)
-        res.render('home',{order_items:req.session.orderItems});
-    else
-        res.redirect('/');
-    res.end();
-});
 
 //return payment page
 router.get('/pay', function (req, res, next) {
