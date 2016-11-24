@@ -33,7 +33,7 @@ router.get('/home',function (req,res,next){
     }
     else{
         var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c', 
-            'http://wechat.qiancs.cn/getopenid?showwxpaytitle=1');                                           
+            'http://api.qiancs.cn/getopenid?showwxpaytitle=1');                                           
         res.redirect(oauthUrl);                                                       
     }
     res.end();
