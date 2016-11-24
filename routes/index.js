@@ -117,7 +117,7 @@ router.post('/deduct', balanceController.deduct);
 
 router.post('/inquire', balanceController.inquire);
 
-router.post('/getActivity', activityController.inquire);
+router.get('/getActivity', activityController.inquire);
 
 router.get('/getRecruit', recruitController.inquire);
 

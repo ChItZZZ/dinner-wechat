@@ -1,8 +1,7 @@
-var balance = require("../models/activity");
+var activity = require("../models/activity");
 
 exports.inquire = function(req, res, next){
-    var data = req.body;
-    balance.inquire(function (err, result) {
+    activity.inquire(function (err, result) {
         if (err) {
             res.end();
             return;
