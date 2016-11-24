@@ -152,12 +152,9 @@ exports.deduct = function(openid, amount, callback){
 };
 
 exports.inquire = function(openid, callback){
-    console.log('info: ' + 'in inquire model');
     var balanceInquire = "SELECT * FROM blc_master WHERE BLC_OPENID = ?";
     var inquireValues = [openid];
-    console.log('info: ' + 'in inquire model01');
     db.exec(balanceInquire, inquireValues, function(err, result){
-        console.log('info: ' + 'in inquire model db1');
         if (err) {
             callback(err);
             return;
@@ -174,6 +171,7 @@ exports.inquire = function(openid, callback){
         else{
             balance['hasCard'] = '0';
         }
+        console.log('balance '+ JSON.stringify(balance));
         callback(null, balance);
         return;
     });
