@@ -119,7 +119,7 @@ router.post('/inquire', balanceController.inquire);
 
 router.post('/getActivity', activityController.inquire);
 
-router.post('/getRecruit', recruitController.inquire);
+router.get('/getRecruit', recruitController.inquire);
 
 router.post('/addComment', commentController.add);
 
