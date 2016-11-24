@@ -1,6 +1,15 @@
 var db = require("../utils/db");
 var sd = require('silly-datetime');
 
+/**
+ *  json = {"hasActivity":1,
+ *          "activities":[ 
+ *                        {"id":13,"type":"折扣","amount1":5,"amount2":null,"amount3":null,
+ *                        "amount4":null,"startDate":"2016-10-15T16:00:00.000Z","endDate":"2016-12-09T16:00:00.000Z",
+ *                        "description":"5折","catalogue":"糕点;必点配菜;"} 
+ *                      ]
+ *         }
+ */
 exports.inquire = function(callback){
     var activityInquire = "select * from activity_config where TO_DAYS(NOW()) > TO_DAYS(activity_start_date) " +
         " and TO_DAYS(NOW()) < TO_DAYS(activity_end_date) order by activity_type limit 1";

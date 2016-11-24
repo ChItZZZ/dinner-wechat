@@ -31,9 +31,9 @@ router.get('/',function (req,res,next){
         res.render('home',{order_items:req.session.orderItems});
     }
     else{
-        var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c',    //本地注释
-            'http://wechat.qiancs.cn/getopenid?showwxpaytitle=1');                                             //本地注释
-        res.redirect(oauthUrl);                                                         //本地注释
+        var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c',   
+            'http://wechat.qiancs.cn/getopenid?showwxpaytitle=1');                                           
+        res.redirect(oauthUrl);                                                       
     }
     res.end();
 });
@@ -115,7 +115,7 @@ router.post('/recharge', balanceController.recharge);
 
 router.post('/deduct', balanceController.deduct);
 
-router.post('/inquire', balanceController.inquire);
+router.get('/inquire', balanceController.inquire);
 
 router.get('/getActivity', activityController.inquire);
 

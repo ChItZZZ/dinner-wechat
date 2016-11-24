@@ -35,12 +35,9 @@ exports.deduct = function(req, res, next){
 };
 
 exports.inquire = function(req, res, next){
-    console.log('info: ' + 'in inquire');
-    var data = req.body;
-    var openId = data.session.openId;
+    var openId = req.session.openid || 123;
     balance.inquire(openId, function (err, result) {
         if (err) {
-            res.json(result);
             res.end();
             return;
         }
