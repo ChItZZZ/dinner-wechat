@@ -6,12 +6,12 @@ exports.inquire = function(callback){
     var recruits = {};
     db.exec(recruitInquire, values, function (err, result) {
         if (err) {
-            console.log('info: ' + 'in recruit.js inquire err1');
+            console.log('info: ' + 'get recruit info failed');
             callback(err);
             return;
         }
         else{
-            console.log('info: ' + 'in recruit.js inquire else');
+            console.log('info: ' + 'get recruit info successed');
             var recruit = {};
             recruit['id'] = result[0].recruit_id;
             recruit['title'] = result[0].recruit_title;
