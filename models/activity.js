@@ -6,12 +6,18 @@ exports.inquire = function(callback){
         " and TO_DAYS(NOW()) < TO_DAYS(activity_end_date) order by activity_type limit 1";
     var values = [];
     db.exec(activityInquire, values, function (err, result) {
-        var activities = {};
+        var json = {};
         if (err) {
             callback(err);
             return;
         }
         else{
+            if(result.length > 0)
+                json.hasActivity = 1;
+            else
+                json.hasActivity = 0;
+
+            var activities = [];
             for(var i = 0; i < result.length; i++){
                 var activity = {};
                 activity['id'] = result[i].activity_id;
@@ -24,10 +30,13 @@ exports.inquire = function(callback){
                 activity['endDate'] = result[i].activity_end_date;
                 activity['description'] = result[i].activity_description;
                 activity['catalogue'] = result[i].activity_catalogue;
-                activities['activity'] = activity;
+
+                activities.push(activity);
             }
+            json.activities = activities;
         }
-        callback(null, activities);
+        console.log('activity ' + JSON.stringify(json));
+        callback(null, json);
         return;
     });
 };
