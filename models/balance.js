@@ -5,9 +5,9 @@ exports.recharge = function(openid, amount, callback) {
     console.log('info: ' + 'in recharge model');
     console.log('amount: ' + amount);
     var balanceInquire = "SELECT * FROM blc_master WHERE BLC_OPENID = ?";
-    var balanceUpdate = "UPDATE blc_master SET BLC_BALANCE = ?, BLC_LAST_CHANGE = ? WHERE BLC_OPENID = ?";
-    var balanceInsert = "INSERT INTO blc_master (BLC_OPENID,BLC_BALANCE,BLC_LAST_CHANGE,BLC_CARD_TYPE)" +
-        "VALUES(?,?,?,?)";
+    var balanceUpdate = "UPDATE blc_master SET BLC_BALANCE = ?, BLC_LAST_CHANGE = ?, BLC_TOTAL_RECHARGE = ?, BLC_VIP_LEVEL = ? WHERE BLC_OPENID = ?";
+    var balanceInsert = "INSERT INTO blc_master (BLC_OPENID,BLC_BALANCE,BLC_LAST_CHANGE,BLC_CARD_TYPE,BLC_TOTAL_RECHARGE,BLC_VIP_LEVEL)" +
+        "VALUES(?,?,?,?,?,?)";
     var rechargeInsert = "INSERT INTO chg_master (BLC_CARD_NUMBER,CHG_DATE,CHG_AMOUNT,CHG_AFTER_AMOUNT)" +
         "VALUES(?,?,?,?)";
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
@@ -22,10 +22,12 @@ exports.recharge = function(openid, amount, callback) {
         }
 
         if (result.length == 1) {
-            var currentBalance = result[0].blc_balance;
+            var currentBalance = result[0].blc_balance + amount;
             var cardNumber = result[0].blc_card_number;
+            var totalRecharge = result[0].blc_total_recharge + amount;
+            var vipLevel = Math.ceil(totalRecharge / 100);
 
-            var updateValues = [currentBalance + amount, time, openid];
+            var updateValues = [currentBalance, time, totalRecharge, vipLevel, openid];
             db.exec(balanceUpdate, updateValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db2');
                 if (err) {
@@ -49,8 +51,10 @@ exports.recharge = function(openid, amount, callback) {
             callback(err, rechargeResult);
             return;
         } else if (result.length == 0) {
+            var totalRecharge = amount;
+            var vipLevel = Math.ceil(amount / 100);
 
-            var insertValues = [openid, amount, time, "hahaha"];
+            var insertValues = [openid, amount, time, "hahaha", totalRecharge, vipLevel];
             db.exec(balanceInsert, insertValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db4');
                 if (err) {
@@ -166,6 +170,8 @@ exports.inquire = function(openid, callback){
             balance['openid'] = result[0].blc_openid;
             balance['balance'] = result[0].blc_balance + '';
             balance['lastChangeDate'] = result[0].blc_last_change + '';
+            balance['total'] = result[0].blc_total_recharge + '';
+            balance['level'] = result[0].blc_vip_level;
             balance['type'] = result[0].blc_card_type;
         }
         else{

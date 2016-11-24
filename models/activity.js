@@ -39,6 +39,7 @@ exports.inquire = function(callback){
                 activity['endDate'] = result[i].activity_end_date;
                 activity['description'] = result[i].activity_description;
                 activity['catalogue'] = result[i].activity_catalogue;
+                activity['picture'] = result[i].activity_picture;
 
                 activities.push(activity);
             }
