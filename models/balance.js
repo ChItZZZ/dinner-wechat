@@ -31,7 +31,7 @@ exports.recharge = function(openid, amount, callback) {
             db.exec(balanceUpdate, updateValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db2');
                 if (err) {
-                    rechargeResult['successful'] = '0';
+                    rechargeResult['successful'] = 0;
                     callback(err,rechargeResult);
                     return;
                 }
@@ -40,12 +40,12 @@ exports.recharge = function(openid, amount, callback) {
             db.exec(rechargeInsert, rechargeValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db3');
                 if (err) {
-                    rechargeResult['successful'] = '1';
+                    rechargeResult['successful'] = 1;
                     rechargeResult['cardNumber'] = cardNumber;
                     rechargeResult['balance'] = amount+currentBalance;
                 }
             });
-            rechargeResult['successful'] = '1';
+            rechargeResult['successful'] = 1;
             rechargeResult['cardNumber'] = cardNumber;
             rechargeResult['balance'] = amount+currentBalance;
             callback(err, rechargeResult);
@@ -58,7 +58,7 @@ exports.recharge = function(openid, amount, callback) {
             db.exec(balanceInsert, insertValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db4');
                 if (err) {
-                    rechargeResult['successful'] = '0';
+                    rechargeResult['successful'] = 0;
                     callback(err,rechargeResult);
                     return;
                 }
@@ -69,7 +69,7 @@ exports.recharge = function(openid, amount, callback) {
 
             db.exec(balanceInquire, inquireValues, function (err, result) {
                 if (err) {
-                    rechargeResult['successful'] = '0';
+                    rechargeResult['successful'] = 0;
                     callback(err,rechargeResult);
                     return;
                 }
@@ -81,18 +81,18 @@ exports.recharge = function(openid, amount, callback) {
             db.exec(rechargeInsert, rechargeValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db5');
                 if (err) {
-                    rechargeResult['successful'] = '0';
+                    rechargeResult['successful'] = 0;
                     callback(err,rechargeResult);
                     return;
                 }
             });
-            rechargeResult['successful'] = '1';
+            rechargeResult['successful'] = 1;
             rechargeResult['cardNumber'] = cardNumber;
             rechargeResult['balance'] = amount;
             callback(err,rechargeResult);
             return;
         } else {
-            rechargeResult['successful'] = '0';
+            rechargeResult['successful'] = 0;
             callback(err,rechargeResult);
             return;
         }
@@ -114,7 +114,7 @@ exports.deduct = function(openid, amount, callback){
     db.exec(balanceInquire, inquireValues, function(err, result){
         console.log('info: ' + 'in deduct model db1');
         if (err) {
-            deductResult['successful'] = '0';
+            deductResult['successful'] = 0;
             callback(err,deductResult);
             return;
         }
@@ -128,12 +128,12 @@ exports.deduct = function(openid, amount, callback){
             var updateValues = [currentBalance - amount, time, openid];
             db.exec(balanceUpdate, updateValues,  function(err, result){
                 if (err) {
-                    deductResult['successful'] = '0';
+                    deductResult['successful'] = 0;
                     callback(err,deductResult);
                     return;
                 }
             });
-            deductResult['successful'] = '1';
+            deductResult['successful'] = 1;
             deductResult['cardNumber'] = cardNumber;
             deductResult['balance'] = currentBalance - amount;
 
@@ -148,7 +148,7 @@ exports.deduct = function(openid, amount, callback){
             callback(err,deductResult);
             return;
         }else{
-            deductResult['successful'] = '0';
+            deductResult['successful'] = 0;
             callback(err,deductResult);
             return;
         }
@@ -165,17 +165,17 @@ exports.inquire = function(openid, callback){
         }
         var balance = {};
         if(result.length == 1){
-            balance['hasCard'] = '1';
+            balance['hasCard'] = 1;
             balance['cardNumber'] = result[0].blc_card_number;
             balance['openid'] = result[0].blc_openid;
-            balance['balance'] = result[0].blc_balance + '';
+            balance['balance'] = result[0].blc_balance ;
             balance['lastChangeDate'] = result[0].blc_last_change + '';
-            balance['total'] = result[0].blc_total_recharge + '';
+            balance['total'] = result[0].blc_total_recharge;
             balance['level'] = result[0].blc_vip_level;
             balance['type'] = result[0].blc_card_type;
         }
         else{
-            balance['hasCard'] = '0';
+            balance['hasCard'] = 0;
         }
         console.log('balance '+ JSON.stringify(balance));
         callback(null, balance);

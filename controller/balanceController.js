@@ -18,9 +18,8 @@ exports.recharge = function(req, res, next){
 };
 
 exports.deduct = function(req, res, next){
-    console.log('info: ' + 'in deduct');
     var data = req.body;
-    var openId = data.session.openId;
+    var openId = req.session.openid || 123;
     var amount = data.amount;
     balance.deduct(openId, amount, function (err, result) {
         if (err) {
