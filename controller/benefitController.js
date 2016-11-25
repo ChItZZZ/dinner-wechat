@@ -8,7 +8,7 @@ var async = require('async');
 
 exports.searchBenefit = function (req, res, next) {
     var data = req.body;
-    var userOpenId = req.session.openid || 123;
+    var userOpenId = req.session.openid || '123';
 
     var values = [userOpenId];
 

@@ -135,7 +135,7 @@ exports.createOrderInfo = function (data,callback) {
 
 exports.searchOrder = function (req, res, next) {
     var data = req.body;
-    var userOpenId = req.session.openid || 123;
+    var userOpenId = req.session.openid || '123';
     // var openIdCode = data.code;
     var values_order = [userOpenId,0,5];
     var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? order by od_date DESC LIMIT ?,? ';
@@ -180,7 +180,7 @@ exports.searchOrder = function (req, res, next) {
 }
 exports.order = function (req, res, next) {
     var data = req.body;
-    var userOpenId = req.session.openid || 123;
+    var userOpenId = req.session.openid || '123';
     var offset = (data.page - 1)*5;
     // var openIdCode = data.code;
     var values_order = [userOpenId,offset,5];
@@ -229,7 +229,7 @@ exports.order = function (req, res, next) {
 
 exports.updateOrder = function (req) {    // ***** 定义 0为未支付，1为支付成功，未完待续 *******
     var jsonSet = req;
-    var orderId = jsonSet.data.object.order_no || 123;
+    var orderId = jsonSet.data.object.order_no || '123';
     // var openIdCode = data.code;
     var values_order = [orderId];
     var sql_order = 'UPDATE od_hdr SET od_state = 1 where od_id = ? ';
