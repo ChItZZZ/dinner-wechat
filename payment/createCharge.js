@@ -15,7 +15,7 @@ exports.createNew = function (req,res,next)
   pingpp.setPrivateKeyPath(__dirname + "/your_rsa_private_key.pem");
   req.setEncoding('utf-8');
   var data = req.body;
-  data.open_id = req.session.openid || 123;
+  data.open_id = req.session.openid || '123';
   console.log('session id ' + req.session.openid);
   var channel = data.channel;
   var openid = data.open_id;
@@ -74,7 +74,7 @@ exports.create = function (req,res,next)
   pingpp.setPrivateKeyPath(__dirname + "/your_rsa_private_key.pem");
   req.setEncoding('utf-8');
   var data = req.body;
-  data.open_id = req.session.openid || 123;
+  data.open_id = req.session.openid || '123';
   console.log('session id ' + req.session.openid);
   var channel = data.channel;
   var openid = data.open_id;
