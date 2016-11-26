@@ -38,7 +38,7 @@ exports.createOrderInfoNew = function (data,callback){
 
     if (orderInfo.length != 0) {
         for (var i in orderInfo) {
-            string += orderInfo[i].name + "*" + orderInfo[i].count + ";";
+            string += orderInfo[i].name + "("+orderInfo[i].detail+")  "+"*" + orderInfo[i].count + ";";
         }
 
         var values_order = [store_id, desk_id, time, userOpenId,string,price, realPrice,0,'N',coupon_id,couponDes];
@@ -180,8 +180,11 @@ exports.searchOrder = function (req, res, next) {
                 order_detail['id'] = result[i].od_id;
                 order_detail['date'] = sd.format(result[i].od_date, 'YYYY/MM/DD/hh:mm');
                 order_detail['items'] = item_list;
-                order_detail['price'] = result[i].od_total_price;
+                order_detail['price'] = result[i].od_fixed_total_price;
+                order_detail['realPrice'] = result[i].od_total_price;
                 order_detail['state'] = result[i].od_state;
+                order_detail['couponId'] = result[i].od_coupon_id;
+                order_detail['couponDes'] = result[i].od_coupon_description;
                 order_list.push(order_detail);
                 order_detail = {};
             }
