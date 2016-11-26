@@ -5,6 +5,7 @@
 var db = require('../utils/db');
 var config = require('../config/app_config');
 var sd = require('silly-datetime');
+var coupon = require('../models/coupon')
 var https = require('https');
 var async = require('async');
 
@@ -41,7 +42,7 @@ exports.getCoupons = function(req,res,next){
                         coupon_detail['number']=coupon.coupon_number;
                         if(today<coupon.coupon_start_date){   // 未生效
                             coupon_detail['status']= 0;
-                        }else if(today>coupon.coupon_end_date){  //已过期
+                        }else if(today>coupon.coupon_end_date || coupon.coupon_number < 1){  //已过期
                             coupon_detail['status']= 1;
                         }else {
                             coupon_detail['status']= 2;
@@ -82,3 +83,23 @@ exports.getCoupons = function(req,res,next){
 
     });
 }
+
+exports.useCoupon = function (coupon_id,callback){
+    coupon.updateCoupon(coupon_id,function (err, result) {
+        if (err) {
+            calback(err);
+            return;
+        }
+        callback(null);
+    });
+};
+
+exports.rollbackCoupon = function (coupon_id,callback){
+    coupon.rollback(coupon_id,function (err, result) {
+        if (err) {
+            calback(err);
+            return;
+        }
+        callback(null);
+    });
+};
