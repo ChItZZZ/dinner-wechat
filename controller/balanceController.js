@@ -17,18 +17,13 @@ exports.recharge = function(req, res, next){
 
 };
 
-exports.deduct = function(req, res, next){
-    var data = req.body;
-    var openId = req.session.openid || '123';
-    var amount = data.amount;
-    balance.deduct(openId, amount, function (err, result) {
+exports.deduct = function(cardnum, amount, callback){
+    balance.deduct(cardnum,amount, function (err, result) {
         if (err) {
-            res.json(result);
-            res.end();
+            console.log(err);
             return;
         }
-        res.json(result);
-        res.end();
+        callback(null,result);
     });
 
 };

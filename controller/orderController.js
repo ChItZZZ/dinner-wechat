@@ -7,6 +7,7 @@ var sd = require('silly-datetime');
 var https = require('https');
 var async = require('async');
 var couponController = require('../controller/couponController');
+var balanceController = require('../controller/balanceController');
 
 
 /**
@@ -51,7 +52,7 @@ exports.createOrderInfoNew = function (data,callback){
                 return;
             }
             var order_id = result.insertId;
-	        callback(null,order_id);
+	       //callback(null,order_id);
             var j = 0;
             for (var i in orderInfo) {
                 var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price,gd_id,gd_detail) ' +
@@ -83,7 +84,81 @@ exports.createOrderInfoNew = function (data,callback){
                 }
         });
     }
-}
+};
+
+exports.finishOrderWithValueCard = function (req,res,next){
+    var data = req.body;
+    var orderInfo = data.orderInfo;
+    var userOpenId = data.open_id ||123 ;
+    var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
+    var store_id = parseInt(data.store_id || 1);
+    var desk_id = parseInt(data.desk_id || 1);
+    var price = data.price;
+    var realPrice = data.realPrice;
+    var coupon_id = data.coupon_id;
+    var couponDes = data.couponDes;
+    var card_number = data.card_number;
+    var string = '';
+
+    if (orderInfo.length != 0) {
+        for (var i in orderInfo) {
+            string += orderInfo[i].name + "("+orderInfo[i].detail+")  "+"*" + orderInfo[i].count + ";";
+        }
+
+        var values_order = [store_id, desk_id, time, userOpenId,string,price, realPrice,1,'N',coupon_id,couponDes];
+
+        var sql_order = 'INSERT INTO od_hdr (od_store_id,od_desk_id,od_date,od_wechatopenid,od_string,od_fixed_total_price,od_total_price,od_state,od_isprint,od_coupon_id,od_coupon_description) ' +
+            'VALUES (?,?,?,?,?,?,?,?,?,?,?)';
+        db.exec(sql_order, values_order, function (err, result) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            var order_id = result.insertId;
+            //callback(null,order_id);
+            var j = 0;
+            for (var i in orderInfo) {
+                var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price,gd_id,gd_detail) ' +
+                    'VALUES (?,?,?,?,?,?,?)';
+                var food_id = orderInfo[i].id;
+                var food_name = orderInfo[i].name;
+                var food_quantity = orderInfo[i].count;
+                var food_price = orderInfo[i].price;
+                var food_detail = orderInfo[i].detail;
+                var values_food = [order_id, j + 1, food_name, food_quantity, food_price,food_id,food_detail];
+                db.exec(sql_food, values_food, function (err, result) {
+                    if (err) {
+                        //callback(err);
+                        return;
+                    } else {
+                        console.log("food inserted");
+                    }
+                });
+                ++j;
+            }
+            if(coupon_id != null){
+                couponController.useCoupon(coupon_id,function (err,result) {
+                    if(err){
+                        console.log(err);
+                        return;
+                    }
+                    console.log(result);
+                })
+            }
+            balanceController.deduct(card_number,realPrice,function (err,result) {
+                if(err){
+                    console.log(err);
+                    return;
+                }
+                console.log(result);
+            });
+            var r = {};
+            r.code = "success";
+            res.json(r);
+            res.end();
+        });
+    }
+};
 
 exports.createOrderInfo = function (data,callback) {
     console.log('info ' + JSON.stringify(data));
@@ -266,8 +341,9 @@ exports.updateOrder = function (req) {    // ***** 定义 0为未支付，1为�
                         return;
                     }
                     //callback(null, result);
+                    callback(null, 'update order successfully');
                 });
-                callback(null, 'update order successfully');
+
             },
             //getcoupon
             step_getcoupon: function(callback){
