@@ -127,5 +127,7 @@ router.get("/recharge", function (req, res, next) {
 
 //优惠券status: 0未生效，1已过期，2可用
 router.post("/coupon",couponController.getCoupons);
+
+router.get("/getHeaderPic",activityController.getHeaderPic);
 module.exports = router;
 
