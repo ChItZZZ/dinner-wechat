@@ -75,6 +75,8 @@ router.post('/getCharge', createCharge.create);
 //get charge new
 router.post('/getChargeNew', createCharge.createNew);
 
+//cancel order
+router.post('/cancelOrder', orderController.cancelOrder);
 
 router.post('/getChargeForUnfinished', createCharge.createForUnfinishedOrder);
 
