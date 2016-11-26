@@ -103,7 +103,7 @@ router.get('/haha', function (req, res, next) {
 
 router.post('/recharge', balanceController.recharge);
 
-router.post('/deduct', balanceController.deduct);
+router.post('/deduct', orderController.finishOrderWithValueCard);
 
 router.get('/inquire', balanceController.inquire);
 
