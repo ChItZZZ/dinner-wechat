@@ -100,18 +100,19 @@ exports.recharge = function(openid, amount, callback) {
     });
 };
 
-exports.deduct = function(card_number, amount, callback){
+exports.deduct = function(openid, amount, callback){
     console.log('info: ' + 'in deduct model');
     console.log('amount: ' + amount);
     //var currentBalance = balance;
-    var cardNumber = card_number;
-    var balanceInquire = "SELECT * FROM blc_master WHERE BLC_CARD_NUMBER = ?";
+    var id = openid;
+    var cardNumber = null;
+    var balanceInquire = "SELECT * FROM blc_master WHERE BLC_OPENID = ?";
     var balanceUpdate = "UPDATE blc_master SET BLC_BALANCE = BLC_BALANCE - ?, BLC_LAST_CHANGE = ? WHERE BLC_CARD_NUMBER = ?";
     var rechargeInsert = "INSERT INTO chg_master (BLC_CARD_NUMBER,CHG_DATE,CHG_AMOUNT,CHG_AFTER_AMOUNT)" +
         "VALUES(?,?,?,?)";
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
 
-     var inquireValues = [card_number];
+     var inquireValues = [id];
     // var deductResult = {};
     console.log('info: ' + 'in deduct model05');
     db.exec(balanceInquire, inquireValues, function(err, result) {
@@ -121,40 +122,47 @@ exports.deduct = function(card_number, amount, callback){
             callback(err);
             return;
         }
-        var currentBalance = result[0].blc_balance;
-        async.series({
-                // update
-                step_update: function(callback) {
-                    var updateValues = [amount, time, cardNumber];
-                    db.exec(balanceUpdate, updateValues,  function(err, result){
-                        if (err) {
-                            callback(err);
-                            return;
-                        }
-                        callback(null, 'update balance successfully');
-                    });
+        if(result.length>0) {
+            var currentBalance = result[0].blc_balance;
+            cardNumber = result[0].blc_card_number;
+            async.series({
+                    // update
+                    step_update: function(callback) {
+                        var updateValues = [amount, time, cardNumber];
+                        db.exec(balanceUpdate, updateValues,  function(err, result){
+                            if (err) {
+                                callback(err);
+                                return;
+                            }
+
+                                callback(null, 'update balance successfully');
+
+
+                        });
+                    },
+                    //transaction
+                    step_transaction: function(callback){
+                        var rechargeValues = [cardNumber, time, amount, currentBalance-amount];
+                        db.exec(rechargeInsert, rechargeValues, function(err, result){
+                            console.log('info: ' + 'in deduct model db3');
+                            if(err){
+                                callback(err,deductResult);
+                                return;
+                            }
+                            callback(null, 'insert transaction successfully');
+                        });
+                    }
                 },
-                //transaction
-                step_transaction: function(callback){
-                    var rechargeValues = [cardNumber, time, amount, currentBalance-amount];
-                    db.exec(rechargeInsert, rechargeValues, function(err, result){
-                        console.log('info: ' + 'in deduct model db3');
-                        if(err){
-                            callback(err,deductResult);
-                            return;
-                        }
-                        callback(null, 'insert transaction successfully');
-                    });
-                }
-            },
-            function(err, results) {
-                // update inventory in parallel
-                if(err){
-                    return;
-                }else{
-                    callback(null, "success");
-                }
-            });
+                function(err, results) {
+                    // update inventory in parallel
+                    if(err){
+                        return;
+                    }else{
+                        callback(null, "success");
+                    }
+                });
+        }
+
     });
 
 };

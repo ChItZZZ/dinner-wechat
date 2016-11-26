@@ -97,7 +97,7 @@ exports.finishOrderWithValueCard = function (req,res,next){
     var realPrice = data.realPrice;
     var coupon_id = data.coupon_id;
     var couponDes = data.couponDes;
-    var card_number = data.card_number;
+    //var card_number = data.card_number;
     var string = '';
 
     if (orderInfo.length != 0) {
@@ -145,7 +145,7 @@ exports.finishOrderWithValueCard = function (req,res,next){
                     console.log(result);
                 })
             }
-            balanceController.deduct(card_number,realPrice,function (err,result) {
+            balanceController.deduct(userOpenId,realPrice,function (err,result) {
                 if(err){
                     console.log(err);
                     return;

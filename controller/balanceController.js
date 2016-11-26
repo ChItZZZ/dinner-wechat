@@ -17,8 +17,8 @@ exports.recharge = function(req, res, next){
 
 };
 
-exports.deduct = function(cardnum, amount, callback){
-    balance.deduct(cardnum,amount, function (err, result) {
+exports.deduct = function(openid, amount, callback){
+    balance.deduct(openid,amount, function (err, result) {
         if (err) {
             console.log(err);
             return;
