@@ -20,7 +20,8 @@ exports.createNew = function (req,res,next)
   var channel = data.channel;
   var openid = data.open_id;
   var amount = data.amount;
-  var client_ip = req.connection.remoteAddress;
+  //var client_ip = req.connection.remoteAddress;
+  var client_ip = '127.0.0.1';
   var extra = {};
   switch (channel) {
     case 'alipay_wap':
