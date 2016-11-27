@@ -39,7 +39,11 @@ exports.createOrderInfoNew = function (data,callback){
 
     if (orderInfo.length != 0) {
         for (var i in orderInfo) {
-            string += orderInfo[i].name + "("+orderInfo[i].detail+")  "+"*" + orderInfo[i].count + ";";
+            if(orderInfo[i].detail == null){
+                string += orderInfo[i].name + "*" + orderInfo[i].count + ";";
+            }else{
+                string += orderInfo[i].name + "("+orderInfo[i].detail+")  "+"*" + orderInfo[i].count + ";";
+            }
         }
 
         var values_order = [store_id, desk_id, time, userOpenId,string,price, realPrice,0,'N',coupon_id,couponDes];
@@ -52,7 +56,6 @@ exports.createOrderInfoNew = function (data,callback){
                 return;
             }
             var order_id = result.insertId;
-	       //callback(null,order_id);
             var j = 0;
             for (var i in orderInfo) {
                 var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price,gd_id,gd_detail) ' +
@@ -65,9 +68,10 @@ exports.createOrderInfoNew = function (data,callback){
                 var values_food = [order_id, j + 1, food_name, food_quantity, food_price,food_id,food_detail];
                 db.exec(sql_food, values_food, function (err, result) {
                     if (err) {
-                        //callback(err);
+                        callback(err);
                         return;
                     } else {
+            	        callback(null,order_id);
                         console.log("food inserted");
                     }
                 });
@@ -102,7 +106,12 @@ exports.finishOrderWithValueCard = function (req,res,next){
 
     if (orderInfo.length != 0) {
         for (var i in orderInfo) {
-            string += orderInfo[i].name + "("+orderInfo[i].detail+")  "+"*" + orderInfo[i].count + ";";
+            if(orderInfo[i].detail == null){
+                string += orderInfo[i].name + "*" + orderInfo[i].count + ";";
+            }else{
+                string += orderInfo[i].name + "("+orderInfo[i].detail+")  "+"*" + orderInfo[i].count + ";";
+            }
+            
         }
 
         var values_order = [store_id, desk_id, time, userOpenId,string,price, realPrice,1,'N',coupon_id,couponDes];
