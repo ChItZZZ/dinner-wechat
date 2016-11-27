@@ -25,8 +25,8 @@ exports.createNew = function (req,res,next)
   switch (channel) {
     case 'alipay_wap':
       extra = {
-        'success_url': 'http://www.qq.com',
-        'cancel_url': 'http://www.baidu.com'
+        'success_url': 'http://mddm.qiancs.cn',
+        'cancel_url': 'http://mddm.qiancs.cn'
       };
       break;
     case 'wx_pub':
