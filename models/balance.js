@@ -75,28 +75,27 @@ exports.recharge = function(openid, amount, callback) {
                     callback(err,rechargeResult);
                     return;
                 }
-            });
+                var cardNumber = result[0].blc_card_number;
 
-            var cardNumber = result[0].blc_card_number;
+                var rechargeValues = [cardNumber,time, amount, amount];
+                db.exec(rechargeInsert, rechargeValues, function (err, result) {
+                    console.log('info: ' + 'in recharge model db5');
+                    if (err) {
+                        rechargeResult['successful'] = 0;
+                        callback(err,rechargeResult);
+                        return;
+                    }
+                });
 
-            var rechargeValues = [cardNumber,time, amount, amount];
-            db.exec(rechargeInsert, rechargeValues, function (err, result) {
-                console.log('info: ' + 'in recharge model db5');
-                if (err) {
-                    rechargeResult['successful'] = 0;
-                    callback(err,rechargeResult);
-                    return;
-                }
-            });
-
-            var end_date = time + 7 * 24 * 60 * 60 * 1000;
-            var couponValues = [cardNumber, time, end_date, 1, 15, 'Y'];
-            coupon.addCoupon(couponValues, function(err){
-                if (err) {
-                    rechargeResult['successful'] = 2;
-                    callback(err,rechargeResult);
-                    return;
-                }
+                var end_date = time + 7 * 24 * 60 * 60 * 1000;
+                var couponValues = [cardNumber, time, end_date, 1, 15, 'Y'];
+                coupon.addCoupon(couponValues, function(err){
+                    if (err) {
+                        rechargeResult['successful'] = 2;
+                        callback(err,rechargeResult);
+                        return;
+                    }
+                });
             });
             rechargeResult['successful'] = 1;
             rechargeResult['cardNumber'] = cardNumber;
