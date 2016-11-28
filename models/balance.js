@@ -1,5 +1,6 @@
 var db = require("../utils/db");
 var sd = require('silly-datetime');
+var async = require('async');
 
 exports.recharge = function(openid, amount, callback) {
     console.log('info: ' + 'in recharge model');
@@ -115,57 +116,68 @@ exports.recharge = function(openid, amount, callback) {
 exports.deduct = function(openid, amount, callback){
     console.log('info: ' + 'in deduct model');
     console.log('amount: ' + amount);
+    //var currentBalance = balance;
+    var id = openid;
+    var cardNumber = null;
     var balanceInquire = "SELECT * FROM blc_master WHERE BLC_OPENID = ?";
-    var balanceUpdate = "UPDATE blc_master SET BLC_BALANCE = ?, BLC_LAST_CHANGE = ? WHERE BLC_OPENID = ?";
+    var balanceUpdate = "UPDATE blc_master SET BLC_BALANCE = BLC_BALANCE - ?, BLC_LAST_CHANGE = ? WHERE BLC_CARD_NUMBER = ?";
     var rechargeInsert = "INSERT INTO chg_master (BLC_CARD_NUMBER,CHG_DATE,CHG_AMOUNT,CHG_AFTER_AMOUNT)" +
         "VALUES(?,?,?,?)";
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
 
-    var inquireValues = [openid];
-    var deductResult = {};
+     var inquireValues = [id];
+    // var deductResult = {};
     console.log('info: ' + 'in deduct model05');
-    db.exec(balanceInquire, inquireValues, function(err, result){
+    db.exec(balanceInquire, inquireValues, function(err, result) {
         console.log('info: ' + 'in deduct model db1');
         if (err) {
-            deductResult['successful'] = 0;
-            callback(err,deductResult);
+
+            callback(err);
             return;
         }
+        if(result.length>0) {
+            var currentBalance = result[0].blc_balance;
+            cardNumber = result[0].blc_card_number;
+            async.series({
+                    // update
+                    step_update: function(callback) {
+                        var updateValues = [amount, time, cardNumber];
+                        db.exec(balanceUpdate, updateValues,  function(err, result){
+                            if (err) {
+                                callback(err);
+                                return;
+                            }
 
-        var currentBalance = result[0].blc_balance;
-        var cardNumber = result[0].blc_card_number;
+                                callback(null, 'update balance successfully');
 
-        if(result.length == 1 && currentBalance >= amount){
-            console.log('info: ' + 'in deduct model db2');
 
-            var updateValues = [currentBalance - amount, time, openid];
-            db.exec(balanceUpdate, updateValues,  function(err, result){
-                if (err) {
-                    deductResult['successful'] = 0;
-                    callback(err,deductResult);
-                    return;
-                }
-            });
-            deductResult['successful'] = 1;
-            deductResult['cardNumber'] = cardNumber;
-            deductResult['balance'] = currentBalance - amount;
-
-            var rechargeValues = [cardNumber, time, amount, currentBalance-amount];
-            db.exec(rechargeInsert, rechargeValues, function(err, result){
-                console.log('info: ' + 'in deduct model db3');
-                if(err){
-                    callback(err,deductResult);
-                    return;
-                }
-            });
-            callback(err,deductResult);
-            return;
-        }else{
-            deductResult['successful'] = 0;
-            callback(err,deductResult);
-            return;
+                        });
+                    },
+                    //transaction
+                    step_transaction: function(callback){
+                        var rechargeValues = [cardNumber, time, amount, currentBalance-amount];
+                        db.exec(rechargeInsert, rechargeValues, function(err, result){
+                            console.log('info: ' + 'in deduct model db3');
+                            if(err){
+                                callback(err,deductResult);
+                                return;
+                            }
+                            callback(null, 'insert transaction successfully');
+                        });
+                    }
+                },
+                function(err, results) {
+                    // update inventory in parallel
+                    if(err){
+                        return;
+                    }else{
+                        callback(null, "success");
+                    }
+                });
         }
+
     });
+
 };
 
 exports.inquire = function(openid, callback){

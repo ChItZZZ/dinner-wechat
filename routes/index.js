@@ -75,6 +75,8 @@ router.post('/getCharge', createCharge.create);
 //get charge new
 router.post('/getChargeNew', createCharge.createNew);
 
+//cancel order
+router.post('/cancelOrder', orderController.cancelOrder);
 
 router.post('/getChargeForUnfinished', createCharge.createForUnfinishedOrder);
 
@@ -101,7 +103,7 @@ router.get('/haha', function (req, res, next) {
 
 router.post('/recharge', balanceController.recharge);
 
-router.post('/deduct', balanceController.deduct);
+router.post('/deduct', orderController.finishOrderWithValueCard);
 
 router.get('/inquire', balanceController.inquire);
 
@@ -125,5 +127,7 @@ router.get("/recharge", function (req, res, next) {
 
 //优惠券status: 0未生效，1已过期，2可用
 router.post("/coupon",couponController.getCoupons);
+
+router.get("/getHeaderPic",activityController.getHeaderPic);
 module.exports = router;
 
