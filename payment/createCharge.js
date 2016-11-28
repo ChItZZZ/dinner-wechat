@@ -20,13 +20,14 @@ exports.createNew = function (req,res,next)
   var channel = data.channel;
   var openid = data.open_id;
   var amount = data.amount;
-  var client_ip = req.connection.remoteAddress;
+  //var client_ip = req.connection.remoteAddress;
+  var client_ip = '127.0.0.1';
   var extra = {};
   switch (channel) {
     case 'alipay_wap':
       extra = {
-        'success_url': 'http://www.qq.com',
-        'cancel_url': 'http://www.baidu.com'
+        'success_url': 'http://mddm.qiancs.cn',
+        'cancel_url': 'http://mddm.qiancs.cn'
       };
       break;
     case 'wx_pub':
