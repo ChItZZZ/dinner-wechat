@@ -61,6 +61,7 @@ exports.recharge = function(openid, amount, callback) {
                 callback(err,rechargeResult);
                 return;
             });
+            console.log('Info: card number' + newCardNumber);
             var insertValues = [openid, newCardNumber, amount, time, "hahaha", totalRecharge, vipLevel];
             db.exec(balanceInsert, insertValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db4');
@@ -208,13 +209,14 @@ exports.inquire = function(openid, callback){
 };
 
 getCardNumber = function (callback) {
-    var inquireCardNumber = "select card_number_counter from number_counter";
+    console.log('in getCardNumber');
+    var inquireCardNumber = "select * from number_counter";
     var updateCardNumber = "update number_counter set card_number_counter = ?";
     var values = [];
-    var cardNumber;
+    var cardNumber = 0;
     db.exec(inquireCardNumber, values, function (err,result) {
         if(err){
-            console.log('get card number' + "can not get card number from counter");
+            console.log('get card number can not get card number from counter');
             callback(err);
             cardNumber = 0;
         }
@@ -222,9 +224,8 @@ getCardNumber = function (callback) {
         values = [CardNumber + 1];
         db.exec(updateCardNumber,values, function (err, result) {
             if(err){
-                console.log('get card number' + "can not update card number");
+                console.log('get card number can not update card number');
                 callback(err);
-                return 0;
             }
         });
     });
