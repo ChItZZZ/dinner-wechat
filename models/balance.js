@@ -24,12 +24,12 @@ exports.recharge = function(openid, amount, callback) {
         }
 
         if (result.length == 1) {
-            var currentBalance = result[0].blc_balance + amount;
+            var currentBalance = result[0].blc_balance;
             var cardNumber = result[0].blc_card_number;
-            var totalRecharge = result[0].blc_total_recharge + amount;
+            var totalRecharge = result[0].blc_total_recharge;
             var vipLevel = Math.ceil(totalRecharge / 100);
 
-            var updateValues = [currentBalance, time, totalRecharge, vipLevel, openid];
+            var updateValues = [currentBalance + amount, time, totalRecharge + amount, vipLevel, openid];
             db.exec(balanceUpdate, updateValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db2');
                 if (err) {
