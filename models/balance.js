@@ -10,6 +10,8 @@ exports.recharge = function(openid, amount, callback) {
         "VALUES(?,?,?,?,?,?)";
     var rechargeInsert = "INSERT INTO chg_master (BLC_CARD_NUMBER,CHG_DATE,CHG_AMOUNT,CHG_AFTER_AMOUNT)" +
         "VALUES(?,?,?,?)";
+    var couponInsert = "INSERT INTO coupon_master (coupon_card_number, coupon_start_date, coupon_end_date, coupon_number, coupon_id, coupon_status)" +
+        " VALUES (?,?,?,1,15,'Y')";
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
 
     var inquireValues = [openid];
@@ -82,6 +84,17 @@ exports.recharge = function(openid, amount, callback) {
                 console.log('info: ' + 'in recharge model db5');
                 if (err) {
                     rechargeResult['successful'] = 0;
+                    callback(err,rechargeResult);
+                    return;
+                }
+            });
+
+            var end_date = time + 7 * 24 * 60 * 60 * 1000;
+            var couponValues = [cardNumber, time, end_date];
+            db.exec(couponInsert,couponValues, function(err, result) {
+                console.log('info: ' + 'in recharge model db5');
+                if (err) {
+                    rechargeResult['successful'] = 2;
                     callback(err,rechargeResult);
                     return;
                 }
