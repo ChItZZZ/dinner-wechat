@@ -28,3 +28,14 @@ exports.rollback = function(value,callback){
     });
 }
 
+exports.addCoupon = function(values, callback){
+    var couponInsert = "INSERT INTO coupon_master (coupon_card_number, coupon_start_date, coupon_end_date, coupon_number, coupon_id, coupon_status)" +
+        " VALUES (?,?,?,?,?,?)";
+    db.exec(couponInsert, values, function(err, result) {
+        if (err) {
+            callback(err);
+            return;
+        }
+        callback(null, result);
+    });
+}
