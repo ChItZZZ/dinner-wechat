@@ -8,8 +8,8 @@ exports.recharge = function(openid, amount, callback) {
     console.log('amount: ' + amount);
     var balanceInquire = "SELECT * FROM blc_master WHERE BLC_OPENID = ?";
     var balanceUpdate = "UPDATE blc_master SET BLC_BALANCE = ?, BLC_LAST_CHANGE = ?, BLC_TOTAL_RECHARGE = ?, BLC_VIP_LEVEL = ? WHERE BLC_OPENID = ?";
-    var balanceInsert = "INSERT INTO blc_master (BLC_OPENID,BLC_BALANCE,BLC_LAST_CHANGE,BLC_CARD_TYPE,BLC_TOTAL_RECHARGE,BLC_VIP_LEVEL)" +
-        "VALUES(?,?,?,?,?,?)";
+    var balanceInsert = "INSERT INTO blc_master (BLC_OPENID,BLC_CARD_NUMBER,BLC_BALANCE,BLC_LAST_CHANGE,BLC_CARD_TYPE,BLC_TOTAL_RECHARGE,BLC_VIP_LEVEL)" +
+        "VALUES(?,?,?,?,?,?,?)";
     var rechargeInsert = "INSERT INTO chg_master (BLC_CARD_NUMBER,CHG_DATE,CHG_AMOUNT,CHG_AFTER_AMOUNT)" +
         "VALUES(?,?,?,?)";
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
@@ -56,7 +56,12 @@ exports.recharge = function(openid, amount, callback) {
             var totalRecharge = amount;
             var vipLevel = Math.ceil(amount / 100);
 
-            var insertValues = [openid, amount, time, "hahaha", totalRecharge, vipLevel];
+            var newCardNumber = this.getCardNumber(function(err){
+                rechargeResult['successful'] = 0;
+                callback(err,rechargeResult);
+                return;
+            });
+            var insertValues = [openid, newCardNumber, amount, time, "hahaha", totalRecharge, vipLevel];
             db.exec(balanceInsert, insertValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db4');
                 if (err) {
@@ -200,4 +205,28 @@ exports.inquire = function(openid, callback){
         callback(null, balance);
         return;
     });
+};
+
+getCardNumber = function (callback) {
+    var inquireCardNumber = "select card_number_counter from number_counter";
+    var updateCardNumber = "update number_counter set card_number_counter = ?";
+    var values = [];
+    var cardNumber;
+    db.exec(inquireCardNumber, values, function (err,result) {
+        if(err){
+            console.log('get card number' + "can not get card number from counter");
+            callback(err);
+            cardNumber = 0;
+        }
+        cardNumber = result[0].card_number_counter;
+        values = [CardNumber + 1];
+        db.exec(updateCardNumber,values, function (err, result) {
+            if(err){
+                console.log('get card number' + "can not update card number");
+                callback(err);
+                return 0;
+            }
+        });
+    });
+    return cardNumber;
 };
