@@ -26,7 +26,7 @@ exports.rollback = function(value,callback){
         }
         callback(null, result);
     });
-}
+};
 
 exports.addCoupon = function(values, callback){
     var couponInsert = "INSERT INTO coupon_master (coupon_card_number, coupon_start_date, coupon_end_date, coupon_number, coupon_id, coupon_status)" +
@@ -38,4 +38,4 @@ exports.addCoupon = function(values, callback){
         }
         callback(null, result);
     });
-}
+};
