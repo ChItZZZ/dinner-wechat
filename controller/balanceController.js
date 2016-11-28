@@ -3,7 +3,7 @@ var balance = require("../models/balance");
 exports.recharge = function(req, res, next){
     console.log('info: ' + 'in recharge');
     var data = req.body;
-    var openId = data.session.openid || '123';
+    var openId = req.session.openid || '123';
     var amount = data.amount;
     balance.recharge(openId, amount, function (err, result) {
         if (err) {
