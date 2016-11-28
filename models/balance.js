@@ -1,6 +1,6 @@
 var db = require("../utils/db");
 var sd = require('silly-datetime');
-var coupon = require('./coupon')
+var coupon = require('./coupon.js');
 var async = require('async');
 
 exports.recharge = function(openid, amount, callback) {
