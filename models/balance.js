@@ -221,7 +221,7 @@ getCardNumber = function (callback) {
             cardNumber = 0;
         }
         cardNumber = result[0].card_number_counter;
-        values = [CardNumber + 1];
+        values = [cardNumber + 1];
         db.exec(updateCardNumber,values, function (err, result) {
             if(err){
                 console.log('get card number can not update card number');
