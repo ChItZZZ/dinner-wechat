@@ -4,7 +4,7 @@ exports.recharge = function(req, res, next){
     console.log('info: ' + 'in recharge');
     var data = req.body;
     var openId = req.session.openid || '123';
-    var amount = data.amount;
+    var amount = data.amount || 233;
     balance.recharge(openId, amount, function (err, result) {
         if (err) {
             res.json(result);

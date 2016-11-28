@@ -65,12 +65,9 @@ exports.recharge = function(openid, amount, callback) {
                     return;
                 }
             });
-            rechargeResult['successful'] = '1';
-            rechargeResult['cardNumber'] = cardNumber;
-            rechargeResult['balance'] = amount;
 
             db.exec(balanceInquire, inquireValues, function (err, result) {
-                if (err) {
+                if (err || result.length == 0) {
                     rechargeResult['successful'] = 0;
                     callback(err,rechargeResult);
                     return;
