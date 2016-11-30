@@ -27,7 +27,7 @@ exports.recharge = function(openid, amount, callback) {
             var currentBalance = result[0].blc_balance;
             var cardNumber = result[0].blc_card_number;
             var totalRecharge = result[0].blc_total_recharge;
-            var vipLevel = Math.ceil(totalRecharge / 100);
+            var vipLevel = Math.ceil((totalRecharge + amount) / 100);
 
             var updateValues = [currentBalance + amount, time, totalRecharge + amount, vipLevel, openid];
             db.exec(balanceUpdate, updateValues, function (err, result) {
@@ -90,7 +90,7 @@ exports.recharge = function(openid, amount, callback) {
                     }
                 });
 
-                var end_date = time + 7 * 24 * 60 * 60 * 1000;
+                var end_date = ((new Date() + 7 * 24 * 60 * 60 * 1000), 'YYYY/MM/DD/hh:mm');
                 var couponValues = [cardNumber, time, end_date, 1, 15, 'Y'];
                 coupon.addCoupon(couponValues, function(err){
                     if (err) {
@@ -208,7 +208,7 @@ exports.inquire = function(openid, callback){
     });
 };
 
-getCardNumber = function (callback) {
+function getCardNumber (callback) {
     console.log('in getCardNumber');
     var inquireCardNumber = "select * from number_counter";
     var updateCardNumber = "update number_counter set card_number_counter = ?";
