@@ -12,6 +12,8 @@ exports.recharge = function(openid, amount, callback) {
         "VALUES(?,?,?,?,?,?,?)";
     var rechargeInsert = "INSERT INTO chg_master (BLC_CARD_NUMBER,CHG_DATE,CHG_AMOUNT,CHG_AFTER_AMOUNT)" +
         "VALUES(?,?,?,?)";
+    var inquireCardNumber = "SELECT * FROM number_counter;";
+    var updateCardNumber = "update number_counter set card_number_counter = ?";
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
 
     var inquireValues = [openid];
@@ -58,47 +60,60 @@ exports.recharge = function(openid, amount, callback) {
             totalRecharge = amount;
             vipLevel = Math.ceil(amount / 100);
 
-            var newCardNumber = getCardNumber(function(err){
-                rechargeResult['successful'] = 0;
+            var newCardNumber = 0;
+            var cardNumberValues = [];
+            db.exec(inquireCardNumber, cardNumberValues, function (err,result) {
+                if (err){
+                    console.log("can not get card number counter!");
+                    callback(err);
+                }
+                newCardNumber = result[0].card_number_counter;
+                console.log("after get card number counter: " + newCardNumber);
+                cardNumberValues = [newCardNumber + 1];
+                console.log("before update card number counter: " + newCardNumber);
+                db.exec(updateCardNumber,cardNumberValues, function (err, result) {
+                    if (err){
+                        console.log("can not update card number counter!");
+                        callback(err);
+                    }
+                });
+                console.log('Info: card number' + newCardNumber);
+                var insertValues = [openid, newCardNumber, amount, time, "hahaha", totalRecharge, vipLevel];
+                db.exec(balanceInsert, insertValues, function (err, result) {
+                    console.log('info: ' + 'in recharge model db4');
+                    if (err) {
+                        rechargeResult['successful'] = 0;
+                        callback(err,rechargeResult);
+                        return;
+                    }
+                });
+                rechargeValues = [newCardNumber,time, amount, amount];
+                db.exec(rechargeInsert, rechargeValues, function (err, result) {
+                    console.log('info: ' + 'in recharge model db5');
+                    if (err) {
+                        rechargeResult['successful'] = 0;
+                        callback(err,rechargeResult);
+                        return;
+                    }
+                });
+
+                var now = new Date();
+                var end_date = new Date().setTime(now.getTime() + 7*24*60*60*1000);
+                var end_format_date = sd.format(end_date, 'YYYY/MM/DD/hh:mm');
+                var couponValues = [newCardNumber, time, end_format_date, 1, 15, 'Y'];
+                coupon.addCoupon(couponValues, function(err){
+                    if (err) {
+                        rechargeResult['successful'] = 2;
+                        callback(err,rechargeResult);
+                        return;
+                    }
+                });
+                rechargeResult['successful'] = 1;
+                rechargeResult['cardNumber'] = newCardNumber;
+                rechargeResult['balance'] = amount;
                 callback(err,rechargeResult);
                 return;
             });
-            console.log('Info: card number' + newCardNumber);
-            var insertValues = [openid, newCardNumber, amount, time, "hahaha", totalRecharge, vipLevel];
-            db.exec(balanceInsert, insertValues, function (err, result) {
-                console.log('info: ' + 'in recharge model db4');
-                if (err) {
-                    rechargeResult['successful'] = 0;
-                    callback(err,rechargeResult);
-                    return;
-                }
-            });
-            rechargeValues = [newCardNumber,time, amount, amount];
-            db.exec(rechargeInsert, rechargeValues, function (err, result) {
-                console.log('info: ' + 'in recharge model db5');
-                if (err) {
-                    rechargeResult['successful'] = 0;
-                    callback(err,rechargeResult);
-                    return;
-                }
-            });
-
-            var now = new Date();
-            var end_date = new Date().setTime(now.getTime() + 7*24*60*60*1000);
-            var end_format_date = sd.format(end_date, 'YYYY/MM/DD/hh:mm');
-            var couponValues = [newCardNumber, time, end_format_date, 1, 15, 'Y'];
-            coupon.addCoupon(couponValues, function(err){
-                if (err) {
-                    rechargeResult['successful'] = 2;
-                    callback(err,rechargeResult);
-                    return;
-                }
-            });
-            rechargeResult['successful'] = 1;
-            rechargeResult['cardNumber'] = newCardNumber;
-            rechargeResult['balance'] = amount;
-            callback(err,rechargeResult);
-            return;
         } else {
             rechargeResult['successful'] = 0;
             callback(err,rechargeResult);
@@ -201,31 +216,3 @@ exports.inquire = function(openid, callback){
         return;
     });
 };
-
-function getCardNumber (callback) {
-    console.log('in getCardNumber');
-    var inquireCardNumber = "select card_number_counter from number_counter limit 1";
-    var updateCardNumber = "update number_counter set card_number_counter = ?";
-    var values = [];
-    var cardNumber = 0;
-    db.exec(inquireCardNumber, values, function (err,result) {
-        if(err){
-            console.log('get card number can not get card number from counter');
-            callback(err);
-            return;
-        }
-        cardNumber = result[0].card_number_counter;
-        return;
-    });
-    values = [cardNumber + 1];
-    console.log ('Before update card number');
-    db.exec(updateCardNumber,values, function (err, result) {
-        if(err){
-            console.log('get card number can not update card number');
-            callback(err);
-            return;
-        }
-        return;
-    });
-    return cardNumber;
-}
