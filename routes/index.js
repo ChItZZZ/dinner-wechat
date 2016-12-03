@@ -43,8 +43,8 @@ router.get('/getopenid', function (req, res, next) {
     pingpp.wxPubOauth.getOpenid('wx5bc13508fcdbca3c', '30337a4abdfb0a2c2ef892f23e141847',
         req.query.code, function (err, openid) {
             console.log(openid);
-            req.session.openid = openid;
-            res.redirect('http://mddm.qiancs.cn');
+          //  req.session.openid = openid;
+            res.redirect('http://mddm.qiancs.cn/?openId=' + openid);
             res.end();
         });
 });
