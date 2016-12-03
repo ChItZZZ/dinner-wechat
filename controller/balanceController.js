@@ -7,12 +7,10 @@ exports.recharge = function(openId, amount, callback){
     // var amount = data.amount || 233;
     balance.recharge(openId, amount, function (err, result) {
         if (err) {
-            res.json(result);
-            res.end();
+            callback(err);
             return;
         }
-        res.json(result);
-        res.end();
+        callback(err,result);
     });
 
 };

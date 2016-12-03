@@ -1,5 +1,6 @@
 var orderController = require('../controller/orderController');
 var balanceController = require('../controller/balanceController');
+var funds = require('../models/funds');
 
 exports.handleResult = function (req,res,next) 
 {
@@ -16,15 +17,28 @@ exports.handleResult = function (req,res,next)
 
         case "charge.succeeded":
             var results = new Array();
-            results = data.data.object.order_no.split("s");
+            results = data.data.object.order_no.split("f");
             if(results[1]){
                 var id = results[1];
                 console.log(id);
-                balanceController.recharge(id,data.data.object.amount);
+                funds.update(id, function (err, results) {
+                    if(err){
+                        console.log(err);
+                        res.send(err);
+                    }
+                    //console.log("openid in results:"+results);
+                    var openid = results;
+                    balanceController.recharge(openid ,data.data.object.amount, function (err, result) {
+                        if(err){
+                            console.log(err);
+                            res.send(err);
+                        }
+
+                    });
+                });
             }else{
                 orderController.updateOrder(data);
             }
-
             // 开发者在此处加入对支付异步通知的处理代码
             console.log("支付成功");
             return resp("OK", 200);
