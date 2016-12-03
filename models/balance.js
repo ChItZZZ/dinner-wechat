@@ -12,22 +12,26 @@ exports.recharge = function(openid, amount, callback) {
         "VALUES(?,?,?,?,?,?,?)";
     var rechargeInsert = "INSERT INTO chg_master (BLC_CARD_NUMBER,CHG_DATE,CHG_AMOUNT,CHG_AFTER_AMOUNT)" +
         "VALUES(?,?,?,?)";
+    var inquireCardNumber = "SELECT * FROM number_counter;";
+    var updateCardNumber = "update number_counter set card_number_counter = ?";
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
 
     var inquireValues = [openid];
+    var rechargeValues = [];
     var rechargeResult = {};
+    var totalRecharge = 0;
+    var vipLevel = 0;
     db.exec(balanceInquire, inquireValues, function (err, result) {
         console.log('info: ' + 'in recharge model db1');
         if (err) {
             callback(err);
             return;
         }
-
         if (result.length == 1) {
             var currentBalance = result[0].blc_balance;
             var cardNumber = result[0].blc_card_number;
-            var totalRecharge = result[0].blc_total_recharge;
-            var vipLevel = Math.ceil(totalRecharge / 100);
+            totalRecharge = result[0].blc_total_recharge;
+            vipLevel = Math.ceil((totalRecharge + amount) / 100);
 
             var updateValues = [currentBalance + amount, time, totalRecharge + amount, vipLevel, openid];
             db.exec(balanceUpdate, updateValues, function (err, result) {
@@ -38,7 +42,7 @@ exports.recharge = function(openid, amount, callback) {
                     return;
                 }
             });
-            var rechargeValues = [cardNumber, time, amount, amount + currentBalance];
+            rechargeValues = [cardNumber, time, amount, amount + currentBalance];
             db.exec(rechargeInsert, rechargeValues, function (err, result) {
                 console.log('info: ' + 'in recharge model db3');
                 if (err) {
@@ -53,34 +57,37 @@ exports.recharge = function(openid, amount, callback) {
             callback(err, rechargeResult);
             return;
         } else if (result.length == 0) {
-            var totalRecharge = amount;
-            var vipLevel = Math.ceil(amount / 100);
+            totalRecharge = amount;
+            vipLevel = Math.ceil(amount / 100);
 
-            var newCardNumber = this.getCardNumber(function(err){
-                rechargeResult['successful'] = 0;
-                callback(err,rechargeResult);
-                return;
-            });
-            console.log('Info: card number' + newCardNumber);
-            var insertValues = [openid, newCardNumber, amount, time, "hahaha", totalRecharge, vipLevel];
-            db.exec(balanceInsert, insertValues, function (err, result) {
-                console.log('info: ' + 'in recharge model db4');
-                if (err) {
-                    rechargeResult['successful'] = 0;
-                    callback(err,rechargeResult);
-                    return;
+            var newCardNumber = 0;
+            var cardNumberValues = [];
+            db.exec(inquireCardNumber, cardNumberValues, function (err,result) {
+                if (err){
+                    console.log("can not get card number counter!");
+                    callback(err);
                 }
-            });
-
-            db.exec(balanceInquire, inquireValues, function (err, result) {
-                if (err || result.length == 0) {
-                    rechargeResult['successful'] = 0;
-                    callback(err,rechargeResult);
-                    return;
-                }
-                var cardNumber = result[0].blc_card_number;
-
-                var rechargeValues = [cardNumber,time, amount, amount];
+                newCardNumber = result[0].card_number_counter;
+                console.log("after get card number counter: " + newCardNumber);
+                cardNumberValues = [newCardNumber + 1];
+                console.log("before update card number counter: " + newCardNumber);
+                db.exec(updateCardNumber,cardNumberValues, function (err, result) {
+                    if (err){
+                        console.log("can not update card number counter!");
+                        callback(err);
+                    }
+                });
+                console.log('Info: card number' + newCardNumber);
+                var insertValues = [openid, newCardNumber, amount, time, "hahaha", totalRecharge, vipLevel];
+                db.exec(balanceInsert, insertValues, function (err, result) {
+                    console.log('info: ' + 'in recharge model db4');
+                    if (err) {
+                        rechargeResult['successful'] = 0;
+                        callback(err,rechargeResult);
+                        return;
+                    }
+                });
+                rechargeValues = [newCardNumber,time, amount, amount];
                 db.exec(rechargeInsert, rechargeValues, function (err, result) {
                     console.log('info: ' + 'in recharge model db5');
                     if (err) {
@@ -90,8 +97,10 @@ exports.recharge = function(openid, amount, callback) {
                     }
                 });
 
-                var end_date = time + 7 * 24 * 60 * 60 * 1000;
-                var couponValues = [cardNumber, time, end_date, 1, 15, 'Y'];
+                var now = new Date();
+                var end_date = new Date().setTime(now.getTime() + 7*24*60*60*1000);
+                var end_format_date = sd.format(end_date, 'YYYY/MM/DD/hh:mm');
+                var couponValues = [newCardNumber, time, end_format_date, 1, 15, 'Y'];
                 coupon.addCoupon(couponValues, function(err){
                     if (err) {
                         rechargeResult['successful'] = 2;
@@ -99,12 +108,12 @@ exports.recharge = function(openid, amount, callback) {
                         return;
                     }
                 });
+                rechargeResult['successful'] = 1;
+                rechargeResult['cardNumber'] = newCardNumber;
+                rechargeResult['balance'] = amount;
+                callback(err,rechargeResult);
+                return;
             });
-            rechargeResult['successful'] = 1;
-            rechargeResult['cardNumber'] = cardNumber;
-            rechargeResult['balance'] = amount;
-            callback(err,rechargeResult);
-            return;
         } else {
             rechargeResult['successful'] = 0;
             callback(err,rechargeResult);
@@ -206,28 +215,4 @@ exports.inquire = function(openid, callback){
         callback(null, balance);
         return;
     });
-};
-
-getCardNumber = function (callback) {
-    console.log('in getCardNumber');
-    var inquireCardNumber = "select * from number_counter";
-    var updateCardNumber = "update number_counter set card_number_counter = ?";
-    var values = [];
-    var cardNumber = 0;
-    db.exec(inquireCardNumber, values, function (err,result) {
-        if(err){
-            console.log('get card number can not get card number from counter');
-            callback(err);
-            cardNumber = 0;
-        }
-        cardNumber = result[0].card_number_counter;
-        values = [cardNumber + 1];
-        db.exec(updateCardNumber,values, function (err, result) {
-            if(err){
-                console.log('get card number can not update card number');
-                callback(err);
-            }
-        });
-    });
-    return cardNumber;
 };
