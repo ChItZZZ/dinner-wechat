@@ -28,7 +28,7 @@ exports.handleResult = function (req,res,next)
                     }
                     //console.log("openid in results:"+results);
                     var openid = results;
-                    balanceController.recharge(openid ,data.data.object.amount, function (err, result) {
+                    balanceController.recharge(openid ,data.data.object.amount/100, function (err, result) {
                         if(err){
                             console.log(err);
                             res.send(err);
