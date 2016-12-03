@@ -1,7 +1,8 @@
 'use strict';
 // Ping++ Server SDK
 var orderController = require('../controller/orderController');
-
+var sd = require('silly-datetime');
+var moment = require('moment');
 var API_KEY = "sk_test_rDa1e5env5aPqPqHC8v1azv9";
 var APP_ID = "app_8en54GC0iHmH1ajL";
 
@@ -175,6 +176,62 @@ exports.createForUnfinishedOrder = function (req,res,next)
             res.send(charge);
             res.end();
         });
+
+
+}
+
+exports.createForRecharge = function (req,res,next)
+{
+
+    pingpp.parseHeaders(req.headers);
+    pingpp.setPrivateKeyPath(__dirname + "/your_rsa_private_key.pem");
+    req.setEncoding('utf-8');
+    var data = req.body;
+    data.open_id = req.session.openid ||123;
+    console.log('session id ' + req.session.openid);
+    var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
+    var timestamp = moment();
+    var order_id = timestamp+"s"+data.open_id;
+    console.log(order_id);
+    var channel = data.channel;
+    var openid = data.open_id;
+    var amount = data.amount;
+    var client_ip = "127.0.0.1";
+    var extra = {};
+    switch (channel) {
+        case 'alipay_wap':
+            extra = {
+                'success_url': 'htttp://wechat.qiancs.cn',
+                'cancel_url': 'htp://wechat.qiancs.cn'
+            };
+            break;
+        case 'wx_pub':
+            extra = {
+                'open_id': openid
+            };
+            break;
+    }
+
+    pingpp.charges.create({
+        order_no:  order_id,
+        app:       {id: APP_ID},
+        channel:   channel,
+        amount:    amount,
+        client_ip: client_ip,
+        currency:  "cny",
+        subject:   "Charge Subject",
+        body:      "Charge Body",
+        extra:     extra
+    }, function(err,charge){
+        if(err){
+            console.log("生成charge失败" + err);
+            res.end();
+            return;
+        }
+        console.log('生成charge成功');
+        res.send(charge);
+        res.end();
+    });
 
 
 }

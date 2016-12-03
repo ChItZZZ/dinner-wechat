@@ -101,7 +101,7 @@ router.get('/haha', function (req, res, next) {
     res.render('test', {arr: 'aaarrr'});
 });
 
-router.post('/recharge', balanceController.recharge);
+router.post('/recharge', createCharge.createForRecharge);
 
 router.post('/deduct', orderController.finishOrderWithValueCard);
 

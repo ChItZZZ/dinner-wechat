@@ -7,7 +7,7 @@
     "dev": "browser-sync start --server --files *.*"
   },
   "dependencies": {
-    "async": "^2.0.1",
+    "async": "^2.1.4",
     "async-js": "^0.7.7",
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
@@ -23,8 +23,9 @@
     "html-webpack-plugin": "^2.22.0",
     "jade": "~1.11.0",
     "jsx-loader": "^0.13.2",
+    "moment": "^2.17.0",
     "morgan": "~1.6.1",
-    "mysql": "^2.11.1",
+    "mysql": "^2.12.0",
     "node-wechat": "^0.2.0",
     "pingpp": "^2.0.8",
     "pingpp-js": "^2.1.5",
