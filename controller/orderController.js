@@ -233,7 +233,7 @@ exports.createOrderInfo = function (data,callback) {
 
 exports.searchOrder = function (req, res, next) {
     var data = req.body;
-    var openId = req.body.openId || '123';
+    var userOpenId = req.body.openId || '123';
     // var openIdCode = data.code;
     var values_order = [userOpenId,0,5];
     var sql_order = 'SELECT * FROM od_hdr where od_wechatopenid = ? order by od_date DESC LIMIT ?,? ';
@@ -278,7 +278,7 @@ exports.searchOrder = function (req, res, next) {
         res.json(obj);
         res.end();
     });
-}
+};
 exports.order = function (req, res, next) {
     var data = req.body;
     var userOpenId = req.body.openId || '123';
