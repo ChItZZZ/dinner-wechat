@@ -73,8 +73,6 @@ router.get('/payForUnfinishedOrder', function (req, res, next) {
     });
 });
 
-//generate charge and send it to client
-router.post('/getCharge', createCharge.create);
 
 //get charge new
 router.post('/getChargeNew', createCharge.createNew);
