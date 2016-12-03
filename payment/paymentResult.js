@@ -20,7 +20,7 @@ exports.handleResult = function (req,res,next)
             if(results[1]){
                 var id = results[1];
                 console.log(id);
-                //balanceController.recharge()
+                balanceController.recharge(id,data.data.object.amount);
             }else{
                 orderController.updateOrder(data);
             }
