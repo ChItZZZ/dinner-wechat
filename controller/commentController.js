@@ -5,7 +5,7 @@ exports.add = function(req, res, next){
     var content = data.content;
     var name = data.name;
     var phone = data.phone;
-    var openId = req.session.openid || '123';
+    var openId = req.body.openId || '123';
     comment.add(openId, content, name, phone, function (err, result) {
         if (err) {
             res.json(result);
