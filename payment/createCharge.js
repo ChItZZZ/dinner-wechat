@@ -140,7 +140,7 @@ exports.createForUnfinishedOrder = function (req,res,next)
     var order_id = data.order_id;
     var channel = data.channel;
     var openid = data.open_id;
-    var amount = data.amount;
+    var amount = data.price;
     var client_ip = req.connection.remoteAddress;
     var extra = {};
     switch (channel) {
@@ -183,7 +183,6 @@ exports.createForUnfinishedOrder = function (req,res,next)
 
 exports.createForRecharge = function (req,res,next)
 {
-
     pingpp.parseHeaders(req.headers);
     pingpp.setPrivateKeyPath(__dirname + "/your_rsa_private_key.pem");
     req.setEncoding('utf-8');
