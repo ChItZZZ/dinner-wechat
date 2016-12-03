@@ -27,7 +27,7 @@ var balanceController = require('../controller/balanceController');
 exports.createOrderInfoNew = function (data,callback){
     console.log('info New ' + JSON.stringify(data));
     var orderInfo = data.orderInfo;
-    var userOpenId = data.open_id ||123 ;
+    var userOpenId = data.openId || 123 ;
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
     var store_id = parseInt(data.store_id || 1);
     var desk_id = parseInt(data.desk_id || 1);
@@ -93,7 +93,7 @@ exports.createOrderInfoNew = function (data,callback){
 exports.finishOrderWithValueCard = function (req,res,next){
     var data = req.body;
     var orderInfo = data.orderInfo;
-    var userOpenId = data.open_id ||123 ;
+    var userOpenId = data.openId ||123 ;
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
     var store_id = parseInt(data.store_id || 1);
     var desk_id = parseInt(data.desk_id || 1);
@@ -168,57 +168,6 @@ exports.finishOrderWithValueCard = function (req,res,next){
         });
     }
 };
-
-exports.createOrderInfo = function (data,callback) {
-    console.log('info ' + JSON.stringify(data));
-    var order_str = data.order_str;
-    var userOpenId = data.open_id ||123 ;
-
-    var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
-    var store_id = parseInt(data.store_id || 1);
-    var desk_id = parseInt(data.desk_id || 1);
-    var order_obj = JSON.parse(data.order_str);
-    var price = data.price;
-    var string = '';
-
-    if (order_obj != null) {
-        for (var i in order_obj) {
-            string += order_obj[i].name + "*" + order_obj[i].counter + ";";
-        }
-
-        var values_order = [store_id, desk_id, time, userOpenId, 0, price, string];
-
-        var sql_order = 'INSERT INTO od_hdr (od_store_id,od_desk_id,od_date,od_wechatopenid,od_state,od_total_price,od_string) ' +
-            'VALUES (?,?,?,?,?,?,?)';
-        db.exec(sql_order, values_order, function (err, result) {
-            if (err) {
-		callback(err);
-                return;
-            }
-            var order_id = result.insertId;
-	    callback(null,order_id);
-            var j = 0;
-            for (var i in order_obj) {
-                var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price,gd_id) ' +
-                    'VALUES (?,?,?,?,?,?)';
-                var food_id = order_obj[i].id;
-                var food_name = order_obj[i].name;
-                var food_quantity = order_obj[i].counter;
-                var food_price = order_obj[i].price;
-                var values_food = [order_id, j + 1, food_name, food_quantity, food_price,food_id];
-                db.exec(sql_food, values_food, function (err, result) {
-                    if (err) {
-                        //callback(err);
-                        return;
-                    } else {
-                        console.log("food inserted");
-                    }
-                });
-                ++j;
-            }
-        });
-    }
-}
 
 
 /**
