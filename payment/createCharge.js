@@ -18,10 +18,8 @@ exports.createNew = function (req,res,next)
   pingpp.setPrivateKeyPath(__dirname + "/your_rsa_private_key.pem");
   req.setEncoding('utf-8');
   var data = req.body;
-  data.open_id = req.body.openId || '123';
-  console.log('session id ' + req.session.openid);
   var channel = data.channel;
-  var openid = data.open_id;
+  var openid = data.openId || '123';
   var amount = data.amount;
   //var client_ip = req.connection.remoteAddress;
   var client_ip = '127.0.0.1';
