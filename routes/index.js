@@ -23,6 +23,8 @@ router.use(session({
 }));
 var API_KEY_TEST = "sk_test_rDa1e5env5aPqPqHC8v1azv9";
 var API_KEY_LIVE = "sk_live_Ki9Ke1X9WLSS0qrj1OCKGGK4";
+var APP_ID = "wxf811f21d2630dfad";
+var APP_SECRET = "00c30abcf3865e953681c76e31560a2d";
 
 var _url = require('url');
 var pingpp = require('pingpp')(API_KEY_LIVE);
@@ -34,7 +36,7 @@ router.get('/home',function (req,res,next){
         res.redirect('http://mddm.qiancs.cn');
     }
     else{
-        var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode('wx5bc13508fcdbca3c', 
+        var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode(APP_ID, 
             'http://api.qiancs.cn/getopenid?showwxpaytitle=1');                                           
         res.redirect(oauthUrl);                                                       
     }
@@ -42,7 +44,7 @@ router.get('/home',function (req,res,next){
 });
 
 router.get('/getopenid', function (req, res, next) {
-    pingpp.wxPubOauth.getOpenid('wx5bc13508fcdbca3c', '30337a4abdfb0a2c2ef892f23e141847',
+    pingpp.wxPubOauth.getOpenid(APP_ID, APP_SECRET,
         req.query.code, function (err, openid) {
             console.log(openid);
           //  req.session.openid = openid;
