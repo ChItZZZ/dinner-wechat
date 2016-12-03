@@ -83,9 +83,20 @@ router.post('/getChargeForUnfinished', createCharge.createForUnfinishedOrder);
 //get the payment result .  After payment,the third part sever will sent a post request to this url
 router.post('/paymentResult', paymentResult.handleResult);
 
-
+var item = require('../models/item');
 //send items information to front end
-router.get('/items', itemController.getItems);
+router.get('/items', function(req,res,next){
+    var data = req.query;
+    req.session.openid = data.id;
+    item.getItems(function (err, result) {
+        if (err) {
+            res.end();
+            return;
+        }
+        res.json(result);
+        res.end();
+    });
+});
 
 router.get('/itemConfig',itemController.getConfiguration);
 
