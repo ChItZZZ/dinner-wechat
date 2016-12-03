@@ -26,8 +26,8 @@ var _url = require('url');
 var pingpp = require('pingpp')(API_KEY);
 //get openid and store into session first,then render home page
 router.get('/home',function (req,res,next){
-    if (req.session.openid){
-        console.log("QR code scan :" + req.session.orderItems);
+    if ( req.body.openId ){
+        console.log("QR code scan :" + req.body.openId );
         //res.render('home',{order_items:req.session.orderItems});
         res.redirect('http://mddm.qiancs.cn');
     }
@@ -90,7 +90,7 @@ router.get('/items',itemController.getItems);
 router.get('/itemConfig',itemController.getConfiguration);
 
 //get order records
-router.get('/order', orderController.searchOrder);
+router.post('/order', orderController.searchOrder);
 
 // fetch for more orders
 router.post('/getMoreOrder', orderController.order);
@@ -105,7 +105,7 @@ router.post('/recharge', createCharge.createForRecharge);
 
 router.post('/deduct', orderController.finishOrderWithValueCard);
 
-router.get('/inquire', balanceController.inquire);
+router.post('/inquire', balanceController.inquire);
 
 router.get('/getActivity', activityController.inquire);
 
