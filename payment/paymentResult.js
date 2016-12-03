@@ -1,4 +1,5 @@
 var orderController = require('../controller/orderController');
+var balanceController = require('../controller/balanceController');
 
 exports.handleResult = function (req,res,next) 
 {
@@ -14,7 +15,16 @@ exports.handleResult = function (req,res,next)
   switch (data.type) {
 
         case "charge.succeeded":
-            orderController.updateOrder(data);
+            var results = new Array();
+            results = data.data.object.order_no.split("s");
+            if(results[1]){
+                var id = results[1];
+                console.log(id);
+                //balanceController.recharge()
+            }else{
+                orderController.updateOrder(data);
+            }
+
             // 开发者在此处加入对支付异步通知的处理代码
             console.log("支付成功");
             return resp("OK", 200);

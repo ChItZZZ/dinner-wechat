@@ -14,7 +14,7 @@ exports.searchBenefit = function (req, res, next) {
 
     var sql_benefit = 'select bbc.blc_card_number,bbc.blc_benefit_type,bbc.blc_benefit_balance,bbc.blc_benefit_unit from blc_benefit_config bbc'+
                         'left join blc_master bm on bm.blc_card_number = bbc.blc_card_number'+
-                        'where bm.blc_openid = ?'
+                        'where bm.blc_openid = ?';
     db.exec(sql_benefit, values, function (err, result) {
         if (err) {
             //callback(err);
