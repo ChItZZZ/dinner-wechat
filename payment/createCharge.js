@@ -4,11 +4,12 @@ var orderController = require('../controller/orderController');
 var funds = require('../models/funds');
 var sd = require('silly-datetime');
 var moment = require('moment');
-var API_KEY = "sk_test_rDa1e5env5aPqPqHC8v1azv9";
+var API_KEY_TEST = "sk_test_rDa1e5env5aPqPqHC8v1azv9";
+var API_KEY_LIVE = "sk_live_Ki9Ke1X9WLSS0qrj1OCKGGK4";
 var APP_ID = "app_8en54GC0iHmH1ajL";
 
 var crypto = require('crypto');
-var pingpp = require('pingpp')(API_KEY);
+var pingpp = require('pingpp')(API_KEY_LIVE);
 
 exports.createNew = function (req,res,next) 
 {
