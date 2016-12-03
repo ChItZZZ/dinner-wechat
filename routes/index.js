@@ -21,9 +21,11 @@ router.use(session({
     resave: true,
     saveUninitialized: true
 }));
-var API_KEY = "sk_test_rDa1e5env5aPqPqHC8v1azv9";
+var API_KEY_TEST = "sk_test_rDa1e5env5aPqPqHC8v1azv9";
+var API_KEY_LIVE = "sk_live_Ki9Ke1X9WLSS0qrj1OCKGGK4";
+
 var _url = require('url');
-var pingpp = require('pingpp')(API_KEY);
+var pingpp = require('pingpp')(API_KEY_LIVE);
 //get openid and store into session first,then render home page
 router.get('/home',function (req,res,next){
     if ( req.body.openId ){
