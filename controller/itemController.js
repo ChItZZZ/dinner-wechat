@@ -4,9 +4,6 @@
 var item = require('../models/item');
 
 exports.getItems = function(req, res, next) {
-    var data = req.query;
-    req.session.openid = data.id;
-    console.log('iddddd ' + data.id);
     item.getItems(function (err, result) {
         if (err) {
             res.end();
