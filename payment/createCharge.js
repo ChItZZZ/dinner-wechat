@@ -140,7 +140,7 @@ exports.createForUnfinishedOrder = function (req,res,next)
     var order_id = data.order_id;
     var channel = data.channel;
     var openid = data.open_id;
-    var amount = data.price;
+    var amount = data.amount;
     var client_ip = req.connection.remoteAddress;
     var extra = {};
     switch (channel) {
@@ -194,8 +194,9 @@ exports.createForRecharge = function (req,res,next)
     //var order_id = timestamp+"f"+data.open_id;
     var channel = data.channel;
     var openid = data.open_id;
+    var price = data.price;
     var amount = data.amount;
-    funds.addFundFlow(time, openid, amount, function (err, results) {
+    funds.addFundFlow(time, openid, price, function (err, results) {
         if(err){
             console.log(err);
             res.send(err);
