@@ -135,7 +135,7 @@ exports.createForUnfinishedOrder = function (req,res,next)
     pingpp.setPrivateKeyPath(__dirname + "/your_rsa_private_key.pem");
     req.setEncoding('utf-8');
     var data = req.body;
-    data.open_id = r = req.body.openId || '123';
+    data.open_id = req.body.openId || '123';
     console.log('session id ' + req.session.openid);
     var order_id = data.order_id;
     var channel = data.channel;
@@ -187,7 +187,7 @@ exports.createForRecharge = function (req,res,next)
     pingpp.setPrivateKeyPath(__dirname + "/your_rsa_private_key.pem");
     req.setEncoding('utf-8');
     var data = req.body;
-    data.open_id =  = req.body.openId || '123';
+    data.open_id = req.body.openId || '123';
     console.log('session id ' + req.session.openid);
     var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
     var timestamp = moment();
