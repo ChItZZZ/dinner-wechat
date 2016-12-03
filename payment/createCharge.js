@@ -204,7 +204,7 @@ exports.createForRecharge = function (req,res,next)
         var fundId = results.fund_id;
         var order_id = timestamp + "f"+ results;
         console.log(order_id);
-        var client_ip = req.connection.remoteAddress;
+        var client_ip = "127.0.0.1";
         var extra = {};
         switch (channel) {
             case 'alipay_wap':
@@ -241,7 +241,4 @@ exports.createForRecharge = function (req,res,next)
             res.end();
         });
     });
-
-
-
 }
