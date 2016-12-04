@@ -13,15 +13,9 @@ exports.updateCoupon = function(value,callback){
             callback(err);
             return;
         }
+        db.exec(sql_delete, values, function (err, result) {});
         callback(null, result);
     });
-    db.exec(sql_delete, values, function (err, result) {
-        if(err){
-            //callback(err);
-            return;
-        }
-        //callback(null, result);
-    })
 };
 
 exports.rollback = function(value,callback){
