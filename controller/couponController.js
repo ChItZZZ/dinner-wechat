@@ -80,6 +80,11 @@ exports.getCoupons = function(req,res,next){
                 }
             });
         }
+        else{
+            var a = {};
+            a.couponList = [];
+            res.json(a);
+        }
 
     });
 }
