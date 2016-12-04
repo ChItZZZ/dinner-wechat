@@ -107,7 +107,7 @@ exports.recharge = function(openid, amount, callback) {
                     }
                 });
                 console.log('Info: card number' + newCardNumber);
-                var insertValues = [openid, newCardNumber, newBalance, time, "hahaha", newTotalRecharge, vipLevel];
+                var insertValues = [openid, newCardNumber, newBalance, time, "星光会员", newTotalRecharge, vipLevel];
                 db.exec(balanceInsert, insertValues, function (err, result) {
                     console.log('info: ' + 'in recharge model db4');
                     if (err) {
