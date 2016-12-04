@@ -167,15 +167,6 @@ exports.deduct = function(openid, amount, callback){
     // var deductResult = {};
     console.log('info: ' + 'in deduct model05');
 
-    var newBalance = currentBalance - amount;
-    var length = 0;
-    if (newBalance.toString().split('.')[1] != null){
-        length = newBalance.toString().split('.')[1].length;
-    }
-    if (length > 2){
-        newBalance = Math.round(newBalance*100)/100;
-    }
-
     db.exec(balanceInquire, inquireValues, function(err, result) {
         console.log('info: ' + 'in deduct model db1');
         if (err) {
@@ -186,6 +177,15 @@ exports.deduct = function(openid, amount, callback){
         if(result.length>0) {
             var currentBalance = result[0].blc_balance;
             cardNumber = result[0].blc_card_number;
+
+            var newBalance = currentBalance - amount;
+            var length = 0;
+            if (newBalance.toString().split('.')[1] != null){
+                length = newBalance.toString().split('.')[1].length;
+            }
+            if (length > 2){
+                newBalance = Math.round(newBalance*100)/100;
+            }
             async.series({
                     // update
                     step_update: function(callback) {
