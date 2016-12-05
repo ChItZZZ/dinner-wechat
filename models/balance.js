@@ -107,7 +107,7 @@ exports.recharge = function(openid, amount, callback) {
                     }
                 });
                 console.log('Info: card number' + newCardNumber);
-                var insertValues = [openid, newCardNumber, newBalance, time, "星光会员", newTotalRecharge, vipLevel];
+                var insertValues = [openid, newCardNumber, newBalance, time, "星光", newTotalRecharge, vipLevel];
                 db.exec(balanceInsert, insertValues, function (err, result) {
                     console.log('info: ' + 'in recharge model db4');
                     if (err) {
@@ -126,8 +126,9 @@ exports.recharge = function(openid, amount, callback) {
                     }
                 });
 
-                var now = new Date();
-                var end_date = new Date().setTime(now.getTime() + 7*24*60*60*1000);
+                var end_date = new Date();
+                end_date.setYear(2016);
+                end_date.setMonth(12, 31);
                 var end_format_date = sd.format(end_date, 'YYYY/MM/DD/hh:mm');
                 var couponValues = [newCardNumber, time, end_format_date, 1, 15, 'Y'];
                 coupon.addCoupon(couponValues, function(err){
