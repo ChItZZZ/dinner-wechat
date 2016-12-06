@@ -3,14 +3,11 @@
  */
 
 var mysql = require('mysql');
+var env = require('../app');
 
 //database config
-var option = {
-    host: '115.159.94.41',
-    user: 'remote',
-    password: 'remote',
-    database: 'modu'
-};
+
+//console.log(env.DB);
 
 /** 
  * param :
@@ -24,6 +21,7 @@ var option = {
 
 
 exports.exec = function(sql,values,callback) {
+    var option = env.dbconn;
     var connection = mysql.createConnection(option);
 
     connection.connect(function(err) {

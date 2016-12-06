@@ -1,35 +1,36 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/local/Cellar/node/5.10.1/bin/node',
+1 verbose cli [ '/usr/local/Cellar/node/7.2.0/bin/node',
 1 verbose cli   '/usr/local/bin/npm',
-1 verbose cli   'start' ]
-2 info using npm@3.8.3
-3 info using node@v5.10.1
+1 verbose cli   'start',
+1 verbose cli   '--prod' ]
+2 info using npm@3.10.9
+3 info using node@v7.2.0
 4 verbose run-script [ 'prestart', 'start', 'poststart' ]
 5 info lifecycle weixin@0.0.0~prestart: weixin@0.0.0
 6 silly lifecycle weixin@0.0.0~prestart: no script for prestart, continuing
 7 info lifecycle weixin@0.0.0~start: weixin@0.0.0
 8 verbose lifecycle weixin@0.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle weixin@0.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/mac/Desktop/wechat/node_modules/.bin:/usr/local/Cellar/node/5.10.1/bin:/Users/km/bin:/usr/local/bin:/usr/local/mongodb/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin
-10 verbose lifecycle weixin@0.0.0~start: CWD: /Users/mac/Desktop/wechat
+9 verbose lifecycle weixin@0.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/bennettqian/Documents/GitRepo/weixin/node_modules/.bin:/usr/local/Cellar/node/7.2.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+10 verbose lifecycle weixin@0.0.0~start: CWD: /Users/bennettqian/Documents/GitRepo/weixin
 11 silly lifecycle weixin@0.0.0~start: Args: [ '-c', 'node ./bin/www' ]
 12 silly lifecycle weixin@0.0.0~start: Returned: code: 1  signal: null
 13 info lifecycle weixin@0.0.0~start: Failed to exec start script
 14 verbose stack Error: weixin@0.0.0 start: `node ./bin/www`
 14 verbose stack Exit status 1
-14 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:239:16)
-14 verbose stack     at emitTwo (events.js:100:13)
-14 verbose stack     at EventEmitter.emit (events.js:185:7)
-14 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:24:14)
-14 verbose stack     at emitTwo (events.js:100:13)
-14 verbose stack     at ChildProcess.emit (events.js:185:7)
-14 verbose stack     at maybeClose (internal/child_process.js:850:16)
-14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:215:5)
+14 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:255:16)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at EventEmitter.emit (events.js:191:7)
+14 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:40:14)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at ChildProcess.emit (events.js:191:7)
+14 verbose stack     at maybeClose (internal/child_process.js:885:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
 15 verbose pkgid weixin@0.0.0
-16 verbose cwd /Users/mac/Desktop/wechat
+16 verbose cwd /Users/bennettqian/Documents/GitRepo/weixin
 17 error Darwin 16.1.0
-18 error argv "/usr/local/Cellar/node/5.10.1/bin/node" "/usr/local/bin/npm" "start"
-19 error node v5.10.1
-20 error npm  v3.8.3
+18 error argv "/usr/local/Cellar/node/7.2.0/bin/node" "/usr/local/bin/npm" "start" "--prod"
+19 error node v7.2.0
+20 error npm  v3.10.9
 21 error code ELIFECYCLE
 22 error weixin@0.0.0 start: `node ./bin/www`
 22 error Exit status 1

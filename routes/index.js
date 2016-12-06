@@ -1,4 +1,5 @@
 var express = require('express');
+var env = require('../app');
 var router = express.Router();
 
 var orderController = require('../controller/orderController');
@@ -21,34 +22,34 @@ router.use(session({
     resave: true,
     saveUninitialized: true
 }));
-var API_KEY_TEST = "sk_test_rDa1e5env5aPqPqHC8v1azv9";
-var API_KEY_LIVE = "sk_live_Ki9Ke1X9WLSS0qrj1OCKGGK4";
+
+
 var APP_ID = "wxf811f21d2630dfad";
 var APP_SECRET = "00c30abcf3865e953681c76e31560a2d";
 
 var _url = require('url');
-var pingpp = require('pingpp')(API_KEY_LIVE);
+var pingpp = env.pingpp;
 //get openid and store into session first,then render home page
 router.get('/home',function (req,res,next){
     if ( req.body.openId ){
         console.log("QR code scan :" + req.body.openId );
         //res.render('home',{order_items:req.session.orderItems});
-        res.redirect('http://mddm.qiancs.cn');
+        res.redirect(env.config.URL_VUE);
     }
     else{
-        var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode(APP_ID, 
-            'http://api.qiancs.cn/getopenid?showwxpaytitle=1');                                           
+        var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode(env.config.APP_ID,
+            env.config.URL_NODE+'getopenid?showwxpaytitle=1');
         res.redirect(oauthUrl);                                                       
     }
     res.end();
 });
 
 router.get('/getopenid', function (req, res, next) {
-    pingpp.wxPubOauth.getOpenid(APP_ID, APP_SECRET,
+    pingpp.wxPubOauth.getOpenid(env.config.APP_ID, env.config.APP_SECRET,
         req.query.code, function (err, openid) {
             console.log(openid);
           //  req.session.openid = openid;
-            res.redirect('http://mddm.qiancs.cn/?openId=' + openid);
+            res.redirect(env.config.URL_VUE + '?openId=' + openid);
             res.end();
         });
 });
@@ -131,5 +132,11 @@ router.get("/recharge", function (req, res, next) {
 router.post("/coupon",couponController.getCoupons);
 
 router.get("/getHeaderPic",activityController.getHeaderPic);
+
+router.get("/testENV", function (req, res, next) {
+    console.log(env.config.API_KEY);
+    res.end();
+});
+
 module.exports = router;
 

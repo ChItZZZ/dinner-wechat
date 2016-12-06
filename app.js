@@ -6,11 +6,47 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var ejs = require('ejs');
+//var config = require('./config/app_config');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
+// error handlers
+
+// development error handler
+// will print stacktrace
+if(app.get('env') === 'production'){
+    var conf = require('./config/production');
+    var ping = require('pingpp')(conf.API_KEY);
+    exports.config = conf;
+    exports.pingpp = ping;
+    exports.dbconn = conf.DB;
+    console.log("prod mode:"+conf.APP_ID);
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    });
+} else {
+    var conf = require('./config/development');
+    var ping = require('pingpp')(conf.API_KEY);
+    exports.config = conf;
+    exports.pingpp = ping;
+    exports.dbconn = conf.DB;
+    //console.log(conf.DB.host);
+    console.log("dev mode:"+conf.APP_ID);
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    });
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -75,30 +111,6 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    console.log("dev mode");
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-if(app.get('env') === 'production'){
-    console.log("prod mode");
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
-}
 
 // production error handler
 // no stacktraces leaked to user

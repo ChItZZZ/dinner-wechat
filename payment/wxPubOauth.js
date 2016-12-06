@@ -1,10 +1,10 @@
 'use strict';
 // api_key 获取方式：登录 [Dashboard](https://dashboard.pingxx.com)->点击管理平台右上角公司名称->开发信息-> Secret Key
 var API_KEY = "sk_test_rDa1e5env5aPqPqHC8v1azv9"
-
+var env = require('../app');
 var http = require('http');
 var _url = require('url');
-var pingpp = require('pingpp')(API_KEY);
+var pingpp = env.pingpp;
 http.createServer(function (req, res) {
   var urlParts = _url.parse(req.url, true);
   switch (urlParts.pathname) {
