@@ -127,8 +127,7 @@ exports.recharge = function(openid, amount, callback) {
                 });
 
                 var end_date = new Date();
-                end_date.setYear(2016);
-                end_date.setMonth(12, 31);
+                end_date.setFullYear(2016, 12, 31);
                 var end_format_date = sd.format(end_date, 'YYYY/MM/DD/hh:mm');
                 var couponValues = [newCardNumber, time, end_format_date, 1, 1, 'Y'];
                 coupon.addCoupon(couponValues, function(err){
