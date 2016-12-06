@@ -9,7 +9,7 @@ var API_KEY_LIVE = "sk_live_Ki9Ke1X9WLSS0qrj1OCKGGK4";
 var APP_ID = "app_8en54GC0iHmH1ajL";
 
 var crypto = require('crypto');
-var pingpp = require('pingpp')(API_KEY_LIVE);
+var pingpp = require('pingpp')(API_KEY_TEST);
 
 exports.createNew = function (req,res,next) 
 {

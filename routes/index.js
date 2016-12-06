@@ -27,7 +27,7 @@ var APP_ID = "wxf811f21d2630dfad";
 var APP_SECRET = "00c30abcf3865e953681c76e31560a2d";
 
 var _url = require('url');
-var pingpp = require('pingpp')(API_KEY_LIVE);
+var pingpp = require('pingpp')(API_KEY_TEST);
 //get openid and store into session first,then render home page
 router.get('/home',function (req,res,next){
     if ( req.body.openId ){
