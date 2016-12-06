@@ -7,7 +7,7 @@ var sd = require('silly-datetime');
 var moment = require('moment');
 // var API_KEY_TEST = "sk_test_rDa1e5env5aPqPqHC8v1azv9";
 // var API_KEY_LIVE = "sk_live_Ki9Ke1X9WLSS0qrj1OCKGGK4";
-//var APP_ID = "app_8en54GC0iHmH1ajL";
+var APP_ID = "app_8en54GC0iHmH1ajL";
 
 var crypto = require('crypto');
 
@@ -48,7 +48,7 @@ exports.createNew = function (req,res,next)
       }
       pingpp.charges.create({
       order_no:  order_id,
-      app:       {id: env.config.APP_ID},
+      app:       {id: APP_ID},
       channel:   channel,
       amount:    amount,
       client_ip: client_ip,
@@ -102,7 +102,7 @@ exports.createForUnfinishedOrder = function (req,res,next)
 
         pingpp.charges.create({
             order_no:  order_id,
-            app:       {id: env.config.APP_ID},
+            app:       {id: APP_ID},
             channel:   channel,
             amount:    amount,
             client_ip: client_ip,
@@ -166,7 +166,7 @@ exports.createForRecharge = function (req,res,next)
 
         pingpp.charges.create({
             order_no:  order_id,
-            app:       {id: env.config.APP_ID},
+            app:       {id: APP_ID},
             channel:   channel,
             amount:    amount,
             client_ip: client_ip,
