@@ -10,10 +10,11 @@ var moment = require('moment');
 //var APP_ID = "app_8en54GC0iHmH1ajL";
 
 var crypto = require('crypto');
-var pingpp = env.pingpp;
+
 
 exports.createNew = function (req,res,next) 
 {
+    var pingpp = env.pingpp;
   pingpp.parseHeaders(req.headers); // 把从客户端传上来的 Headers 传到这里
   // 设置你的私钥路径，用于请求的签名，对应的公钥请填写到 Ping++ 管理平台
   pingpp.setPrivateKeyPath(__dirname + "/your_rsa_private_key.pem");
@@ -72,7 +73,7 @@ exports.createNew = function (req,res,next)
 
 exports.createForUnfinishedOrder = function (req,res,next)
 {
-
+    var pingpp = env.pingpp;
     pingpp.parseHeaders(req.headers);
     pingpp.setPrivateKeyPath(__dirname + "/your_rsa_private_key.pem");
     req.setEncoding('utf-8');
@@ -125,6 +126,7 @@ exports.createForUnfinishedOrder = function (req,res,next)
 
 exports.createForRecharge = function (req,res,next)
 {
+    var pingpp = env.pingpp;
     pingpp.parseHeaders(req.headers);
     pingpp.setPrivateKeyPath(__dirname + "/your_rsa_private_key.pem");
     req.setEncoding('utf-8');
