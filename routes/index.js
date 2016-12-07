@@ -28,7 +28,8 @@ var APP_ID = "wxf811f21d2630dfad";
 var APP_SECRET = "00c30abcf3865e953681c76e31560a2d";
 
 var _url = require('url');
-var pingpp = env.pingpp;
+var pingpp = require('pingpp');
+
 //get openid and store into session first,then render home page
 router.get('/home',function (req,res,next){
     if ( req.body.openId ){
@@ -37,6 +38,7 @@ router.get('/home',function (req,res,next){
         res.redirect(env.config.URL_VUE);
     }
     else{
+        console.log(env.config.APP_ID+" "+env.config.URL_NODE+'getopenid?showwxpaytitle=1');
         var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode(env.config.APP_ID,
             env.config.URL_NODE+'getopenid?showwxpaytitle=1');
         res.redirect(oauthUrl);                                                       
