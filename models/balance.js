@@ -128,7 +128,7 @@ exports.recharge = function(openid, amount, callback) {
 
                 var end_date = new Date("2016-12-31 23:00:00");
                 var end_format_date = sd.format(end_date, 'YYYY/MM/DD/hh:mm');
-                var couponValues = [newCardNumber, time, end_format_date, 1, 15, 'Y'];
+                var couponValues = [newCardNumber, time, end_format_date, 1, 1, 'Y'];
                 coupon.addCoupon(couponValues, function(err){
                     if (err) {
                         rechargeResult['successful'] = 2;
