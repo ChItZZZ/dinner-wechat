@@ -14,7 +14,6 @@ var commentController = require('../controller/commentController');
 
 var db = require('../utils/db');
 
-//prepare : set OpenID in Session
 var session = require('express-session');
 router.use(session({
     secret: "hello",
@@ -30,28 +29,57 @@ var APP_SECRET = "00c30abcf3865e953681c76e31560a2d";
 var _url = require('url');
 var pingpp = require('pingpp');
 
-//get openid and store into session first,then render home page
-router.get('/home',function (req,res,next){
-    if ( req.body.openId ){
-        console.log("QR code scan :" + req.body.openId );
-        //res.render('home',{order_items:req.session.orderItems});
-        res.redirect(env.config.URL_VUE);
-    }
-    else{
-        console.log(env.config.APP_ID+" "+env.config.URL_NODE+'getopenid?showwxpaytitle=1');
-        var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode(env.config.APP_ID,
-            env.config.URL_NODE+'getopenid?showwxpaytitle=1');
-        res.redirect(oauthUrl);                                                       
-    }
+//get openid first,then redirect home page
+router.get('/homeMenu',function (req,res,next){
+    console.log(env.config.APP_ID+" "+env.config.URL_NODE+'getopenid?showwxpaytitle=1');
+    var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode(env.config.APP_ID,
+        env.config.URL_NODE+'getopenid1?showwxpaytitle=1');
+    res.redirect(oauthUrl);                                                       
     res.end();
 });
 
-router.get('/getopenid', function (req, res, next) {
+router.get('/getopenid1', function (req, res, next) {
     pingpp.wxPubOauth.getOpenid(env.config.APP_ID, env.config.APP_SECRET,
         req.query.code, function (err, openid) {
             console.log(openid);
           //  req.session.openid = openid;
-            res.redirect(env.config.URL_VUE + '?openId=' + openid);
+            res.redirect(env.config.URL_VUE + '?openId=' + openid + '&tab=1');
+            res.end();
+        });
+});
+
+router.get('/homeOrder',function (req,res,next){
+    console.log(env.config.APP_ID+" "+env.config.URL_NODE+'getopenid?showwxpaytitle=1');
+    var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode(env.config.APP_ID,
+        env.config.URL_NODE+'getopenid2?showwxpaytitle=1');
+    res.redirect(oauthUrl);                                                       
+    res.end();
+});
+
+router.get('/getopenid2', function (req, res, next) {
+    pingpp.wxPubOauth.getOpenid(env.config.APP_ID, env.config.APP_SECRET,
+        req.query.code, function (err, openid) {
+            console.log(openid);
+          //  req.session.openid = openid;
+            res.redirect(env.config.URL_VUE + '?openId=' + openid + '&tab=2');
+            res.end();
+        });
+});
+
+router.get('/homeUs',function (req,res,next){
+    console.log(env.config.APP_ID+" "+env.config.URL_NODE+'getopenid?showwxpaytitle=1');
+    var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode(env.config.APP_ID,
+        env.config.URL_NODE+'getopenid3?showwxpaytitle=1');
+    res.redirect(oauthUrl);                                                       
+    res.end();
+});
+
+router.get('/getopenid3', function (req, res, next) {
+    pingpp.wxPubOauth.getOpenid(env.config.APP_ID, env.config.APP_SECRET,
+        req.query.code, function (err, openid) {
+            console.log(openid);
+          //  req.session.openid = openid;
+            res.redirect(env.config.URL_VUE + '?openId=' + openid + '&tab=3');
             res.end();
         });
 });
