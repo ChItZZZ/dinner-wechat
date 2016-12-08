@@ -28,7 +28,7 @@ exports.createOrderInfoNew = function (data,callback){
     console.log('info New ' + JSON.stringify(data));
     var orderInfo = data.orderInfo;
     var userOpenId = data.openId || 123 ;
-    var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
+    var time = sd.format(new Date(), 'YYYY/MM/DD/HH:mm');
     var store_id = parseInt(data.store_id || 1);
     var desk_id = parseInt(data.desk_id || 1);
     var price = data.price;
@@ -94,7 +94,7 @@ exports.finishOrderWithValueCard = function (req,res,next){
     var data = req.body;
     var orderInfo = data.orderInfo;
     var userOpenId = data.openId ||123 ;
-    var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
+    var time = sd.format(new Date(), 'YYYY/MM/DD/HH:mm');
     var store_id = parseInt(data.store_id || 1);
     var desk_id = parseInt(data.desk_id || 1);
     var price = data.price;
@@ -211,7 +211,7 @@ exports.searchOrder = function (req, res, next) {
 
                 }
                 order_detail['id'] = result[i].od_id;
-                order_detail['date'] = sd.format(result[i].od_date, 'YYYY/MM/DD/hh:mm');
+                order_detail['date'] = sd.format(result[i].od_date, 'YYYY/MM/DD/HH:mm');
                 order_detail['items'] = item_list;
                 order_detail['price'] = result[i].od_fixed_total_price;
                 order_detail['realPrice'] = result[i].od_total_price;
@@ -262,7 +262,7 @@ exports.order = function (req, res, next) {
 
                 }
                 order_detail['id'] = result[i].od_id;
-                order_detail['date'] = sd.format(result[i].od_date, 'YYYY/MM/DD/hh:mm');
+                order_detail['date'] = sd.format(result[i].od_date, 'YYYY/MM/DD/HH:mm');
                 order_detail['items'] = item_list;
                 order_detail['price'] = result[i].od_fixed_total_price;
                 order_detail['realPrice'] = result[i].od_total_price;

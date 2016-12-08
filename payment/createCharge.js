@@ -46,8 +46,10 @@ exports.createNew = function (req,res,next)
         res.end();
         return;
       }
+      var timestamp = moment();
+      var timestamp_order_id = timestamp+"o"+order_id;
       pingpp.charges.create({
-      order_no:  order_id,
+      order_no:  timestamp_order_id,
       app:       {id: APP_ID},
       channel:   channel,
       amount:    amount,
@@ -80,7 +82,8 @@ exports.createForUnfinishedOrder = function (req,res,next)
     var data = req.body;
     data.open_id = req.body.openId || '123';
     console.log('session id ' + req.session.openid);
-    var order_id = data.order_id;
+    var timestamp = moment();
+    var order_id = timestamp+"o"+data.order_id;
     var channel = data.channel;
     var openid = data.open_id;
     var amount = data.amount;
@@ -133,7 +136,7 @@ exports.createForRecharge = function (req,res,next)
     var data = req.body;
     data.open_id = req.body.openId || '123';
     console.log('session id ' + req.session.openid);
-    var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
+    var time = sd.format(new Date(), 'YYYY/MM/DD/HH:mm');
     var timestamp = moment();
     //var order_id = timestamp+"f"+data.open_id;
     var channel = data.channel;

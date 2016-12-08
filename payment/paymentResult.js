@@ -12,12 +12,14 @@ exports.handleResult = function (req,res,next)
         "Content-Type": "text/plain; charset=utf-8"
       });
       res.end(ret);
-    }
+    };
   switch (data.type) {
 
         case "charge.succeeded":
-            var results = new Array();
+            var results = new Array(); //卡号
+            var results_order = new Array();
             results = data.data.object.order_no.split("f");
+            results_order = data.data.object.order_no.split("o");
             if(results[1]){
                 var id = results[1];
                 console.log(id);
@@ -36,8 +38,10 @@ exports.handleResult = function (req,res,next)
 
                     });
                 });
-            }else{
-                orderController.updateOrder(data);
+            } else {
+                if(results_order[1]) {
+                    orderController.updateOrder(data);
+                }
             }
             // 开发者在此处加入对支付异步通知的处理代码
             console.log("支付成功");
