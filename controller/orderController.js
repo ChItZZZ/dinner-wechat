@@ -56,6 +56,7 @@ exports.createOrderInfoNew = function (data,callback){
                 return;
             }
             var order_id = result.insertId;
+            callback(null,order_id);
             var j = 0;
             for (var i in orderInfo) {
                 var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price,gd_id,gd_detail) ' +
@@ -71,7 +72,6 @@ exports.createOrderInfoNew = function (data,callback){
                         callback(err);
                         return;
                     } else {
-            	        callback(null,order_id);
                         console.log("food inserted");
                     }
                 });
