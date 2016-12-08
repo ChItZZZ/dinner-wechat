@@ -40,7 +40,7 @@ exports.handleResult = function (req,res,next)
                 });
             } else {
                 if(results_order[1]) {
-                    orderController.updateOrder(data);
+                    orderController.updateOrder(results_order[1]);
                 }
             }
             // 开发者在此处加入对支付异步通知的处理代码

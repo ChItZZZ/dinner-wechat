@@ -280,9 +280,9 @@ exports.order = function (req, res, next) {
     });
 }
 
-exports.updateOrder = function (req) {    // ***** 定义 0为未支付，1为支付成功，2为已出，3为取消 *******
-    var jsonSet = req;
-    var orderId = jsonSet.data.object.order_no || '123';
+exports.updateOrder = function (order_no) {    // ***** 定义 0为未支付，1为支付成功，2为已出，3为取消 *******
+    //var jsonSet = req;
+    var orderId = order_no || '123';
     // var openIdCode = data.code;
     var values_order = [orderId];
     var sql_order = 'UPDATE od_hdr SET od_state = 1 where od_id = ? ';
