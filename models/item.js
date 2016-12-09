@@ -56,6 +56,7 @@ exports.getItems = function(callback) {
                 item['price'] = result[i].gd_price;
                 item['sels'] = result[i].gd_sales;
                 item['imageUrl'] = result[i].gd_picture;
+                item['smallImageUrl'] = result[i].gd_small_picture;
                 arr.push(item);
                 item = {};
                 while (i < result.length - 1 && result[i].gd_catalogue_name == result[i + 1].gd_catalogue_name) {
@@ -65,6 +66,7 @@ exports.getItems = function(callback) {
                     item['price'] = result[i + 1].gd_price;
                     item['sels'] = result[i + 1].gd_sales;
                     item['imageUrl'] = result[i + 1].gd_picture;
+                    item['smallImageUrl'] = result[i + 1].gd_small_picture;
                     arr.push(item);
                     item = {};
                     ++i;
