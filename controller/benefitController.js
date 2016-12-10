@@ -21,7 +21,7 @@ exports.searchBenefit = function (req, res, next) {
             return;
         }
         //callback(null, result);
-        console.log(result);
+        //console.log(result);
         var benefit_detail = {};
         var benefit_list = [];
         if (result.length > 0) {
@@ -36,7 +36,7 @@ exports.searchBenefit = function (req, res, next) {
         }
         var a = {};
         a.arr = benefit_list;
-        console.log(a.arr);
+        //console.log(a.arr);
         res.render('order', a);
     });
 }

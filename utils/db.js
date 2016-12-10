@@ -31,7 +31,7 @@ exports.exec = function(sql,values,callback) {
             return;
         }
     });
-    console.log('[connection connect]  succeed!');
+    //console.log('[connection connect]  succeed!');
 
     connection.query(sql,values,function(err, result) {
         console.log('sql: ' + sql + " values: " + values);
@@ -50,6 +50,6 @@ exports.exec = function(sql,values,callback) {
             console.log('[connection end failed] - :' + err);
             return;
         }
-        console.log('[connection end] succeed!');
+        //console.log('[connection end] succeed!');
     });
 }

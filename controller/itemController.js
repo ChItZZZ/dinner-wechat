@@ -35,7 +35,7 @@ exports.getConfiguration = function (req,res,next) {
             return;
         }
         //callback(null, result);
-        console.log(result);
+        //console.log(result);
         res.json(result);
         res.end();
     });

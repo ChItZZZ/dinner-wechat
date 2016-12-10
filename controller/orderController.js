@@ -83,7 +83,7 @@ exports.createOrderInfoNew = function (data,callback){
                             console.log(err);
                             return;
                         }
-                        console.log(result);
+                        //console.log(result);
                     })
                 }
         });
@@ -151,7 +151,7 @@ exports.finishOrderWithValueCard = function (req,res,next){
                         console.log(err);
                         return;
                     }
-                    console.log(result);
+                    //console.log(result);
                 })
             }
             balanceController.deduct(userOpenId,realPrice,function (err,result) {
@@ -159,7 +159,7 @@ exports.finishOrderWithValueCard = function (req,res,next){
                     console.log(err);
                     return;
                 }
-                console.log(result);
+                //console.log(result);
             });
             var r = {};
             r.code = "success";
@@ -242,7 +242,7 @@ exports.order = function (req, res, next) {
             return;
         }
         //callback(null, result);
-        console.log(result);
+        //console.log(result);
         var order_detail = {};
         var order_list = [];
         if (result.length > 0) {
@@ -275,7 +275,7 @@ exports.order = function (req, res, next) {
         }
         var a = {};
         a.moreOrder = order_list;
-        console.log(a.moreOrder);
+        //console.log(a.moreOrder);
         res.json(a);
     });
 }
@@ -310,7 +310,7 @@ exports.updateOrder = function (order_no) {    // ***** 定义 0为未支付，1
                         console.log(err);
                         callback(err)
                     }
-                    console.log(result);
+                    //console.log(result);
                     callback(null,result);
                 })
             },
@@ -322,7 +322,7 @@ exports.updateOrder = function (order_no) {    // ***** 定义 0为未支付，1
                         return;
                     }
                     //callback(null, result);
-                    console.log(result);
+                    //console.log(result);
                     //var item_detail = {};
                     //var item_list = [];
                     if (result.length > 0) {
@@ -365,7 +365,7 @@ exports.updateOrder = function (order_no) {    // ***** 定义 0为未支付，1
                             return;
                         }
                         //callback(null, result);
-                        console.log(result);
+                        //console.log(result);
 
                     });
                 }, function(err) {
@@ -403,7 +403,7 @@ exports.cancelOrder = function (req,res,next) {
                         console.log(err);
                         callback(err)
                     }
-                    console.log(result);
+                    //console.log(result);
                     callback(null,result);
                 })
             }
@@ -418,7 +418,7 @@ exports.cancelOrder = function (req,res,next) {
                         console.log(err);
                         return;
                     }
-                    console.log(result);
+                    //console.log(result);
                 })
             }
             res.end();

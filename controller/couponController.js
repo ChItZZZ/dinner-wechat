@@ -20,12 +20,12 @@ exports.getCoupons = function(req,res,next){
             console.log(err);
             return;
         }
-        console.log(result);
+        //console.log(result);
         var coupon_list = [];
         var coupon_detail = {};
         if (result.length > 0) {
             var today = new Date();
-            console.log(today);
+            //console.log(today);
             async.every(result, function(coupon, callback) {
                 var value_coupon = [coupon.coupon_id];
                 db.exec(fetch_coupon_details, value_coupon, function (err, detail) {
@@ -34,7 +34,7 @@ exports.getCoupons = function(req,res,next){
                         return;
                     }
                     //callback(null, result);
-                    console.log(detail);
+                    //console.log(detail);
                     if(detail.length>0){
                         if(today<coupon.coupon_start_date){   // 未生效
                             //coupon_detail['status']= 0;
@@ -76,7 +76,7 @@ exports.getCoupons = function(req,res,next){
                 } else {
                     var a = {};
                     a.couponList = coupon_list;
-                    console.log("coupon list :"+a.couponList);
+                    //console.log("coupon list :"+a.couponList);
                     res.json(a);
                 }
             });

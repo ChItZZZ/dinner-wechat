@@ -45,7 +45,7 @@ exports.inquire = function(callback){
             }
             json.activities = activities;
         }
-        console.log('activity ' + JSON.stringify(json));
+        //console.log('activity ' + JSON.stringify(json));
         callback(null, json);
         return;
     });
