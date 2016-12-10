@@ -146,9 +146,7 @@ router.get('/getRecruit', recruitController.inquire);
 
 router.post('/addComment', commentController.add);
 
-router.get('/test', function (req, res, next) {
-    res.render("test");
-});
+router.get('/test', itemController.getCtlg);
 //router.get("/cart", function (req, res, next) {
 //    var orStr = req.query.order;
 //    var order = JSON.parse(orStr);

@@ -81,6 +81,34 @@ exports.getItems = function(callback) {
     });
 };
 
+exports.getCatlogPriority = function (callback){
+    var sql = "select * from gd_ctlg";
+    var values = [];
+    db.exec(sql, values, function(err, result) {
+        if (err) {
+            callback(err);
+            return;
+        }
+        var catalogues = [];
+        var priority = [];
+        if (result.length > 0) {
+            var catalogue = {};
+            for (var i = 0;i < result.length;i++){
+                catalogue['name'] = result[i].ctlg_name;
+                catalogue['priority'] = result[i].ctlg_priority;
+                catalogues.push(catalogue);
+                catalogue = {};
+            }
+            catalogues.sort(function(a,b){return a.priority-b.priority});
+            for(var j = 0;j<catalogues.length;j++){
+                priority.push(catalogues[j].name);
+            }
+            //console.log(priority);
+        }
+        callback(null, priority);
+    });
+}
+
 /**
   get items config from db , callbacl error or json result
  recommend list is the list of item id,
