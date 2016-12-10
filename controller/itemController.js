@@ -31,9 +31,10 @@ exports.getItems = function(req, res, next) {
                     if(err){
                         return;
                     }else{
-                        var resultList = results.items;
-                        resultList['priority']= results.priority;
-                        res.json(resultList);
+                        var json = {};
+                        json.items = results.items;
+                        json.priority = results.priority;
+                        res.json(json);
                         res.end();
                     }
                 });
