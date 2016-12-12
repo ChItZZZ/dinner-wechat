@@ -161,7 +161,7 @@ exports.finishOrderWithValueCard = function (req,res,next){
                     return;
                 }
                 //console.log(result);
-                requestify.get('http://admin.qiancs.cn/core/PrinterAPI.php?orderId=' + order_id)
+                requestify.get('http://admin.shmddm.com/core/PrinterAPI.php?orderId=' + order_id)
                 .then(function(response) {
                     console.log('打印订单' + order_id +'请求返回:' +response.getCode() +' ' + response.body);
                 });
@@ -362,7 +362,7 @@ exports.updateOrder = function (order_no) {    // ***** 定义 0为未支付，1
             //         console.log(result);
             //     })
             // }
-            requestify.get('http://admin.qiancs.cn/core/PrinterAPI.php?orderId=' + orderId)
+            requestify.get('http://admin.shmddm.com/core/PrinterAPI.php?orderId=' + orderId)
                 .then(function(response) {
                     console.log('打印订单' + orderId +'请求返回:' +response.getCode() +' ' + response.body);
             });
