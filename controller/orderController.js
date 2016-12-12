@@ -357,12 +357,9 @@ exports.updateOrder = function (order_no) {    // ***** 定义 0为未支付，1
             //         console.log(result);
             //     })
             // }
-            requestify.post('http://admin.qiancs.cn/test/test.php', {
-                    data: '123'
-                })
+            requestify.get('http://admin.qiancs.cn/test/test.php?orderId=' + orderId)
                 .then(function(response) {
-                    // Get the response body
-                    console.log(response.getBody());
+                    console.log('打印订单' + orderId +'请求返回:' +response.getCode() +' ' + response.body);
             });
 
             if(item_list.length > 0){
