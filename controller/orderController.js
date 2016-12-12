@@ -357,7 +357,7 @@ exports.updateOrder = function (order_no) {    // ***** 定义 0为未支付，1
             //         console.log(result);
             //     })
             // }
-            requestify.get('http://admin.qiancs.cn/test/test.php?orderId=' + orderId)
+            requestify.get('http://admin.qiancs.cn/core/PrinterAPI.php?orderId=' + orderId)
                 .then(function(response) {
                     console.log('打印订单' + orderId +'请求返回:' +response.getCode() +' ' + response.body);
             });
