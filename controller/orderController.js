@@ -8,6 +8,7 @@ var https = require('https');
 var async = require('async');
 var couponController = require('../controller/couponController');
 var balanceController = require('../controller/balanceController');
+var requestify = require('requestify'); 
 
 
 /**
@@ -356,6 +357,14 @@ exports.updateOrder = function (order_no) {    // ***** 定义 0为未支付，1
             //         console.log(result);
             //     })
             // }
+            requestify.post('http://admin.qiancs.cn/test/test.php', {
+                    data: '123'
+                })
+                .then(function(response) {
+                    // Get the response body
+                    console.log(response.getBody());
+            });
+
             if(item_list.length > 0){
                 async.each(item_list, function(item, callback) {
                     var values_item = [item.quantity,item.id];
