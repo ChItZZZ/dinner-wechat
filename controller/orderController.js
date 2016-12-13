@@ -6,6 +6,7 @@ var config = require('../config/app_config');
 var sd = require('silly-datetime');
 var https = require('https');
 var async = require('async');
+var env = require('../app');
 var couponController = require('../controller/couponController');
 var balanceController = require('../controller/balanceController');
 var requestify = require('requestify'); 
@@ -161,10 +162,12 @@ exports.finishOrderWithValueCard = function (req,res,next){
                     return;
                 }
                 //console.log(result);
-                requestify.get('http://admin.shmddm.com/core/PrinterAPI.php?orderId=' + order_id)
-                .then(function(response) {
-                    console.log('打印订单' + order_id +'请求返回:' +response.getCode() +' ' + response.body);
-                });
+                if(env.config.printInProd){
+                    requestify.get('http://admin.shmddm.com/core/PrinterAPI.php?orderId=' + order_id)
+                    .then(function(response) {
+                        console.log('打印订单' + order_id +'请求返回:' +response.getCode() +' ' + response.body);
+                    });
+                }
             });
             var r = {};
             r.code = "success";
@@ -362,11 +365,12 @@ exports.updateOrder = function (order_no) {    // ***** 定义 0为未支付，1
             //         console.log(result);
             //     })
             // }
-            requestify.get('http://admin.shmddm.com/core/PrinterAPI.php?orderId=' + orderId)
-                .then(function(response) {
-                    console.log('打印订单' + orderId +'请求返回:' +response.getCode() +' ' + response.body);
-            });
-
+            if(env.config.printInProd){
+                    requestify.get('http://admin.shmddm.com/core/PrinterAPI.php?orderId=' + order_id)
+                    .then(function(response) {
+                        console.log('打印订单' + order_id +'请求返回:' +response.getCode() +' ' + response.body);
+                });
+            }
             if(item_list.length > 0){
                 async.each(item_list, function(item, callback) {
                     var values_item = [item.quantity,item.id];
