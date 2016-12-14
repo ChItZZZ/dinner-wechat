@@ -29,8 +29,8 @@ exports.createNew = function (req,res,next)
   switch (channel) {
     case 'alipay_wap':
       extra = {
-        'success_url': 'http://mddm.qiancs.cn',
-        'cancel_url': 'http://mddm.qiancs.cn'
+        'success_url': 'http://api.shmddm.com/homeOrder',
+        'cancel_url': 'http://api.shmddm.com/homeOrder'
       };
       break;
     case 'wx_pub':
@@ -90,8 +90,8 @@ exports.createForUnfinishedOrder = function (req,res,next)
     switch (channel) {
         case 'alipay_wap':
             extra = {
-                'success_url': 'http://wechat.qiancs.cn',
-                'cancel_url': 'http://wechat.qiancs.cn'
+                'success_url': 'http://api.shmddm.com/homeOrder',
+                'cancel_url': 'http://api.shmddm.com/homeOrder'
             };
             break;
         case 'wx_pub':
@@ -154,9 +154,9 @@ exports.createForRecharge = function (req,res,next)
         switch (channel) {
             case 'alipay_wap':
                 extra = {
-                    'success_url': 'htttp://wechat.qiancs.cn',
-                    'cancel_url': 'htp://wechat.qiancs.cn'
-                };
+                    'success_url': 'http://api.shmddm.com/homeOrder',
+                    'cancel_url': 'http://api.shmddm.com/homeOrder'
+                }
                 break;
             case 'wx_pub':
                 extra = {
