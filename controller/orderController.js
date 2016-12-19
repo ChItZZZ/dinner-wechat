@@ -105,7 +105,27 @@ exports.finishOrderWithValueCard = function (req,res,next){
     var couponDes = data.couponDes;
     //var card_number = data.card_number;
     var string = '';
-
+    balanceController.deduct(userOpenId,realPrice,function (err,result) {
+                if(err){
+                    console.log(err);
+                    return;
+                }
+                var r = {};
+                r.code = "success";
+                res.json(r);
+                res.end();
+                 if(coupon_id != null){
+                    couponController.useCoupon(coupon_id,function (err,result) {
+                    if(err){
+                        console.log(err);
+                        return;
+                    }
+                    //console.log(result);
+                })
+                }
+                //console.log(result);
+                
+            });
     if (orderInfo.length != 0) {
         for (var i in orderInfo) {
             if(orderInfo[i].detail == null){
@@ -147,32 +167,12 @@ exports.finishOrderWithValueCard = function (req,res,next){
                 });
                 ++j;
             }
-            if(coupon_id != null){
-                couponController.useCoupon(coupon_id,function (err,result) {
-                    if(err){
-                        console.log(err);
-                        return;
-                    }
-                    //console.log(result);
-                })
-            }
-            balanceController.deduct(userOpenId,realPrice,function (err,result) {
-                if(err){
-                    console.log(err);
-                    return;
-                }
-                //console.log(result);
-                if(env.config.printInProd){
+            if(env.config.printInProd){
                     requestify.get('http://admin.shmddm.com/core/PrinterAPI.php?orderId=' + order_id)
                     .then(function(response) {
                         console.log('打印订单' + order_id +'请求返回:' +response.getCode() +' ' + response.body);
                     });
                 }
-            });
-            var r = {};
-            r.code = "success";
-            res.json(r);
-            res.end();
            
         });
     }
