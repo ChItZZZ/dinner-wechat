@@ -13,7 +13,8 @@ var config = {
         user: 'remote',
         password: 'remote',
         database: 'modu'
-    }
+    },
+    printInProd : false
 };
 
 module.exports = config;

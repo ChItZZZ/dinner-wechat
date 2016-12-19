@@ -6,8 +6,10 @@ var config = require('../config/app_config');
 var sd = require('silly-datetime');
 var https = require('https');
 var async = require('async');
+var env = require('../app');
 var couponController = require('../controller/couponController');
 var balanceController = require('../controller/balanceController');
+var requestify = require('requestify'); 
 
 
 /**
@@ -103,7 +105,27 @@ exports.finishOrderWithValueCard = function (req,res,next){
     var couponDes = data.couponDes;
     //var card_number = data.card_number;
     var string = '';
-
+    balanceController.deduct(userOpenId,realPrice,function (err,result) {
+                if(err){
+                    console.log(err);
+                    return;
+                }
+                var r = {};
+                r.code = "success";
+                res.json(r);
+                res.end();
+                 if(coupon_id != null){
+                    couponController.useCoupon(coupon_id,function (err,result) {
+                    if(err){
+                        console.log(err);
+                        return;
+                    }
+                    //console.log(result);
+                })
+                }
+                //console.log(result);
+                
+            });
     if (orderInfo.length != 0) {
         for (var i in orderInfo) {
             if(orderInfo[i].detail == null){
@@ -145,26 +167,13 @@ exports.finishOrderWithValueCard = function (req,res,next){
                 });
                 ++j;
             }
-            if(coupon_id != null){
-                couponController.useCoupon(coupon_id,function (err,result) {
-                    if(err){
-                        console.log(err);
-                        return;
-                    }
-                    //console.log(result);
-                })
-            }
-            balanceController.deduct(userOpenId,realPrice,function (err,result) {
-                if(err){
-                    console.log(err);
-                    return;
+            if(env.config.printInProd){
+                    requestify.get('http://admin.shmddm.com/core/PrinterAPI.php?orderId=' + order_id)
+                    .then(function(response) {
+                        console.log('打印订单' + order_id +'请求返回:' +response.getCode() +' ' + response.body);
+                    });
                 }
-                //console.log(result);
-            });
-            var r = {};
-            r.code = "success";
-            res.json(r);
-            res.end();
+           
         });
     }
 };
@@ -356,6 +365,12 @@ exports.updateOrder = function (order_no) {    // ***** 定义 0为未支付，1
             //         console.log(result);
             //     })
             // }
+            if(env.config.printInProd){
+                    requestify.get('http://admin.shmddm.com/core/PrinterAPI.php?orderId=' + orderId)
+                    .then(function(response) {
+                        console.log('打印订单' + orderId +'请求返回:' +response.getCode() +' ' + response.body);
+                });
+            }
             if(item_list.length > 0){
                 async.each(item_list, function(item, callback) {
                     var values_item = [item.quantity,item.id];

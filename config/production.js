@@ -14,7 +14,8 @@ var proConfig = {
         user: 'root',
         password: 'remote',
         database: 'modu'
-    }
+    },
+    printInProd : true
 }
 
 module.exports = proConfig;

@@ -19,4 +19,13 @@ var iG = {
     }
 }
 
-module.exports = iG;
+var list = [];
+
+exports.showlist = function (req,res,next){
+    var data = req.body;
+    list.push(data.name);
+    console.log(list);
+    res.end();
+}
+
+//module.exports = iG;

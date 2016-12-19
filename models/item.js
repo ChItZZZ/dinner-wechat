@@ -57,6 +57,7 @@ exports.getItems = function(callback) {
                 item['sels'] = result[i].gd_sales;
                 item['imageUrl'] = result[i].gd_picture;
                 item['smallImageUrl'] = result[i].gd_small_picture;
+                item['saleOut'] = result[i].gd_is_sale_out;
                 arr.push(item);
                 item = {};
                 while (i < result.length - 1 && result[i].gd_catalogue_name == result[i + 1].gd_catalogue_name) {
@@ -67,6 +68,7 @@ exports.getItems = function(callback) {
                     item['sels'] = result[i + 1].gd_sales;
                     item['imageUrl'] = result[i + 1].gd_picture;
                     item['smallImageUrl'] = result[i + 1].gd_small_picture;
+                    item['saleOut'] = result[i + 1].gd_is_sale_out;
                     arr.push(item);
                     item = {};
                     ++i;
@@ -78,6 +80,34 @@ exports.getItems = function(callback) {
         callback(null, items);
     });
 };
+
+exports.getCatlogPriority = function (callback){
+    var sql = "select * from gd_ctlg";
+    var values = [];
+    db.exec(sql, values, function(err, result) {
+        if (err) {
+            callback(err);
+            return;
+        }
+        var catalogues = [];
+        var priority = [];
+        if (result.length > 0) {
+            var catalogue = {};
+            for (var i = 0;i < result.length;i++){
+                catalogue['name'] = result[i].ctlg_name;
+                catalogue['priority'] = result[i].ctlg_priority;
+                catalogues.push(catalogue);
+                catalogue = {};
+            }
+            catalogues.sort(function(a,b){return a.priority-b.priority});
+            for(var j = 0;j<catalogues.length;j++){
+                priority.push(catalogues[j].name);
+            }
+            //console.log(priority);
+        }
+        callback(null, priority);
+    });
+}
 
 /**
   get items config from db , callbacl error or json result

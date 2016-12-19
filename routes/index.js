@@ -11,6 +11,7 @@ var couponController = require('../controller/couponController');
 var activityController = require('../controller/activityController');
 var recruitController = require('../controller/recruitController');
 var commentController = require('../controller/commentController');
+var itemtest = require('../models/item_test');
 
 var db = require('../utils/db');
 
@@ -148,9 +149,7 @@ router.get('/getRecruit', recruitController.inquire);
 
 router.post('/addComment', commentController.add);
 
-router.get('/test', function (req, res, next) {
-    res.render("test");
-});
+router.post('/test', itemtest.showlist);
 //router.get("/cart", function (req, res, next) {
 //    var orStr = req.query.order;
 //    var order = JSON.parse(orStr);
@@ -166,7 +165,7 @@ router.post("/coupon",couponController.getCoupons);
 router.get("/getHeaderPic",activityController.getHeaderPic);
 
 router.get("/testENV", function (req, res, next) {
-    console.log(env.config.API_KEY);
+    console.log(env.config.printInProd);
     res.end();
 });
 

@@ -29,8 +29,8 @@ exports.createNew = function (req,res,next)
   switch (channel) {
     case 'alipay_wap':
       extra = {
-        'success_url': 'http://mddm.qiancs.cn',
-        'cancel_url': 'http://mddm.qiancs.cn'
+        'success_url': 'http://admin.shmddm.com/paySuccess.html',
+        'cancel_url': 'http://admin.shmddm.com/payCancel.html'
       };
       break;
     case 'wx_pub':
@@ -55,7 +55,7 @@ exports.createNew = function (req,res,next)
       amount:    amount,
       client_ip: client_ip,
       currency:  "cny",
-      subject:   "Charge Subject",
+      subject:   "魔都的面支付凭条",
       body:      "Charge Body",
       extra:     extra
       }, function(err,charge){
@@ -90,8 +90,8 @@ exports.createForUnfinishedOrder = function (req,res,next)
     switch (channel) {
         case 'alipay_wap':
             extra = {
-                'success_url': 'http://wechat.qiancs.cn',
-                'cancel_url': 'http://wechat.qiancs.cn'
+                 'success_url': 'http://admin.shmddm.com/paySuccess.html',
+                 'cancel_url': 'http://admin.shmddm.com/payCancel.html'
             };
             break;
         case 'wx_pub':
@@ -108,7 +108,7 @@ exports.createForUnfinishedOrder = function (req,res,next)
             amount:    amount,
             client_ip: client_ip,
             currency:  "cny",
-            subject:   "Charge Subject",
+            subject:   "魔都的面支付凭条",
             body:      "Charge Body",
             extra:     extra
         }, function(err,charge){
@@ -154,9 +154,9 @@ exports.createForRecharge = function (req,res,next)
         switch (channel) {
             case 'alipay_wap':
                 extra = {
-                    'success_url': 'htttp://wechat.qiancs.cn',
-                    'cancel_url': 'htp://wechat.qiancs.cn'
-                };
+                    'success_url': 'http://admin.shmddm.com/paySuccess.html',
+                    'cancel_url': 'http://admin.shmddm.com/payCancel.html'
+                }
                 break;
             case 'wx_pub':
                 extra = {
@@ -172,7 +172,7 @@ exports.createForRecharge = function (req,res,next)
             amount:    amount,
             client_ip: client_ip,
             currency:  "cny",
-            subject:   "Charge Subject",
+            subject:   "魔都的面支付凭条",
             body:      "Charge Body",
             extra:     extra
         }, function(err,charge){
