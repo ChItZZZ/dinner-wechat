@@ -37,3 +37,19 @@ exports.inquire = function(req, res, next){
         res.end();
     });
 };
+
+exports.deductForUnfinished = function(req,res,next){
+    console.log("deductForUnfinished:" + "In controller!!!");
+    var openId  = req.body.openId || '123';
+    var orderId = req.body.orderId;
+    console.log("openId: " + openId);
+    console.log("orderId: " + orderId);
+    balance.deductForUnfinished(openId, orderId, function (err, result) {
+        if (err){
+            console.log(err);
+        }
+        res.json(result);
+        res.end();
+        return;
+    });
+};

@@ -70,7 +70,7 @@ exports.createNew = function (req,res,next)
     });
   });  
               
-}
+};
 
 
 exports.createForUnfinishedOrder = function (req,res,next)
@@ -123,7 +123,7 @@ exports.createForUnfinishedOrder = function (req,res,next)
         });
 
 
-}
+};
 
 exports.createForRecharge = function (req,res,next)
 {
@@ -186,4 +186,4 @@ exports.createForRecharge = function (req,res,next)
             res.end();
         });
     });
-}
+};

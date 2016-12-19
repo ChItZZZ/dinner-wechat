@@ -16,7 +16,7 @@ $(function () {
             console.log(data);
             order_arr = data;
         }
-    })
+    });
 
     options = [
         {selector: '#footer', offset: -40, callback: 'updateFire()' },

@@ -138,6 +138,8 @@ router.post('/recharge', createCharge.createForRecharge);
 
 router.post('/deduct', orderController.finishOrderWithValueCard);
 
+router.post('/finishOrderWithValueCard', balanceController.deductForUnfinished);
+
 router.post('/inquire', balanceController.inquire);
 
 router.get('/getActivity', activityController.inquire);

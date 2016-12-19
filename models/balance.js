@@ -254,3 +254,86 @@ exports.inquire = function(openid, callback){
         return;
     });
 };
+
+exports.deductForUnfinished = function (openId, orderId, callback) {
+    console.log("deductForUnfinished:" + "In module!!!");
+    var balanceInquire = "SELECT * FROM blc_master WHERE BLC_OPENID = ?";
+    var balanceUpdate = "UPDATE blc_master SET BLC_BALANCE = ?, BLC_LAST_CHANGE = ? WHERE BLC_CARD_NUMBER = ?";
+    var orderInquire = "Select * from od_hdr where od_wechatopenid = ? and od_id = ?";
+    var orderUpdate = "Update od_hdr set od_state = 1 where od_wechatopenid = ? and od_id = ?";
+    var rechargeInsert = "INSERT INTO chg_master (BLC_CARD_NUMBER,CHG_DATE,CHG_AMOUNT,CHG_AFTER_AMOUNT)" +
+        "VALUES(?,?,?,?)";
+    var deductResult = {};
+    var values = [openId];
+    console.log("deductForUnfinished:" + "before db!!!");
+    db.exec(balanceInquire, values, function (err, balanceResult) {
+        console.log("deductForUnfinished:" + "in db  000");
+        if (err){
+            deductResult.successful = 0;
+            callback(err, deductResult);
+            return;
+        }
+        if (balanceResult.length == 1) {
+            console.log("deductForUnfinished:" + "in db  111");
+            var balance = balanceResult[0].blc_balance;
+            var cardNumber = balanceResult[0].blc_card_number;
+            var values = [openId, orderId];
+            db.exec(orderInquire, values, function (err, orderResult) {
+                console.log("deductForUnfinished:" + "in db  222");
+                if (orderResult.length != 1) {console.log("mei zhao dao dd!!!!!!!!!!!!!!!!");}
+                var price = orderResult[0].od_total_price;
+                var status = orderResult[0].od_state;
+                if (balance < price && status == 0){
+                    deductResult.successful = 0;
+                    callback(err, deductResult);
+                    return;
+                } else{
+                    console.log("deductForUnfinished:" + "in db  333");
+                    var time = sd.format(new Date(), 'YYYY/MM/DD/hh:mm');
+                    var newBalance = balance - price;
+                    var length = 0;
+                    if (newBalance.toString().split('.')[1] != null){
+                        length = newBalance.toString().split('.')[1].length;
+                    }
+                    if (length > 2){
+                        newBalance = Math.round(newBalance*100)/100;
+                    }
+                    values = [newBalance, time, cardNumber];
+                    db.exec(balanceUpdate, values, function (err, BlcUpdateResult) {
+                        console.log("deductForUnfinished:" + "in db  444");
+                        if (err){
+                            deductResult.successful = 0;
+                            callback(err, deductResult);
+                            return;
+                        }
+                        values = [openId, orderId];
+                        db.exec(orderUpdate, values, function (err, orderResult) {
+                            console.log("deductForUnfinished:" + "in db  555");
+                            if (err){
+                                deductResult.successful = 2;
+                                callback(err, deductResult);
+                                return;
+                            }
+                            deductResult.successful = 1;
+                        });
+                        values = [cardNumber, time, price, newBalance];
+                        db.exec(rechargeInsert, values, function (err, rechargeResult) {
+                            console.log("deductForUnfinished:" + "in db  666");
+                            if (err){
+                                deductResult.successful = 3;
+                                callback(err, deductResult);
+                                return;
+                            }
+                        });
+                    });
+                }
+            });
+            deductResult.successful = 1;
+            callback(err, deductResult);
+            return;
+        }else {
+            deductResult.successful = 0;
+            callback(err, deductResult);
+        }
+    });
+};
