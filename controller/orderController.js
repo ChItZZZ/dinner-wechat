@@ -148,31 +148,40 @@ exports.finishOrderWithValueCard = function (req,res,next){
             var order_id = result.insertId;
             //callback(null,order_id);
             var j = 0;
-            for (var i in orderInfo) {
-                var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price,gd_id,gd_detail) ' +
+            var sql_food = 'INSERT INTO od_ln (od_id,od_line_number,gd_name,gd_quantity,od_price,gd_id,gd_detail) ' +
                     'VALUES (?,?,?,?,?,?,?)';
-                var food_id = orderInfo[i].id;
-                var food_name = orderInfo[i].name;
-                var food_quantity = orderInfo[i].count;
-                var food_price = orderInfo[i].price;
-                var food_detail = orderInfo[i].detail;
+            async.every(orderInfo, function(food, callback) {
+                var food_id = food.id;
+                var food_name = food.name;
+                var food_quantity = food.count;
+                var food_price = food.price;
+                var food_detail = food.detail;
                 var values_food = [order_id, j + 1, food_name, food_quantity, food_price,food_id,food_detail];
                 db.exec(sql_food, values_food, function (err, result) {
                     if (err) {
                         //callback(err);
                         return;
                     } else {
-                        console.log("food inserted");
+                        //console.log("food inserted");
+                        callback(null, !err)
                     }
                 });
                 ++j;
-            }
-            if(env.config.printInProd){
-                    requestify.get('http://admin.shmddm.com/core/PrinterAPI.php?orderId=' + order_id)
-                    .then(function(response) {
-                        console.log('打印订单' + order_id +'请求返回:' +response.getCode() +' ' + response.body);
-                    });
+            }, function(err ,result) {
+                if( !result ) {
+                    console.log('fetching err: ' + err);
+                    return;
+                } else {
+                    if(env.config.printInProd){
+                        requestify.get('http://admin.shmddm.com/core/PrinterAPI.php?orderId=' + order_id)
+                        .then(function(response) {
+                            console.log('打印订单' + order_id +'请求返回:' +response.getCode() +' ' + response.body);
+                        });
+                    } else {
+                        console.log("dev: print order now ... ");
+                    }
                 }
+            });
            
         });
     }
